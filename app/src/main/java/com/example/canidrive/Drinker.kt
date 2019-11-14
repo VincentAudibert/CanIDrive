@@ -6,7 +6,7 @@ import kotlin.collections.ArrayList
 class Drinker(val weight: Double = 80.0, val sex: String = "NONE") {
 
     private val absorbedDrinks : MutableList<Drink> = ArrayList()
-
+    private val sexFactor : Double = if (sex == "MALE") 0.7 else 0.6
 
     fun drink (drink: Drink) {
         absorbedDrinks.add(drink)
@@ -17,6 +17,6 @@ class Drinker(val weight: Double = 80.0, val sex: String = "NONE") {
                 drink -> drink.degree * drink.qtyMilliLiter * 0.8 / 100
         } .sum()
 
-        return alcoholMass / (0.7 * weight)
+        return alcoholMass / (sexFactor * weight)
     }
 }

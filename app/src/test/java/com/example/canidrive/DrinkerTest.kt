@@ -14,17 +14,30 @@ internal class DrinkerTest {
     }
 
     @Test
-    fun `a 80kg male should reach 0,35g per L with a 50cl 5deg beer`() {
+    fun `a 100kg male should reach 0,28g per L with a 500ml 5 deg beer`() {
         // 500ml at 5 deg makes 25ml of alcohol
         // density 0.8 gives 20g
-        // body mass to consider is 0.7 * 80 = 56kg
-        // 20/56 = 0.35
+        // body mass to consider is 0.7 * 100 = 70
+        // 20/70 = 0.28g per L of blood.
 
-        val drinker = Drinker()
+        val drinker = Drinker(100.0, "MALE")
 
         val ingestionTime = Date()
         drinker.drink(Drink(500, 5F, ingestionTime))
 
-        assertEquals("Calculation of alcohol rate", 0.35, drinker.alcoholLevel(ingestionTime), 0.1)
+        assertEquals("Calculation of alcohol rate", 0.28, drinker.alcoholLevel(ingestionTime), 0.1)
+    }
+
+    @Test
+    fun `a 50kg female should reach 0,67g per L with a 500ml 5 deg beer`() {
+        // 500ml 5deg gives 20g
+        // 20 / (0.6 * 50) = 0.67
+
+        val drinker = Drinker(50.0, "FEMALE")
+
+        val ingestionTime = Date()
+        drinker.drink(Drink(500, 5F, ingestionTime))
+
+        assertEquals("Calculation of alcohol rate", 0.67, drinker.alcoholLevel(ingestionTime), 0.05)
     }
 }
