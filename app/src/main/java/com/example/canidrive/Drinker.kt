@@ -3,7 +3,7 @@ package com.example.canidrive
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Drinker(weight: Float = 80F, sex: String = "NONE") {
+class Drinker(val weight: Double = 80.0, val sex: String = "NONE") {
 
     private val absorbedDrinks : MutableList<Drink> = ArrayList()
 
@@ -12,5 +12,11 @@ class Drinker(weight: Float = 80F, sex: String = "NONE") {
         absorbedDrinks.add(drink)
     }
 
-    fun alcoholLevel(date: Date) = absorbedDrinks.size.toFloat()
+    fun alcoholLevel(date: Date): Double {
+        var alcoholMass = absorbedDrinks.map {
+                drink -> drink.degree * drink.qtyMilliLiter * 0.8 / 100
+        } .sum()
+
+        return alcoholMass / (0.7 * weight)
+    }
 }
