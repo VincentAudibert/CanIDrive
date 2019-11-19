@@ -1,7 +1,7 @@
 package com.example.canidrive
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import java.util.*
 
 internal class DrinkerTest {
@@ -25,7 +25,7 @@ internal class DrinkerTest {
         val ingestionTime = Date()
         drinker.drink(Drink(500, 5F, ingestionTime))
 
-        assertEquals("Calculation of alcohol rate", 0.28, drinker.alcoholLevel(ingestionTime), 0.1)
+        assertEquals(0.28, drinker.alcoholLevel(ingestionTime), 0.1, "Calculation of alcohol rate")
     }
 
     @Test
@@ -38,6 +38,6 @@ internal class DrinkerTest {
         val ingestionTime = Date()
         drinker.drink(Drink(500, 5F, ingestionTime))
 
-        assertEquals("Calculation of alcohol rate", 0.67, drinker.alcoholLevel(ingestionTime), 0.05)
+        assertEquals(0.67, drinker.alcoholLevel(ingestionTime), 0.05, "Calculation of alcohol rate")
     }
 }
