@@ -3,7 +3,7 @@ package com.example.canidrive
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Drinker(val weight: Double = 80.0, val sex: String = "NONE") {
+class Drinker(var weight: Double = 80.0, val sex: String = "NONE") {
 
     private val absorbedDrinks : MutableList<Drink> = ArrayList()
     private val sexFactor : Double = if (sex == "MALE") 0.7 else 0.6

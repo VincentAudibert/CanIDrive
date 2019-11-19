@@ -40,4 +40,16 @@ internal class DrinkerTest {
 
         assertEquals(0.67, drinker.alcoholLevel(ingestionTime), 0.05, "Calculation of alcohol rate")
     }
+    
+    @Test
+    fun `a weight change shall change the alcohol rate`() {
+        val drinker = Drinker(100.0, "MALE")
+
+        val ingestionTime = Date()
+        drinker.drink(Drink(500, 5F, ingestionTime))
+
+        assertEquals(0.28, drinker.alcoholLevel(ingestionTime), 0.1, "Calculation of alcohol rate")
+        drinker.weight = 50.0
+        assertEquals(0.56, drinker.alcoholLevel(ingestionTime), 0.1, "Calculation of alcohol rate")
+    }
 }
