@@ -12,63 +12,109 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You, your weight" />
+        android:layout_marginTop="25dp"
+        android:text="Enter your weight (in Kg)" />
+
     <EditText
-        android:id="@+id/edit_text_weight"
+        android:id="@+id/editTextWeight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You, your sex (M/F/O)" />
-    <EditText
-        android:id="@+id/edit_text_sex"
+        android:layout_marginTop="25dp"
+        android:text="Select your sex" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupSex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
-    <Button
-        android:id="@+id/button_add_drink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add a drink"
-        />
+        android:orientation="horizontal"
+        android:checkedButton="@id/radioButtonMale">
+
+        <RadioButton
+            android:id="@+id/radioButtonMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Male"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Female"/>
+
+        <RadioButton
+            android:id="@+id/radioButtonOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Other"/>
+
+    </RadioGroup>
+
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
         <EditText
-            android:id="@+id/edit_text_quantity"
+            android:id="@+id/editTextQuantity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Qty, cL"/>
+            android:hint="Volume in centilitre"
+            android:inputType="number"
+            android:textSize="12sp" />
+
         <EditText
-            android:id="@+id/edit_text_degree"
+            android:id="@+id/editTextDegree"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="% alcohol"/>
+            android:hint="% of alcohol"
+            android:inputType="numberDecimal"
+            android:textSize="12sp" />
+
         <EditText
-            android:id="@+id/edit_text_before"
+            android:id="@+id/editTextBefore"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="min before now"
-            />
+            android:hint="How long in minute"
+            android:inputType="number"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/buttonAddDrink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="Add this drink"
+        />
+
     <LinearLayout
-        android:id="@+id/linear_past_drinks"
+        android:id="@+id/linearPastDrinks"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/text_view_result"
+        android:id="@+id/textViewResult"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />

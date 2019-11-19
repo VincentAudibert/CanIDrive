@@ -1,14 +1,14 @@
 package com.example.canidrive
 
+import android.content.Context
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -23,17 +23,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        button_add_drink.setOnClickListener {
+        buttonAddDrink.setOnClickListener {
             try {
-                var quantity = edit_text_quantity.text.toString().toInt()
-                var degree = edit_text_degree.text.toString().toFloat()
-                var delay = edit_text_before.text.toString().toInt()
+                var quantity = editTextQuantity.text.toString().toInt()
+                var degree = editTextDegree.text.toString().toFloat()
+                var delay = editTextBefore.text.toString().toInt()
                 var ingestionTime = Date(Date().time - delay * 60000)
                 addDrink(Drink(quantity, degree, ingestionTime))
+
+                editTextQuantity.text.clear()
+                editTextDegree.text.clear()
+                editTextBefore.text.clear()
+
             } catch (e:Exception) {
+                this.longToast("You did not correctly fill in the values \nPlease try again")
                 return@setOnClickListener
             }
-
         }
     }
 
@@ -42,8 +47,11 @@ class MainActivity : AppCompatActivity() {
         newDrink.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         newDrink.text = drink.toString()
 
-        linear_past_drinks?.addView(newDrink)
+        linearPastDrinks?.addView(newDrink)
     }
+
+    private fun Context.longToast(message: String) =
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
