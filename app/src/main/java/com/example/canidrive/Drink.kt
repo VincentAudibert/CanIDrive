@@ -8,8 +8,8 @@ class Drink(val qtyMilliLiter:Int, val degree:Float, val ingestionDate:Date) {
 
     override fun toString(): String {
 
-        val dateFormat = SimpleDateFormat("HH:mm dd/mm/yyyy")
+        val dateFormat = SimpleDateFormat("HH:mm")
 
-        return "$qtyMilliLiter cL at $degree % at " + dateFormat.format(ingestionDate)
+        return "You drank $qtyMilliLiter mL at $degree% at " + dateFormat.format(ingestionDate)
     }
 }

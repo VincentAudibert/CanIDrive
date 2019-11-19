@@ -6,26 +6,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_margin="5dp"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="Enter your weight (in Kg)" />
+        style="@style/TextViewTitle"
+        android:text="Enter your weight (in Kg):" />
 
     <EditText
         android:id="@+id/editTextWeight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:inputType="numberDecimal" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="Select your sex" />
+        style="@style/TextViewTitle"
+        android:text="Select your sex:" />
 
     <RadioGroup
         android:id="@+id/radioGroupSex"
@@ -57,8 +58,11 @@
 
     </RadioGroup>
 
-
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextViewTitle"
+        android:text="Describe your drink:" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -72,7 +76,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Volume in centilitre"
+            android:hint="Volume (in mL)"
             android:inputType="number"
             android:textSize="12sp" />
 
@@ -90,7 +94,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="How long in minute"
+            android:hint="How long (in mn)"
             android:inputType="number"
             android:textSize="12sp" />
 
@@ -101,6 +105,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:background="@drawable/background_button"
+        android:textColor="@color/WHITE"
         android:text="Add this drink"
         />
 
