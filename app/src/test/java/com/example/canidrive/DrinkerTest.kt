@@ -25,7 +25,7 @@ internal class DrinkerTest {
         val ingestionTime = Date()
         drinker.drink(Drink(500, 5F, ingestionTime))
 
-        assertEquals(0.28, drinker.alcoholLevel(ingestionTime), 0.1, "Calculation of alcohol rate")
+        assertEquals(0.28, drinker.alcoholLevel(ingestionTime), 0.02)
     }
 
     @Test
@@ -38,7 +38,7 @@ internal class DrinkerTest {
         val ingestionTime = Date()
         drinker.drink(Drink(500, 5F, ingestionTime))
 
-        assertEquals(0.67, drinker.alcoholLevel(ingestionTime), 0.05, "Calculation of alcohol rate")
+        assertEquals(0.67, drinker.alcoholLevel(ingestionTime), 0.02)
     }
     
     @Test
@@ -48,8 +48,21 @@ internal class DrinkerTest {
         val ingestionTime = Date()
         drinker.drink(Drink(500, 5F, ingestionTime))
 
-        assertEquals(0.28, drinker.alcoholLevel(ingestionTime), 0.1, "Calculation of alcohol rate")
+        assertEquals(0.28, drinker.alcoholLevel(ingestionTime), 0.02)
         drinker.weight = 50.0
-        assertEquals(0.56, drinker.alcoholLevel(ingestionTime), 0.1, "Calculation of alcohol rate")
+        assertEquals(0.56, drinker.alcoholLevel(ingestionTime), 0.02)
+    }
+
+    @Test
+    fun `a sex change shall change the alcohol rate`() {
+        val drinker = Drinker(100.0, "MALE")
+
+        val ingestionTime = Date()
+        drinker.drink(Drink(500, 5F, ingestionTime))
+
+        assertEquals(0.28, drinker.alcoholLevel(ingestionTime), 0.02)
+        drinker.sex = "FEMALE"
+        assertEquals(0.33, drinker.alcoholLevel(ingestionTime), 0.02)
+
     }
 }
