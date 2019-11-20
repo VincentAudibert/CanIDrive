@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import java.util.*
 
 const val RATE_PRECISION = 0.02
+val BEER = Drink(500, 5F)
 
 internal class DrinkerTest {
 
@@ -12,7 +13,7 @@ internal class DrinkerTest {
         val drinker = Drinker(100.0, "MALE")
         val ingestionTime = Date()
 
-        drinker.ingest(Drink(500, 5F), ingestionTime)
+        drinker.ingest(BEER, ingestionTime)
 
         return drinker
     }
@@ -81,5 +82,19 @@ internal class DrinkerTest {
         val femaleRate = drinker.alcoholRateAt(measureTime)
         assertEquals(0.7/0.6, femaleRate / maleRate, 0.01)
 
+    }
+
+    @Test
+    fun `Alcohol rate is double if drink is doubled` () {
+
+        val drinker = getMaleDrinkerWithBeer()
+        val measureTime = Date()
+        val simpleRate = drinker.alcoholRateAt(measureTime)
+
+        drinker.ingest(BEER, measureTime)
+
+        val doubleRate = drinker.alcoholRateAt(measureTime)
+
+        assertEquals(2.0, doubleRate / simpleRate, 0.01)
     }
 }
