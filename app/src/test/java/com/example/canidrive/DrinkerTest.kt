@@ -4,65 +4,82 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.util.*
 
+const val RATE_PRECISION = 0.02
+
 internal class DrinkerTest {
 
-    @Test
-    fun `a new should be sober`() {
-        val drinker = Drinker()
+    private fun getMaleDrinkerWithBeer() : Drinker {
+        val drinker = Drinker(100.0, "MALE")
+        val ingestionTime = Date()
 
-        assertEquals(0.0, drinker.alcoholLevel(Date(0L)), 0.0001)
+        drinker.ingest(Drink(500, 5F, ingestionTime))
+
+        return drinker
+    }
+
+    private fun getFemaleDrinkerWithBeer() : Drinker {
+        val drinker = getMaleDrinkerWithBeer()
+        drinker.weight = 50.0
+        drinker.sex = "FEMALE"
+        return drinker
     }
 
     @Test
-    fun `a 100kg male should reach 0,28g per L with a 500ml 5 deg beer`() {
+    fun `A fresh new drinker should be sober`() {
+        val drinker = Drinker()
+
+        assertEquals(0.0, drinker.alcoholRateAt(Date(0L)), 0.0001)
+    }
+
+    @Test
+    fun `A 100kg male should reach instantly 0,28g per L with a 500ml 5 deg beer`() {
         // 500ml at 5 deg makes 25ml of alcohol
         // density 0.8 gives 20g
         // body mass to consider is 0.7 * 100 = 70
         // 20/70 = 0.28g per L of blood.
 
-        val drinker = Drinker(100.0, "MALE")
+        val drinker = getMaleDrinkerWithBeer()
 
-        val ingestionTime = Date()
-        drinker.drink(Drink(500, 5F, ingestionTime))
-
-        assertEquals(0.28, drinker.alcoholLevel(ingestionTime), 0.02)
+        val measureTime = Date()
+        assertEquals(0.28, drinker.alcoholRateAt(measureTime), RATE_PRECISION)
     }
 
     @Test
-    fun `a 50kg female should reach 0,67g per L with a 500ml 5 deg beer`() {
+    fun `A 50kg female should reach instantly 0,67g per L with a 500ml 5 deg beer`() {
         // 500ml 5deg gives 20g
         // 20 / (0.6 * 50) = 0.67
 
-        val drinker = Drinker(50.0, "FEMALE")
+        val drinker = getFemaleDrinkerWithBeer()
 
-        val ingestionTime = Date()
-        drinker.drink(Drink(500, 5F, ingestionTime))
-
-        assertEquals(0.67, drinker.alcoholLevel(ingestionTime), 0.02)
+        val measureTime = Date()
+        assertEquals(0.67, drinker.alcoholRateAt(measureTime), RATE_PRECISION)
     }
     
     @Test
-    fun `a weight change shall change the alcohol rate`() {
-        val drinker = Drinker(100.0, "MALE")
+    fun `Alcohol rate is inverse proportional to drinker's weight`() {
 
-        val ingestionTime = Date()
-        drinker.drink(Drink(500, 5F, ingestionTime))
+        val ratio = 2.0
+        val drinker = getMaleDrinkerWithBeer()
+        val measureTime = Date()
+        val firstRate = drinker.alcoholRateAt(measureTime)
 
-        assertEquals(0.28, drinker.alcoholLevel(ingestionTime), 0.02)
-        drinker.weight = 50.0
-        assertEquals(0.56, drinker.alcoholLevel(ingestionTime), 0.02)
+        drinker.weight /= ratio
+
+        val secondRate = drinker.alcoholRateAt(measureTime)
+        assertEquals(ratio, secondRate / firstRate, 0.01)
     }
 
     @Test
-    fun `a sex change shall change the alcohol rate`() {
-        val drinker = Drinker(100.0, "MALE")
+    fun `Alcohol rate depends on sex selection (weight sex factor)`() {
+        val drinker = getMaleDrinkerWithBeer()
 
-        val ingestionTime = Date()
-        drinker.drink(Drink(500, 5F, ingestionTime))
+        val measureTime = Date()
+        val maleRate = drinker.alcoholRateAt(measureTime)
 
-        assertEquals(0.28, drinker.alcoholLevel(ingestionTime), 0.02)
         drinker.sex = "FEMALE"
-        assertEquals(0.33, drinker.alcoholLevel(ingestionTime), 0.02)
+
+        val femaleRate = drinker.alcoholRateAt(measureTime)
+        assertEquals(0.7/0.6, femaleRate / maleRate, 0.01)
 
     }
 }

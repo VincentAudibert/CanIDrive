@@ -21,14 +21,14 @@ class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
 
     private val absorbedDrinks : MutableList<Drink> = ArrayList()
 
-    fun drink (drink: Drink) {
+    fun ingest (drink: Drink) {
         absorbedDrinks.add(drink)
     }
 
     private fun sexFactor() = if (sex == "MALE") 0.7 else 0.6
 
-    fun alcoholLevel(date: Date): Double {
-        var alcoholMass = absorbedDrinks.map {
+    fun alcoholRateAt(date: Date): Double {
+        val alcoholMass = absorbedDrinks.map {
                 drink -> drink.degree / 100 * drink.qtyMilliLiter * ALCOHOL_DENSITY
         } .sum()
 
