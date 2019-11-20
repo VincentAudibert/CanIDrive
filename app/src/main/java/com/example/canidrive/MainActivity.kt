@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
                 var degree = edit_text_degree.text.toString().toFloat()
                 var delay = edit_text_before.text.toString().toInt()
                 var ingestionTime = Date(Date().time - delay * 60000)
-                addDrink(Drink(quantity, degree, ingestionTime))
+                addDrink(Drink(quantity, degree))
             } catch (e:Exception) {
                 return@setOnClickListener
             }

@@ -12,7 +12,7 @@ internal class DrinkerTest {
         val drinker = Drinker(100.0, "MALE")
         val ingestionTime = Date()
 
-        drinker.ingest(Drink(500, 5F, ingestionTime))
+        drinker.ingest(Drink(500, 5F), ingestionTime)
 
         return drinker
     }

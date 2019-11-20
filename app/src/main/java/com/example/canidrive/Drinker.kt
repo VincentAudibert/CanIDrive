@@ -19,10 +19,11 @@ const val ALCOHOL_DENSITY = 0.8
 
 class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
 
-    private val absorbedDrinks : MutableList<Drink> = ArrayList()
+    private val absorbedDrinks : MutableList<AbsorbedDrink> = ArrayList()
 
-    fun ingest (drink: Drink) {
-        absorbedDrinks.add(drink)
+    fun ingest (drink: Drink, ingestionTime: Date) {
+
+        absorbedDrinks.add(AbsorbedDrink(drink, ingestionTime))
     }
 
     private fun sexFactor() = if (sex == "MALE") 0.7 else 0.6
