@@ -11,7 +11,7 @@ internal class DrinkerTest {
 
     private fun getMaleDrinkerWithBeer() : Drinker {
         val drinker = Drinker(100.0, "MALE")
-        val ingestionTime = Date()
+        val ingestionTime = Date(Date().time - 10)
 
         drinker.ingest(BEER, ingestionTime)
 
@@ -72,6 +72,7 @@ internal class DrinkerTest {
 
     @Test
     fun `Alcohol rate depends on sex selection (weight sex factor)`() {
+
         val drinker = getMaleDrinkerWithBeer()
 
         val measureTime = Date()
@@ -81,7 +82,6 @@ internal class DrinkerTest {
 
         val femaleRate = drinker.alcoholRateAt(measureTime)
         assertEquals(0.7/0.6, femaleRate / maleRate, 0.01)
-
     }
 
     @Test
@@ -91,10 +91,24 @@ internal class DrinkerTest {
         val measureTime = Date()
         val simpleRate = drinker.alcoholRateAt(measureTime)
 
-        drinker.ingest(BEER, measureTime)
+        drinker.ingest(BEER, Date(measureTime.time -10))
 
         val doubleRate = drinker.alcoholRateAt(measureTime)
 
         assertEquals(2.0, doubleRate / simpleRate, 0.01)
+    }
+
+    @Test
+    fun `Male rate decrease is 0,1 per hour`() {
+
+        val drinker = getMaleDrinkerWithBeer()
+
+        val ingestionTime = Date()
+        val oneHourAfter = Date(ingestionTime.time + 3600*1000)
+        val twoHoursAfter = Date(ingestionTime.time + 3600*1000*2)
+
+
+        val rateDecrease = drinker.alcoholRateAt(oneHourAfter) - drinker.alcoholRateAt(twoHoursAfter)
+        assertEquals(0.1, rateDecrease, 0.001)
     }
 }
