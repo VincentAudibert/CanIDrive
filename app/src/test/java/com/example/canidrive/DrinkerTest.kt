@@ -111,4 +111,17 @@ internal class DrinkerTest {
         val rateDecrease = drinker.alcoholRateAt(oneHourAfter) - drinker.alcoholRateAt(twoHoursAfter)
         assertEquals(0.1, rateDecrease, 0.001)
     }
+
+    @Test
+    fun `Female rate decrease is 0,085 per hour`() {
+        val drinker = getFemaleDrinkerWithBeer()
+
+        val ingestionTime = Date()
+        val oneHourAfter = Date(ingestionTime.time + 3600*1000)
+        val twoHoursAfter = Date(ingestionTime.time + 3600*1000*2)
+
+
+        val rateDecrease = drinker.alcoholRateAt(oneHourAfter) - drinker.alcoholRateAt(twoHoursAfter)
+        assertEquals(0.085, rateDecrease, 0.001)
+    }
 }
