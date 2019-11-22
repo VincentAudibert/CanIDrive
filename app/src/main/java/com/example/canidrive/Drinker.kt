@@ -52,7 +52,13 @@ class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
      * Computes the alcohol rate since the last ingestion.
      */
     private fun newRate(lastRate: Double, lastIngestion: Date, now: Date) : Double {
-        val newRate = lastRate - (decreaseFactor() * hoursBetween(lastIngestion, now))
-        return max(0.0, newRate)
+        val timeLapse = hoursBetween(lastIngestion, now)
+
+        return if (timeLapse < 0.5) lastRate
+        else {
+            val newRate = lastRate - (decreaseFactor() * (timeLapse - 0.5))
+            max(0.0, newRate)
+        }
+
     }
 }
