@@ -22,6 +22,6 @@ data class AbsorbedDrink(val drink: Drink, val ingestionTime:Date) {
 
         val dateFormat = SimpleDateFormat("HH:mm")
 
-        return "You drank $qtyMilliLiter mL at $degree% at " + dateFormat.format(ingestionDate)
+        return "You drank $qtyMilliLiter mL at $degree% at " + dateFormat.format(ingestionTime)
     }
 }

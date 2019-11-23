@@ -27,9 +27,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 var quantity = editTextQuantity.text.toString().toInt()
                 var degree = editTextDegree.text.toString().toFloat()
-                var delay = editTextBefore.text.toString().toInt()
-                var ingestionTime = Date(Date().time - delay * 60000)
-                addDrink(Drink(quantity, degree, ingestionTime))
+                addDrink(Drink(quantity, degree))
 
                 editTextQuantity.text.clear()
                 editTextDegree.text.clear()
