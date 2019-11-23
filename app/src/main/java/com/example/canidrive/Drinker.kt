@@ -2,21 +2,63 @@ package com.example.canidrive
 
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.max
 
-class Drinker(val weight: Double = 80.0, val sex: String = "NONE") {
+/**
+ * Represents the person drinking.
+ * The parameters such as weight and sex may change as the user adjusts the inputs.
+ *
+ * Full rules :
+ *  - it takes 30min to reach max alcohol rate (1h if eating before)
+ *  - rate is : drink_volume * alcohol_degree * alcohol_density / (sex_factor * weight)
+ *  - sex_factor is 0.6 for women, 0.7 for men
+ *  - decrease is 0.085-0.1g/L/h for women, 0.1-0.15g/L/h for men.
+ */
 
-    private val absorbedDrinks : MutableList<Drink> = ArrayList()
-    private val sexFactor : Double = if (sex == "MALE") 0.7 else 0.6
+class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
 
-    fun drink (drink: Drink) {
-        absorbedDrinks.add(drink)
+    private val absorbedDrinks : MutableList<AbsorbedDrink> = ArrayList()
+
+    fun ingest (drink: Drink, ingestionTime: Date) {
+
+        absorbedDrinks.add(AbsorbedDrink(drink, ingestionTime))
+        absorbedDrinks.sortBy { absorbedDrink -> absorbedDrink.ingestionTime }
     }
 
-    fun alcoholLevel(date: Date): Double {
-        var alcoholMass = absorbedDrinks.map {
-                drink -> drink.degree * drink.qtyMilliLiter * 0.8 / 100
-        } .sum()
+    private fun sexFactor() = if (sex == "MALE") 0.7 else 0.6
 
-        return alcoholMass / (sexFactor * weight)
+    private fun effectiveWeight() = sexFactor() * weight
+
+    private fun decreaseFactor() = if (sex == "MALE") 0.1 else 0.085
+
+    fun alcoholRateAt(date: Date): Double {
+        val historicDrinks = absorbedDrinks.filter {
+                absorbedDrink -> absorbedDrink.ingestionTime.before(date)
+        }
+        if (historicDrinks.isEmpty()) return 0.0
+
+        var lastIngestion = historicDrinks[0].ingestionTime
+        var lastRate = 0.0
+
+        historicDrinks.forEach {
+            lastRate = newRate(lastRate, lastIngestion, it.ingestionTime) + (it.alcoholMass() / effectiveWeight())
+            lastIngestion = it.ingestionTime
+        }
+
+        return newRate(lastRate, lastIngestion, date)
+    }
+
+    /**
+     * Computes the alcohol rate since the last ingestion.
+     */
+    private fun newRate(lastRate: Double, lastIngestion: Date, now: Date) : Double {
+        val timeLapse = hoursBetween(lastIngestion, now)
+
+        return if (timeLapse < 0.5) lastRate
+        else {
+            val newRate = lastRate - (decreaseFactor() * (timeLapse - 0.5))
+            max(0.0, newRate)
+        }
+
     }
 }
