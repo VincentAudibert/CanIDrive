@@ -16,7 +16,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    val drinks:MutableList<Drink> = mutableListOf()
+    private val drinker = Drinker(50.0, "NONE")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +27,11 @@ class MainActivity : AppCompatActivity() {
             try {
                 var quantity = editTextQuantity.text.toString().toInt()
                 var degree = editTextDegree.text.toString().toFloat()
-                addDrink(Drink(quantity, degree))
+                var ingestionTime = Date(Date().time - (editTextBefore.text.toString().toLong() * 60000))
+
+                drinker.ingest(Drink(quantity, degree), ingestionTime)
+
+                updateDriveStatus()
 
                 editTextQuantity.text.clear()
                 editTextDegree.text.clear()
@@ -40,13 +44,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun addDrink(drink: Drink) {
-        val newDrink = TextView(this)
-        newDrink.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        newDrink.text = drink.toString()
-
-        linearPastDrinks?.addView(newDrink)
+    private fun updateDriveStatus() {
+        textViewDriveStatus.text = if (drinker.alcoholRateAt(Date()) < 0.5)
+            "DRIVE : YES"
+        else
+            "DRIVE : NO"
     }
+
 
     private fun Context.longToast(message: String) =
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
