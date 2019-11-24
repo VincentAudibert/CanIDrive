@@ -2,6 +2,8 @@ package com.example.canidrive
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -13,15 +15,20 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
+import kotlin.concurrent.fixedRateTimer
 
 class MainActivity : AppCompatActivity() {
 
     private val drinker = Drinker(50.0, "NONE")
 
+    lateinit var mainHandler: Handler
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        mainHandler = Handler(Looper.getMainLooper())
 
         buttonAddDrink.setOnClickListener {
             try {
@@ -42,6 +49,20 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
         }
+
+        editTextWeight.setOnFocusChangeListener { _, hasFocus ->
+            run {
+                if (!hasFocus)
+                    try {
+                        drinker.weight = editTextWeight.text.toString().toDouble()
+                        updateDriveStatus()
+                    } catch (e:Exception) {
+                        this.longToast("You did not correctly fill your weight \nPlease try again")
+                        return@setOnFocusChangeListener
+                    }
+            }
+        }
+
     }
 
     private fun updateDriveStatus() {
@@ -49,6 +70,26 @@ class MainActivity : AppCompatActivity() {
             "DRIVE : YES"
         else
             "DRIVE : NO"
+    }
+
+    /**
+     * Helper task to update the drive status while app is running.
+     */
+    private val updateDriveStatusTask = object : Runnable {
+        override fun run() {
+            updateDriveStatus()
+            mainHandler.postDelayed(this, 1000*60)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mainHandler.removeCallbacks(updateDriveStatusTask)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainHandler.post(updateDriveStatusTask)
     }
 
 
