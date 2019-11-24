@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RadioButton
 import android.widget.TextView
 import android.widget.Toast
 
@@ -61,6 +62,13 @@ class MainActivity : AppCompatActivity() {
                         return@setOnFocusChangeListener
                     }
             }
+        }
+
+        radioGroupSex.setOnCheckedChangeListener {
+                _,
+            checkedId ->
+            drinker.sex = if (checkedId != -1) findViewById<RadioButton>(checkedId).text.toString().toUpperCase() else "NONE"
+            updateDriveStatus()
         }
 
     }
