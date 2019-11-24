@@ -4,19 +4,14 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.RadioButton
-import android.widget.TextView
 import android.widget.Toast
-
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
-import kotlin.concurrent.fixedRateTimer
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        textViewVersionName.text = "v" + BuildConfig.VERSION_NAME
 
         mainHandler = Handler(Looper.getMainLooper())
 
