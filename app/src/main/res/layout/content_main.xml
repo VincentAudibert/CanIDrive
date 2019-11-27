@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,104 +16,160 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         />
+
+
+    <TextView
+        android:id="@+id/textViewUserInputs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="About me"
+        />
+
+    <LinearLayout
+        android:id="@+id/linearUserInputs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/textViewUserInputs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextViewTitle"
+            android:text="Enter your weight (in Kg):" />
+
+        <EditText
+            android:id="@+id/editTextWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextViewTitle"
+            android:text="Select your sex:" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupSex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:checkedButton="@id/radioButtonMale">
+
+            <RadioButton
+                android:id="@+id/radioButtonMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Male"/>
+
+            <RadioButton
+                android:id="@+id/radioButtonFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Female"/>
+
+            <RadioButton
+                android:id="@+id/radioButtonOther"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="Other"/>
+
+        </RadioGroup>
+
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textViewDriveStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/linearUserInputs"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:text="DRIVE : MAYBE" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/TextViewTitle"
-        android:text="Enter your weight (in Kg):" />
-
-    <EditText
-        android:id="@+id/editTextWeight"
+        android:id="@+id/textViewPastDrinks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal" />
+        android:text="Past drinks"
+        app:layout_constraintTop_toBottomOf="@id/textViewDriveStatus"
+        />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/TextViewTitle"
-        android:text="Select your sex:" />
-
-    <RadioGroup
-        android:id="@+id/radioGroupSex"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:checkedButton="@id/radioButtonMale">
+        app:layout_constraintTop_toBottomOf="@+id/textViewPastDrinks"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
 
-        <RadioButton
-            android:id="@+id/radioButtonMale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Male"/>
-
-        <RadioButton
-            android:id="@+id/radioButtonFemale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Female"/>
-
-        <RadioButton
-            android:id="@+id/radioButtonOther"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Other"/>
-
-    </RadioGroup>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/TextViewTitle"
-        android:text="Describe your drink:" />
+    </ScrollView>
 
     <LinearLayout
+        android:id="@+id/linearNewDrink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
 
-        <EditText
-            android:id="@+id/editTextQuantity"
-            android:layout_width="0dp"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Volume (in mL)"
-            android:inputType="number"
-            android:textSize="12sp" />
+            style="@style/TextViewTitle"
+            android:text="Describe your drink:" />
 
-        <EditText
-            android:id="@+id/editTextDegree"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="% of alcohol"
-            android:inputType="numberDecimal"
-            android:textSize="12sp" />
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
 
-        <EditText
-            android:id="@+id/editTextBefore"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="How long (in mn)"
-            android:inputType="number"
-            android:textSize="12sp" />
+            <EditText
+                android:id="@+id/editTextQuantity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Volume (in mL)"
+                android:inputType="number"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/editTextDegree"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="% of alcohol"
+                android:inputType="numberDecimal"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/editTextBefore"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="How long (in mn)"
+                android:inputType="number"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
+
 
     <Button
         android:id="@+id/buttonAddDrink"
@@ -124,21 +181,10 @@
         android:background="@drawable/background_button"
         android:textColor="@color/WHITE"
         android:text="Add this drink"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         />
 
-    <LinearLayout
-        android:id="@+id/linearPastDrinks"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
 
-    </LinearLayout>
 
-    <TextView
-        android:id="@+id/textViewResult"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

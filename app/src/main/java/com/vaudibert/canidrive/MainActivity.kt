@@ -9,8 +9,6 @@ import android.view.MenuItem
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.canidrive.BuildConfig
-import com.example.canidrive.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
