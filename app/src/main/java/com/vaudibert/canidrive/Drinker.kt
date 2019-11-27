@@ -1,4 +1,4 @@
-package com.example.canidrive
+package com.vaudibert.canidrive
 
 import java.util.*
 import kotlin.collections.ArrayList
@@ -21,7 +21,12 @@ class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
 
     fun ingest (drink: Drink, ingestionTime: Date) {
 
-        absorbedDrinks.add(AbsorbedDrink(drink, ingestionTime))
+        absorbedDrinks.add(
+            AbsorbedDrink(
+                drink,
+                ingestionTime
+            )
+        )
         absorbedDrinks.sortBy { absorbedDrink -> absorbedDrink.ingestionTime }
     }
 
@@ -61,4 +66,6 @@ class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
         }
 
     }
+
+    fun getDrinks() = ArrayList(absorbedDrinks)
 }

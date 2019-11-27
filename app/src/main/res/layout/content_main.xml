@@ -7,7 +7,7 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_margin="5dp"
-    tools:context=".MainActivity"
+    tools:context="com.vaudibert.canidrive.MainActivity"
     tools:showIn="@layout/activity_main">
 
     <TextView

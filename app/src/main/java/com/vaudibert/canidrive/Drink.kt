@@ -1,4 +1,4 @@
-package com.example.canidrive
+package com.vaudibert.canidrive
 
 import java.text.SimpleDateFormat
 import java.util.*
