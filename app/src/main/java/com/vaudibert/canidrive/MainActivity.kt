@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,11 @@ class MainActivity : AppCompatActivity() {
         mainHandler = Handler(Looper.getMainLooper())
 
         buttonAddDrink.setOnClickListener {
+            buttonAddDrink.visibility = View.GONE
+            linearNewDrink.visibility = View.VISIBLE
+        }
+
+        buttonValidateNewDrink.setOnClickListener {
             try {
                 var quantity = editTextQuantity.text.toString().toInt()
                 var degree = editTextDegree.text.toString().toFloat()
@@ -41,6 +47,9 @@ class MainActivity : AppCompatActivity() {
                 editTextQuantity.text.clear()
                 editTextDegree.text.clear()
                 editTextBefore.text.clear()
+
+                linearNewDrink.visibility = View.GONE
+                buttonAddDrink.visibility = View.VISIBLE
 
             } catch (e:Exception) {
                 this.longToast("You did not correctly fill in the values \nPlease try again")
