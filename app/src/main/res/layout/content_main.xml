@@ -108,21 +108,13 @@
         app:layout_constraintTop_toBottomOf="@id/textViewDriveStatus"
         />
 
-    <ScrollView
+    <ListView
+        android:id="@+id/listViewPastDrinks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/textViewPastDrinks"
+        />
 
-        >
-
-        <TextView
-            android:id="@+id/textViewListPastDrinks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:text="No drinks yet" />
-
-    </ScrollView>
 
     <LinearLayout
         android:id="@+id/linearNewDrink"

@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var mainHandler: Handler
 
+    lateinit var pastDrinksAdapter: PastDrinksAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,6 +29,10 @@ class MainActivity : AppCompatActivity() {
 
         textViewVersionName.text = "v" + BuildConfig.VERSION_NAME
 
+        pastDrinksAdapter = PastDrinksAdapter(this, drinker.getDrinks())
+        listViewPastDrinks.adapter = pastDrinksAdapter
+
+        // needed for periodic update of drinker status
         mainHandler = Handler(Looper.getMainLooper())
 
         buttonAddDrink.setOnClickListener {
@@ -77,6 +83,7 @@ class MainActivity : AppCompatActivity() {
             updateDriveStatus()
         }
 
+
     }
 
     private fun updateDriveStatus() {
@@ -86,11 +93,7 @@ class MainActivity : AppCompatActivity() {
             "DRIVE : NO"
 
         val drinks = drinker.getDrinks()
-
-        textViewListPastDrinks.text = if (drinks.isEmpty()) "No drinks yet" else
-            drinker.getDrinks()
-            .map { drink -> drink.toString()}
-            .reduce {acc:String, drink:String -> acc + "\n" + drink }
+        listViewPastDrinks.adapter = PastDrinksAdapter(this, drinks)
     }
 
     /**
