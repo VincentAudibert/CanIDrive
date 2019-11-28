@@ -84,6 +84,13 @@ class MainActivity : AppCompatActivity() {
             "DRIVE : YES"
         else
             "DRIVE : NO"
+
+        val drinks = drinker.getDrinks()
+
+        textViewListPastDrinks.text = if (drinks.isEmpty()) "No drinks yet" else
+            drinker.getDrinks()
+            .map { drink -> drink.toString()}
+            .reduce {acc:String, drink:String -> acc + "\n" + drink }
     }
 
     /**
