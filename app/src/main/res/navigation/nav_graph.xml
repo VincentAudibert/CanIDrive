@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.vaudibert.canidrive.ui.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_drinkerFragment"
+            app:destination="@id/drinkerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/drinkerFragment"
+        android:name="com.vaudibert.canidrive.ui.DrinkerFragment"
+        android:label="fragment_drinker"
+        tools:layout="@layout/fragment_drinker" >
+        <action
+            android:id="@+id/action_drinkerFragment_to_driveFragment"
+            app:destination="@id/driveFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/driveFragment"
+        android:name="com.vaudibert.canidrive.ui.DriveFragment"
+        android:label="fragment_drive"
+        tools:layout="@layout/fragment_drive" >
+        <action
+            android:id="@+id/action_driveFragment_to_addDrinkFragment"
+            app:destination="@id/addDrinkFragment" />
+        <action
+            android:id="@+id/action_driveFragment_to_drinkerFragment"
+            app:destination="@id/drinkerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addDrinkFragment"
+        android:name="com.vaudibert.canidrive.ui.AddDrinkFragment"
+        android:label="fragment_add_drink"
+        tools:layout="@layout/fragment_add_drink" >
+        <action
+            android:id="@+id/action_addDrinkFragment_to_driveFragment"
+            app:destination="@id/driveFragment" />
+    </fragment>
+</navigation>

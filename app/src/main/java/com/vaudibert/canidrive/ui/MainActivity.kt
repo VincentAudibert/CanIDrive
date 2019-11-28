@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive
+package com.vaudibert.canidrive.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -10,13 +10,16 @@ import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.vaudibert.canidrive.*
+import com.vaudibert.canidrive.domain.Drink
+import com.vaudibert.canidrive.domain.Drinker
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val drinker = Drinker(50.0, "NONE")
+    val drinker = Drinker(50.0, "NONE")
 
     lateinit var mainHandler: Handler
 
@@ -27,18 +30,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        textViewVersionName.text = "v" + BuildConfig.VERSION_NAME
 
-        pastDrinksAdapter = PastDrinksAdapter(this, drinker.getDrinks())
+        pastDrinksAdapter =
+            PastDrinksAdapter(
+                this,
+                drinker.getDrinks()
+            )
         listViewPastDrinks.adapter = pastDrinksAdapter
 
         // needed for periodic update of drinker status
         mainHandler = Handler(Looper.getMainLooper())
 
-        buttonAddDrink.setOnClickListener {
-            buttonAddDrink.visibility = View.GONE
-            linearNewDrink.visibility = View.VISIBLE
-        }
 
         buttonValidateNewDrink.setOnClickListener {
             try {
@@ -46,7 +48,11 @@ class MainActivity : AppCompatActivity() {
                 var degree = editTextDegree.text.toString().toFloat()
                 var ingestionTime = Date(Date().time - (editTextBefore.text.toString().toLong() * 60000))
 
-                drinker.ingest(Drink(quantity, degree), ingestionTime)
+                drinker.ingest(
+                    Drink(
+                        quantity,
+                        degree
+                    ), ingestionTime)
 
                 updateDriveStatus()
 
@@ -54,8 +60,6 @@ class MainActivity : AppCompatActivity() {
                 editTextDegree.text.clear()
                 editTextBefore.text.clear()
 
-                linearNewDrink.visibility = View.GONE
-                buttonAddDrink.visibility = View.VISIBLE
 
             } catch (e:Exception) {
                 this.longToast("You did not correctly fill in the values \nPlease try again")
@@ -63,25 +67,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        editTextWeight.setOnFocusChangeListener { _, hasFocus ->
-            run {
-                if (!hasFocus)
-                    try {
-                        drinker.weight = editTextWeight.text.toString().toDouble()
-                        updateDriveStatus()
-                    } catch (e:Exception) {
-                        this.longToast("You did not correctly fill your weight \nPlease try again")
-                        return@setOnFocusChangeListener
-                    }
-            }
-        }
-
-        radioGroupSex.setOnCheckedChangeListener {
-                _,
-            checkedId ->
-            drinker.sex = if (checkedId != -1) findViewById<RadioButton>(checkedId).text.toString().toUpperCase() else "NONE"
-            updateDriveStatus()
-        }
 
 
     }
@@ -93,7 +78,8 @@ class MainActivity : AppCompatActivity() {
             "DRIVE : NO"
 
         val drinks = drinker.getDrinks()
-        listViewPastDrinks.adapter = PastDrinksAdapter(this, drinks)
+        listViewPastDrinks.adapter =
+            PastDrinksAdapter(this, drinks)
     }
 
     /**
