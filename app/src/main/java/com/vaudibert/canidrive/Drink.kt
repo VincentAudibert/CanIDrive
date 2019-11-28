@@ -1,5 +1,6 @@
-package com.example.canidrive
+package com.vaudibert.canidrive
 
+import java.text.SimpleDateFormat
 import java.util.*
 
 const val ALCOHOL_DENSITY = 0.8
@@ -18,6 +19,9 @@ data class AbsorbedDrink(val drink: Drink, val ingestionTime:Date) {
     fun alcoholMass(): Double = degree/100 * qtyMilliLiter * ALCOHOL_DENSITY
 
     override fun toString(): String {
-        return "${drink.qtyMilliLiter} cL at ${drink.degree} % at $ingestionTime"
+
+        val dateFormat = SimpleDateFormat("HH:mm")
+
+        return "You drank $qtyMilliLiter mL at $degree% at " + dateFormat.format(ingestionTime)
     }
 }

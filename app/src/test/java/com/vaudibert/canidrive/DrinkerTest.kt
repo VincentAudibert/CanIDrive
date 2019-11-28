@@ -1,4 +1,4 @@
-package com.example.canidrive
+package com.vaudibert.canidrive
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -42,7 +42,9 @@ internal class DrinkerTest {
         val drinker = getMaleDrinkerWithBeer()
 
         val measureTime = Date()
-        assertEquals(0.28, drinker.alcoholRateAt(measureTime), RATE_PRECISION)
+        assertEquals(0.28, drinker.alcoholRateAt(measureTime),
+            RATE_PRECISION
+        )
     }
 
     @Test
@@ -53,7 +55,9 @@ internal class DrinkerTest {
         val drinker = getFemaleDrinkerWithBeer()
 
         val measureTime = Date()
-        assertEquals(0.67, drinker.alcoholRateAt(measureTime), RATE_PRECISION)
+        assertEquals(0.67, drinker.alcoholRateAt(measureTime),
+            RATE_PRECISION
+        )
     }
     
     @Test
@@ -121,6 +125,8 @@ internal class DrinkerTest {
 
         val measureTime = Date()
         val later = Date(measureTime.time + 1800000)
-        assertEquals(drinker.alcoholRateAt(later), drinker.alcoholRateAt(measureTime), RATE_PRECISION)
+        assertEquals(drinker.alcoholRateAt(later), drinker.alcoholRateAt(measureTime),
+            RATE_PRECISION
+        )
     }
 }
