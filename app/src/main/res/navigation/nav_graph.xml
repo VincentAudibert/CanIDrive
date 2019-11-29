@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_splash" >
         <action
             android:id="@+id/action_splashFragment_to_drinkerFragment"
-            app:destination="@id/drinkerFragment" />
+            app:destination="@id/drinkerFragment"
+            app:popUpTo="@+id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/drinkerFragment"
@@ -21,7 +23,9 @@
         tools:layout="@layout/fragment_drinker" >
         <action
             android:id="@+id/action_drinkerFragment_to_driveFragment"
-            app:destination="@id/driveFragment" />
+            app:destination="@id/driveFragment"
+            app:popUpTo="@+id/drinkerFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/driveFragment"
@@ -42,6 +46,8 @@
         tools:layout="@layout/fragment_add_drink" >
         <action
             android:id="@+id/action_addDrinkFragment_to_driveFragment"
-            app:destination="@id/driveFragment" />
+            app:destination="@id/driveFragment"
+            app:popUpTo="@+id/addDrinkFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

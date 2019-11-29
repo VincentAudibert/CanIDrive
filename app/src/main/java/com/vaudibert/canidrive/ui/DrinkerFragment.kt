@@ -2,11 +2,12 @@ package com.vaudibert.canidrive.ui
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.Drinker
 import kotlinx.android.synthetic.main.fragment_drinker.*
@@ -37,7 +38,7 @@ class DrinkerFragment : Fragment() {
                     try {
                         drinker.weight = editTextWeight.text.toString().toDouble()
                     } catch (e:Exception) {
-                        this.longToast("You did not correctly fill your weight \nPlease try again")
+                        longToast("You did not correctly fill your weight \nPlease try again")
                         return@setOnFocusChangeListener
                     }
             }
@@ -51,5 +52,7 @@ class DrinkerFragment : Fragment() {
 
     }
 
+    private fun longToast(message: String) =
+        Toast.makeText(this.context, message, Toast.LENGTH_LONG).show()
 
 }
