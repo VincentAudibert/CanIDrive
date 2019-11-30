@@ -1,6 +1,8 @@
 package com.vaudibert.canidrive.ui
 
 
+import KeyboardUtils
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,6 +51,8 @@ class AddDrinkFragment : Fragment() {
                 editTextQuantity.text.clear()
                 editTextDegree.text.clear()
                 editTextBefore.text.clear()
+
+                KeyboardUtils.hideKeyboard(this.activity as Activity)
 
                 findNavController().navigate(
                     AddDrinkFragmentDirections.actionAddDrinkFragmentToDriveFragment()
