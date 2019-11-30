@@ -2,15 +2,16 @@ package com.vaudibert.canidrive.ui
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.Drink
 import com.vaudibert.canidrive.domain.Drinker
-import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.fragment_add_drink.*
 import java.util.*
 
 /**
@@ -49,6 +50,9 @@ class AddDrinkFragment : Fragment() {
                 editTextDegree.text.clear()
                 editTextBefore.text.clear()
 
+                findNavController().navigate(
+                    AddDrinkFragmentDirections.actionAddDrinkFragmentToDriveFragment()
+                )
 
             } catch (e:Exception) {
                 longToast("You did not correctly fill in the values \nPlease try again")

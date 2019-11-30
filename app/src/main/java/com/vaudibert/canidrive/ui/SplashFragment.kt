@@ -4,10 +4,10 @@ package com.vaudibert.canidrive.ui
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.BuildConfig
 import com.vaudibert.canidrive.R
@@ -36,7 +36,7 @@ class SplashFragment : Fragment() {
         val mainHandler = Handler(Looper.getMainLooper())
         mainHandler.postDelayed( {
             val navController = findNavController()
-            val action = SplashFragmentDirections.actionSplashFragmentToDrinkerFragment()
+            val action = SplashFragmentDirections.actionSplashFragmentToDriveFragment()
             navController.navigate(action)
         }, 2000)
 

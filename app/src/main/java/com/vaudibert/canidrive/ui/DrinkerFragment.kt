@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.Drinker
 import kotlinx.android.synthetic.main.fragment_drinker.*
@@ -23,6 +24,7 @@ class DrinkerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_drinker, container, false)
     }
@@ -47,7 +49,16 @@ class DrinkerFragment : Fragment() {
         radioGroupSex.setOnCheckedChangeListener {
                 _,
                 checkedId ->
-            drinker.sex = if (checkedId != -1) view.findViewById<RadioButton>(checkedId).text.toString().toUpperCase() else "NONE"
+            drinker.sex = if (checkedId != -1)
+                view.findViewById<RadioButton>(checkedId).text.toString().toUpperCase()
+            else
+                "NONE"
+        }
+
+        buttonValidateDrinker.setOnClickListener {
+            findNavController().navigate(
+                DrinkerFragmentDirections.actionDrinkerFragmentToDriveFragment()
+            )
         }
 
     }

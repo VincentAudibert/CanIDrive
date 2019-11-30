@@ -4,10 +4,11 @@ package com.vaudibert.canidrive.ui
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.Drinker
 import kotlinx.android.synthetic.main.fragment_drive.*
@@ -47,6 +48,17 @@ class DriveFragment : Fragment() {
         // needed for periodic update of drinker status
         mainHandler = Handler(Looper.getMainLooper())
 
+        buttonToDrinker.setOnClickListener {
+            findNavController().navigate(
+                DriveFragmentDirections.actionDriveFragmentToDrinkerFragment()
+            )
+        }
+
+        buttonAddDrink.setOnClickListener {
+            findNavController().navigate(
+                DriveFragmentDirections.actionDriveFragmentToAddDrinkFragment()
+            )
+        }
 
     }
     private fun updateDriveStatus() {

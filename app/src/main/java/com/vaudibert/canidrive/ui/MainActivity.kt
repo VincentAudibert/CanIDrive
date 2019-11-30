@@ -6,16 +6,14 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.Drinker
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val drinker = Drinker(50.0, "NONE")
+    val drinker = Drinker()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
     }
 
 
