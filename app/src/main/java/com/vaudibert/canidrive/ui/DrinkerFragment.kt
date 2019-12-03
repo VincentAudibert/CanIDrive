@@ -16,7 +16,7 @@ import com.vaudibert.canidrive.domain.Drinker
 import kotlinx.android.synthetic.main.fragment_drinker.*
 
 /**
- * A simple [Fragment] subclass.
+ * The drinker fragment to enter its details.
  */
 class DrinkerFragment : Fragment() {
 

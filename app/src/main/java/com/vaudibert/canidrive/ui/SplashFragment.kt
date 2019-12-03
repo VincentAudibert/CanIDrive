@@ -14,7 +14,7 @@ import com.vaudibert.canidrive.R
 import kotlinx.android.synthetic.main.fragment_splash.*
 
 /**
- * A simple [Fragment] subclass.
+ * The splash fragment, to display icon, version and do stuff in background.
  */
 class SplashFragment : Fragment() {
 

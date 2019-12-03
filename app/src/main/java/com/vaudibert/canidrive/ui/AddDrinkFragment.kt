@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_add_drink.*
 import java.util.*
 
 /**
- * A simple [Fragment] subclass.
+ * Fragment to add a drink.
  */
 class AddDrinkFragment : Fragment() {
 

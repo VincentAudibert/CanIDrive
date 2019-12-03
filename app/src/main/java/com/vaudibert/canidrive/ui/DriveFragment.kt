@@ -15,7 +15,10 @@ import kotlinx.android.synthetic.main.fragment_drive.*
 import java.util.*
 
 /**
- * A simple [Fragment] subclass.
+ * The drive fragment that displays the drive status :
+ *  - can the user drive ?
+ *  - if not then when ?
+ *  - what were the past drinks ?
  */
 class DriveFragment : Fragment() {
 
