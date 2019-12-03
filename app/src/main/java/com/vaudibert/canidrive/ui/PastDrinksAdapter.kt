@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive
+package com.vaudibert.canidrive.ui
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import com.vaudibert.canidrive.domain.AbsorbedDrink
+import com.vaudibert.canidrive.R
 import java.text.SimpleDateFormat
 
 class PastDrinksAdapter(

@@ -1,5 +1,6 @@
-package com.vaudibert.canidrive
+package com.vaudibert.canidrive.domain
 
+import com.vaudibert.canidrive.hoursBetween
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.max

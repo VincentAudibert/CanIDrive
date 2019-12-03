@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive
+package com.vaudibert.canidrive.domain
 
 import java.text.SimpleDateFormat
 import java.util.*
