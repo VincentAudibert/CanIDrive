@@ -31,7 +31,7 @@ class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
         absorbedDrinks.sortByDescending { absorbedDrink -> absorbedDrink.ingestionTime }
     }
 
-    private fun sexFactor() = if (sex == "MALE") 1.7 else 0.6
+    private fun sexFactor() = if (sex == "MALE") 0.7 else 0.6
 
     private fun effectiveWeight() = sexFactor() * weight
 
