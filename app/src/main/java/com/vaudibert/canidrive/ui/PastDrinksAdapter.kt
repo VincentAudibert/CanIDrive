@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import com.vaudibert.canidrive.domain.AbsorbedDrink
 import com.vaudibert.canidrive.R
+import com.vaudibert.canidrive.domain.AbsorbedDrink
 import java.text.SimpleDateFormat
 
 class PastDrinksAdapter(
@@ -29,8 +29,8 @@ class PastDrinksAdapter(
 
         val drink = getItem(position)
 
-        quantityText.text = drink.qtyMilliLiter.toString()
-        degreeText.text = "${drink.degree}%"
+        quantityText.text = "${drink.qtyMilliLiter} ml"
+        degreeText.text = "${drink.degree} %"
         timeText.text = dateFormat.format(drink.ingestionTime)
 
         return drinkView
