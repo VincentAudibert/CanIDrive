@@ -25,30 +25,49 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
-    
+
     <TextView
         android:id="@+id/textViewDriveStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="40dp"
+        android:textSize="16pt"
         app:layout_constraintTop_toBottomOf="@id/appBarDriveStatus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="DRIVE : MAYBE" />
 
-    <TextView
-        android:id="@+id/textViewPastDrinks"
+
+    <LinearLayout
+        android:id="@+id/linearPastDrinkTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Past drinks"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/textViewDriveStatus"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/colorPrimary"
+        >
+        <TextView
+            android:id="@+id/textViewPastDrinks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:drawableStart="@drawable/ic_history_white_24dp"
+            android:drawableEnd="@drawable/ic_local_drink_white_24dp"
+            android:text=" "
+            />
+
+    </LinearLayout>
+
 
     <ListView
         android:id="@+id/listViewPastDrinks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPastDrinks"
+        app:layout_constraintTop_toBottomOf="@+id/linearPastDrinkTitle"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -57,7 +76,6 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add_white_24dp"
         android:layout_margin="24dp"
-        android:backgroundTint="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
@@ -68,7 +86,6 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_person_white_24dp"
         android:layout_margin="24dp"
-        android:backgroundTint="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
