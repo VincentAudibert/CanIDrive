@@ -1,7 +1,5 @@
-package com.vaudibert.canidrive
+package com.vaudibert.canidrive.domain
 
-import com.vaudibert.canidrive.domain.Drink
-import com.vaudibert.canidrive.domain.Drinker
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.util.*
