@@ -13,6 +13,8 @@
         <action
             android:id="@+id/action_splashFragment_to_driveFragment"
             app:destination="@id/driveFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
             app:popUpTo="@+id/splashFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -24,6 +26,10 @@
         <action
             android:id="@+id/action_drinkerFragment_to_driveFragment"
             app:destination="@id/driveFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@+id/driveFragment"
             app:popUpToInclusive="true" />
     </fragment>
@@ -34,10 +40,18 @@
         tools:layout="@layout/fragment_drive" >
         <action
             android:id="@+id/action_driveFragment_to_addDrinkFragment"
-            app:destination="@id/addDrinkFragment" />
+            app:destination="@id/addDrinkFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_driveFragment_to_drinkerFragment"
-            app:destination="@id/drinkerFragment" />
+            app:destination="@id/drinkerFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/addDrinkFragment"
@@ -47,6 +61,10 @@
         <action
             android:id="@+id/action_addDrinkFragment_to_driveFragment"
             app:destination="@id/driveFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/driveFragment"
             app:popUpToInclusive="true" />
     </fragment>
