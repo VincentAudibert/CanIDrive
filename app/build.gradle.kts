@@ -1,10 +1,9 @@
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("androidx.navigation.safeargs.kotlin")
-
+    id("kotlin-kapt")
 }
 
 android {
@@ -52,6 +51,24 @@ dependencies {
     // Navigation (Kotlin)
     implementation( "androidx.navigation:navigation-fragment-ktx:2.1.0")
     implementation( "androidx.navigation:navigation-ui-ktx:2.1.0")
+
+
+    val lifecycle_version = "2.1.0"
+
+    // ViewModel and LiveData
+    implementation("androidx.lifecycle:lifecycle-extensions:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-rc03")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+
+    kapt("androidx.lifecycle:lifecycle-compiler:$lifecycle_version") // For Kotlin use kapt instead of annotationProcessor
+
+    // optional - ReactiveStreams support for LiveData
+    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version") // For Kotlin use lifecycle-reactivestreams-ktx
+
+    // optional - Test helpers for LiveData
+    testImplementation("androidx.arch.core:core-testing:$lifecycle_version")
+
 }
 
 tasks.withType<Test> {

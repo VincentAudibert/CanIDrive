@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.Drink
-import com.vaudibert.canidrive.domain.Drinker
 import kotlinx.android.synthetic.main.fragment_add_drink.*
 import java.util.*
 
@@ -20,8 +19,6 @@ import java.util.*
  * Fragment to add a drink.
  */
 class AddDrinkFragment : Fragment() {
-
-    lateinit var drinker: Drinker
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,15 +31,13 @@ class AddDrinkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        drinker = (this.activity as MainActivity).drinker
-
         buttonValidateNewDrink.setOnClickListener {
             try {
                 var quantity = editTextQuantity.text.toString().toInt()
                 var degree = editTextDegree.text.toString().toFloat()
                 var ingestionTime = Date(Date().time - (editTextBefore.text.toString().toLong() * 60000))
 
-                drinker.ingest(
+                DrinkerRepository.ingest(
                     Drink(
                         quantity,
                         degree

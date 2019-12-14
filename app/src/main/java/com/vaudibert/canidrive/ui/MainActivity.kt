@@ -9,11 +9,13 @@ import com.vaudibert.canidrive.domain.Drinker
 
 class MainActivity : AppCompatActivity() {
 
-    val drinker = Drinker()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // TODO : insert sharedpref reading here to fill the repository
+        DrinkerRepository.setDrinker(Drinker())
+
     }
 
 

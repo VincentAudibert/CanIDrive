@@ -69,4 +69,8 @@ class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
     }
 
     fun getDrinks() = ArrayList(absorbedDrinks)
+
+    fun remove(drink: AbsorbedDrink) {
+        absorbedDrinks.remove(drink)
+    }
 }

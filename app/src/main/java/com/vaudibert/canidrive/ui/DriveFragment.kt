@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.Drinker
@@ -22,7 +24,7 @@ import java.util.*
  */
 class DriveFragment : Fragment() {
 
-    lateinit var drinker: Drinker
+    private lateinit var liveDrinker : LiveData<Drinker>
 
     lateinit var mainHandler: Handler
 
@@ -39,14 +41,21 @@ class DriveFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        drinker = (this.activity as MainActivity).drinker
+        liveDrinker = DrinkerRepository.liveDrinker
 
         pastDrinksAdapter =
             PastDrinksAdapter(
                 this.context!!,
-                drinker.getDrinks()
+                DrinkerRepository.getDrinks()
             )
         listViewPastDrinks.adapter = pastDrinksAdapter
+
+
+        liveDrinker.observe(this, Observer {
+
+            pastDrinksAdapter.setDrinkList(DrinkerRepository.getDrinks())
+            updateDriveStatus()
+        })
 
         // needed for periodic update of drinker status
         mainHandler = Handler(Looper.getMainLooper())
@@ -65,14 +74,14 @@ class DriveFragment : Fragment() {
 
     }
     private fun updateDriveStatus() {
+        val drinker = liveDrinker.value ?: return
+
         textViewDriveStatus.text = if (drinker.alcoholRateAt(Date()) < 0.5)
             "DRIVE : YES"
         else
             "DRIVE : NO"
 
-        val drinks = drinker.getDrinks()
-        listViewPastDrinks.adapter =
-            PastDrinksAdapter(this.context!!, drinks)
+        pastDrinksAdapter.notifyDataSetChanged()
     }
 
     /**
