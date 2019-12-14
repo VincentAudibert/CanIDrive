@@ -12,15 +12,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.domain.Drinker
 import kotlinx.android.synthetic.main.fragment_drinker.*
 
 /**
  * The drinker fragment to enter its details.
  */
 class DrinkerFragment : Fragment() {
-
-    lateinit var drinker: Drinker
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,13 +31,19 @@ class DrinkerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        drinker = (this.activity as MainActivity).drinker
+        editTextWeight.setText(DrinkerRepository.getWeight().toString())
+        val sex = DrinkerRepository.getSex()
+        radioGroupSex.check(when (sex) {
+            "MALE" -> R.id.radioButtonMale
+            "FEMALE" -> R.id.radioButtonFemale
+            else -> R.id.radioButtonOther
+        })
 
         editTextWeight.setOnFocusChangeListener { _, hasFocus ->
             run {
                 if (!hasFocus)
                     try {
-                        drinker.weight = editTextWeight.text.toString().toDouble()
+                        DrinkerRepository.setWeight(editTextWeight.text.toString().toDouble())
                     } catch (e:Exception) {
                         longToast("You did not correctly fill your weight \nPlease try again")
                         return@setOnFocusChangeListener
@@ -51,10 +54,12 @@ class DrinkerFragment : Fragment() {
         radioGroupSex.setOnCheckedChangeListener {
                 _,
                 checkedId ->
-            drinker.sex = if (checkedId != -1)
-                view.findViewById<RadioButton>(checkedId).text.toString().toUpperCase()
-            else
-                "NONE"
+            DrinkerRepository.setSex(
+                if (checkedId != -1)
+                    view.findViewById<RadioButton>(checkedId).text.toString().toUpperCase()
+                else
+                    "NONE"
+            )
         }
 
         buttonValidateDrinker.setOnClickListener {
