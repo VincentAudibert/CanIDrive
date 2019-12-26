@@ -1,21 +1,36 @@
 package com.vaudibert.canidrive.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import com.vaudibert.canidrive.R
+import com.vaudibert.canidrive.data.DrinkDatabase
 import com.vaudibert.canidrive.domain.Drinker
 
 class MainActivity : AppCompatActivity() {
+
+    val drinkerRepository = DrinkerRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // TODO : insert sharedpref reading here to fill the repository
-        DrinkerRepository.setDrinker(Drinker())
+        val sharedPref = this.getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE)
 
+        val weight = sharedPref.getFloat("WEIGHT", 70F).toDouble()
+        val sex = sharedPref.getString("SEX", "NONE")
+
+        val drinker = Drinker(weight, sex)
+
+        val drinkDB = Room
+            .databaseBuilder(this, DrinkDatabase::class.java, "drink-database")
+            .build()
+
+        drinkerRepository.setDrinker(drinker)
+        drinkerRepository.setDao(drinkDB.drinkDao())
     }
 
 

@@ -1,28 +1,48 @@
 package com.vaudibert.canidrive.ui
 
 import androidx.lifecycle.MutableLiveData
-import com.vaudibert.canidrive.domain.AbsorbedDrink
+import com.vaudibert.canidrive.data.DrinkDao
 import com.vaudibert.canidrive.domain.Drink
 import com.vaudibert.canidrive.domain.Drinker
-import java.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-object DrinkerRepository {
+class DrinkerRepository {
     private var drinker = Drinker()
 
-    val liveDrinker = MutableLiveData<Drinker>(drinker)
+    private var daoJob = Job()
+
+    private val uiScope = CoroutineScope(Dispatchers.Main + daoJob)
+
+    private lateinit var drinkDao : DrinkDao
+
+    var liveDrinker = MutableLiveData<Drinker>(drinker)
 
     fun setDrinker(drinker: Drinker) {
         this.drinker = drinker
         liveDrinker.value = drinker
     }
 
-    fun remove(drink: AbsorbedDrink) {
-        drinker.remove(drink)
+    fun setDao(drinkDao: DrinkDao) {
+        this.drinkDao = drinkDao
+        uiScope.launch {
+            val drinks = drinkDao.getAll()
+            drinks.forEach { drinker.ingest(it.toDrink())}
+            liveDrinker.postValue(drinker)
+        }
+    }
+
+    fun ingest(drink : Drink) {
+        drinker.ingest(drink)
+        uiScope.launch { drinkDao.insert(drink) }
         liveDrinker.value = drinker
     }
 
-    fun ingest(drink : Drink, ingestionTime : Date) {
-        drinker.ingest(drink, ingestionTime)
+    fun remove(drink: Drink) {
+        drinker.remove(drink)
+        uiScope.launch { drinkDao.remove(drink) }
         liveDrinker.value = drinker
     }
 

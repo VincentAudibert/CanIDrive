@@ -3,6 +3,7 @@ package com.vaudibert.canidrive.ui
 
 import KeyboardUtils
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_drinker.*
  */
 class DrinkerFragment : Fragment() {
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,8 +33,10 @@ class DrinkerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        editTextWeight.setText(DrinkerRepository.getWeight().toString())
-        val sex = DrinkerRepository.getSex()
+        val drinkerRepository = (this.activity as MainActivity).drinkerRepository
+
+        editTextWeight.setText(drinkerRepository.getWeight().toString())
+        val sex = drinkerRepository.getSex()
         radioGroupSex.check(when (sex) {
             "MALE" -> R.id.radioButtonMale
             "FEMALE" -> R.id.radioButtonFemale
@@ -43,7 +47,12 @@ class DrinkerFragment : Fragment() {
             run {
                 if (!hasFocus)
                     try {
-                        DrinkerRepository.setWeight(editTextWeight.text.toString().toDouble())
+                        val weight = editTextWeight.text.toString().toDouble()
+                        drinkerRepository.setWeight(weight)
+                        this.activity?.getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE)
+                            ?.edit()
+                            ?.putFloat("WEIGHT", weight.toFloat())
+                            ?.apply()
                     } catch (e:Exception) {
                         longToast("You did not correctly fill your weight \nPlease try again")
                         return@setOnFocusChangeListener
@@ -53,13 +62,19 @@ class DrinkerFragment : Fragment() {
 
         radioGroupSex.setOnCheckedChangeListener {
                 _,
-                checkedId ->
-            DrinkerRepository.setSex(
-                if (checkedId != -1)
+            checkedId ->
+            run {
+                val sex = if (checkedId != -1)
                     view.findViewById<RadioButton>(checkedId).text.toString().toUpperCase()
                 else
                     "NONE"
-            )
+                drinkerRepository.setSex(sex)
+                this.activity?.getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE)
+                    ?.edit()
+                    ?.putString("SEX", sex)
+                    ?.apply()
+            }
+
         }
 
         buttonValidateDrinker.setOnClickListener {

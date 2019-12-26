@@ -8,12 +8,12 @@ import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.TextView
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.domain.AbsorbedDrink
+import com.vaudibert.canidrive.domain.Drink
 import java.text.SimpleDateFormat
 
 class PastDrinksAdapter(
-    context: Context,
-    private var drinkList : List<AbsorbedDrink>
+    val context: Context,
+    private var drinkList : List<Drink>
     ) : BaseAdapter() {
 
     private val inflater: LayoutInflater =
@@ -30,7 +30,7 @@ class PastDrinksAdapter(
         val degreeText = drinkView.findViewById(R.id.pastDrinkTextDegree) as TextView
         val timeText = drinkView.findViewById(R.id.pastDrinkTextTime) as TextView
 
-        quantityText.text = "${drink.qtyMilliLiter} ml"
+        quantityText.text = "${drink.volume} ml"
         degreeText.text = "${drink.degree} %"
         timeText.text = dateFormat.format(drink.ingestionTime)
 
@@ -38,14 +38,14 @@ class PastDrinksAdapter(
             drinkView.findViewById(R.id.buttonRemovePastDrink) as ImageButton
 
         buttonRemovePastDrink.setOnClickListener {
-            DrinkerRepository.remove(drink)
+            (context as MainActivity).drinkerRepository.remove(drink)
             notifyDataSetInvalidated()
         }
 
         return drinkView
     }
 
-    override fun getItem(position: Int): AbsorbedDrink {
+    override fun getItem(position: Int): Drink {
         return drinkList[position]
     }
 
@@ -57,7 +57,7 @@ class PastDrinksAdapter(
         return drinkList.size
     }
 
-    fun setDrinkList(drinks : List<AbsorbedDrink>) {
+    fun setDrinkList(drinks : List<Drink>) {
         drinkList = drinks
         notifyDataSetChanged()
     }

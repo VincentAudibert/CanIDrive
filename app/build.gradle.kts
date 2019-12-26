@@ -53,21 +53,30 @@ dependencies {
     implementation( "androidx.navigation:navigation-ui-ktx:2.1.0")
 
 
-    val lifecycle_version = "2.1.0"
+    val lifecycleVersion = "2.1.0"
 
     // ViewModel and LiveData
-    implementation("androidx.lifecycle:lifecycle-extensions:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-extensions:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-rc03")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
 
-    kapt("androidx.lifecycle:lifecycle-compiler:$lifecycle_version") // For Kotlin use kapt instead of annotationProcessor
+    kapt("androidx.lifecycle:lifecycle-compiler:$lifecycleVersion")
 
     // optional - ReactiveStreams support for LiveData
-    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version") // For Kotlin use lifecycle-reactivestreams-ktx
+    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycleVersion") // For Kotlin use lifecycle-reactivestreams-ktx
 
     // optional - Test helpers for LiveData
-    testImplementation("androidx.arch.core:core-testing:$lifecycle_version")
+    testImplementation("androidx.arch.core:core-testing:$lifecycleVersion")
+
+
+    // Room
+    val roomVersion = "2.2.3"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion") // For Kotlin use kapt instead of annotationProcessor
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$roomVersion")
 
 }
 
