@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive
+package com.vaudibert.canidrive.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

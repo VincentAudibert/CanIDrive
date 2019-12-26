@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive
+package com.vaudibert.canidrive.data
 
 import androidx.room.Dao
 import androidx.room.Delete

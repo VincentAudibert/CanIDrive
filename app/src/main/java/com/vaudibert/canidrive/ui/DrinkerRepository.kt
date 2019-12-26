@@ -1,7 +1,7 @@
 package com.vaudibert.canidrive.ui
 
 import androidx.lifecycle.MutableLiveData
-import com.vaudibert.canidrive.DrinkDao
+import com.vaudibert.canidrive.data.DrinkDao
 import com.vaudibert.canidrive.domain.Drink
 import com.vaudibert.canidrive.domain.Drinker
 import kotlinx.coroutines.CoroutineScope

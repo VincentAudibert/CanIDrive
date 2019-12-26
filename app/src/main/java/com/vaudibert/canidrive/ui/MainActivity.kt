@@ -5,8 +5,8 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
-import com.vaudibert.canidrive.DrinkDatabase
 import com.vaudibert.canidrive.R
+import com.vaudibert.canidrive.data.DrinkDatabase
 import com.vaudibert.canidrive.domain.Drinker
 
 class MainActivity : AppCompatActivity() {
