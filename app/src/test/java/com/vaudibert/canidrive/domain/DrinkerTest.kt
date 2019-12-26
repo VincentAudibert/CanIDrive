@@ -5,15 +5,14 @@ import org.junit.jupiter.api.Test
 import java.util.*
 
 const val RATE_PRECISION = 0.02
-val BEER = Drink(500, 5F)
+val BEER = Drink(500.0, 5.0, Date(Date().time - 10))
 
 internal class DrinkerTest {
 
     private fun getMaleDrinkerWithBeer() : Drinker {
         val drinker = Drinker(100.0, "MALE")
-        val ingestionTime = Date(Date().time - 10)
 
-        drinker.ingest(BEER, ingestionTime)
+        drinker.ingest(BEER)
 
         return drinker
     }
@@ -94,8 +93,9 @@ internal class DrinkerTest {
         val drinker = getMaleDrinkerWithBeer()
         val measureTime = Date()
         val simpleRate = drinker.alcoholRateAt(measureTime)
+        val newBeer = Drink(BEER.volume, BEER.degree, Date(BEER.ingestionTime.time - 10))
 
-        drinker.ingest(BEER, Date(measureTime.time -10))
+        drinker.ingest(newBeer)
 
         val doubleRate = drinker.alcoholRateAt(measureTime)
 

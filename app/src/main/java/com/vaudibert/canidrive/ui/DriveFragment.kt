@@ -41,19 +41,21 @@ class DriveFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        liveDrinker = DrinkerRepository.liveDrinker
+        val drinkerRepository = (this.activity as MainActivity).drinkerRepository
+
+        liveDrinker = drinkerRepository.liveDrinker
 
         pastDrinksAdapter =
             PastDrinksAdapter(
                 this.context!!,
-                DrinkerRepository.getDrinks()
+                drinkerRepository.getDrinks()
             )
         listViewPastDrinks.adapter = pastDrinksAdapter
 
 
         liveDrinker.observe(this, Observer {
 
-            pastDrinksAdapter.setDrinkList(DrinkerRepository.getDrinks())
+            pastDrinksAdapter.setDrinkList(drinkerRepository.getDrinks())
             updateDriveStatus()
         })
 

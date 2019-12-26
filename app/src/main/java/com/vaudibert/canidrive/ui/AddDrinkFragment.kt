@@ -31,17 +31,17 @@ class AddDrinkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val drinkerRepository = (this.activity as MainActivity).drinkerRepository
+
         buttonValidateNewDrink.setOnClickListener {
             try {
-                var quantity = editTextQuantity.text.toString().toInt()
-                var degree = editTextDegree.text.toString().toFloat()
+                var quantity = editTextQuantity.text.toString().toDouble()
+                var degree = editTextDegree.text.toString().toDouble()
                 var ingestionTime = Date(Date().time - (editTextBefore.text.toString().toLong() * 60000))
 
-                DrinkerRepository.ingest(
-                    Drink(
-                        quantity,
-                        degree
-                    ), ingestionTime)
+                drinkerRepository.ingest(
+                    Drink(quantity, degree, ingestionTime)
+                )
 
                 editTextQuantity.text.clear()
                 editTextDegree.text.clear()

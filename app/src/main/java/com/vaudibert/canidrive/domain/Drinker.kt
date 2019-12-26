@@ -18,16 +18,10 @@ import kotlin.math.max
 
 class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
 
-    private val absorbedDrinks : MutableList<AbsorbedDrink> = ArrayList()
+    private val absorbedDrinks : MutableList<Drink> = ArrayList()
 
-    fun ingest (drink: Drink, ingestionTime: Date) {
-
-        absorbedDrinks.add(
-            AbsorbedDrink(
-                drink,
-                ingestionTime
-            )
-        )
+    fun ingest (drink: Drink) {
+        absorbedDrinks.add(drink)
         absorbedDrinks.sortByDescending { absorbedDrink -> absorbedDrink.ingestionTime }
     }
 
@@ -70,7 +64,7 @@ class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
 
     fun getDrinks() = ArrayList(absorbedDrinks)
 
-    fun remove(drink: AbsorbedDrink) {
+    fun remove(drink: Drink) {
         absorbedDrinks.remove(drink)
     }
 }

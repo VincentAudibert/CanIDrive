@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_drinker.*
  */
 class DrinkerFragment : Fragment() {
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,8 +32,10 @@ class DrinkerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        editTextWeight.setText(DrinkerRepository.getWeight().toString())
-        val sex = DrinkerRepository.getSex()
+        val drinkerRepository = (this.activity as MainActivity).drinkerRepository
+
+        editTextWeight.setText(drinkerRepository.getWeight().toString())
+        val sex = drinkerRepository.getSex()
         radioGroupSex.check(when (sex) {
             "MALE" -> R.id.radioButtonMale
             "FEMALE" -> R.id.radioButtonFemale
@@ -43,7 +46,7 @@ class DrinkerFragment : Fragment() {
             run {
                 if (!hasFocus)
                     try {
-                        DrinkerRepository.setWeight(editTextWeight.text.toString().toDouble())
+                        drinkerRepository.setWeight(editTextWeight.text.toString().toDouble())
                     } catch (e:Exception) {
                         longToast("You did not correctly fill your weight \nPlease try again")
                         return@setOnFocusChangeListener
@@ -54,7 +57,7 @@ class DrinkerFragment : Fragment() {
         radioGroupSex.setOnCheckedChangeListener {
                 _,
                 checkedId ->
-            DrinkerRepository.setSex(
+            drinkerRepository.setSex(
                 if (checkedId != -1)
                     view.findViewById<RadioButton>(checkedId).text.toString().toUpperCase()
                 else

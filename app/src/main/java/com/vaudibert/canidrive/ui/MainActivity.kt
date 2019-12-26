@@ -4,18 +4,28 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
+import com.vaudibert.canidrive.DrinkDatabase
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.Drinker
 
 class MainActivity : AppCompatActivity() {
+
+    val drinkerRepository = DrinkerRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         // TODO : insert sharedpref reading here to fill the repository
-        DrinkerRepository.setDrinker(Drinker())
+        val drinker = Drinker()
 
+        val drinkDB = Room
+            .databaseBuilder(this, DrinkDatabase::class.java, "drink-database")
+            .build()
+
+        drinkerRepository.setDrinker(drinker)
+        drinkerRepository.setDao(drinkDB.drinkDao())
     }
 
 
