@@ -3,6 +3,7 @@ package com.vaudibert.canidrive.ui
 
 import KeyboardUtils
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -46,7 +47,12 @@ class DrinkerFragment : Fragment() {
             run {
                 if (!hasFocus)
                     try {
-                        drinkerRepository.setWeight(editTextWeight.text.toString().toDouble())
+                        val weight = editTextWeight.text.toString().toDouble()
+                        drinkerRepository.setWeight(weight)
+                        this.activity?.getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE)
+                            ?.edit()
+                            ?.putFloat("WEIGHT", weight.toFloat())
+                            ?.apply()
                     } catch (e:Exception) {
                         longToast("You did not correctly fill your weight \nPlease try again")
                         return@setOnFocusChangeListener
@@ -56,13 +62,19 @@ class DrinkerFragment : Fragment() {
 
         radioGroupSex.setOnCheckedChangeListener {
                 _,
-                checkedId ->
-            drinkerRepository.setSex(
-                if (checkedId != -1)
+            checkedId ->
+            run {
+                val sex = if (checkedId != -1)
                     view.findViewById<RadioButton>(checkedId).text.toString().toUpperCase()
                 else
                     "NONE"
-            )
+                drinkerRepository.setSex(sex)
+                this.activity?.getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE)
+                    ?.edit()
+                    ?.putString("SEX", sex)
+                    ?.apply()
+            }
+
         }
 
         buttonValidateDrinker.setOnClickListener {
