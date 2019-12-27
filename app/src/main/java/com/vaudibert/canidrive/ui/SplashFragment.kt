@@ -35,9 +35,15 @@ class SplashFragment : Fragment() {
 
         val mainHandler = Handler(Looper.getMainLooper())
         mainHandler.postDelayed( {
-            val navController = findNavController()
-            val action = SplashFragmentDirections.actionSplashFragmentToDriveFragment()
-            navController.navigate(action)
+
+            val init = (this.activity as MainActivity).init
+
+            val action = if (init)
+                SplashFragmentDirections.actionSplashFragmentToDriveFragment()
+            else
+                SplashFragmentDirections.actionSplashFragmentToDrinkerFragment()
+
+            findNavController().navigate(action)
         }, 2000)
 
         super.onResume()

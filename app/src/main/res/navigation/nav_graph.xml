@@ -17,6 +17,13 @@
             app:exitAnim="@anim/fade_out"
             app:popUpTo="@+id/splashFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_drinkerFragment"
+            app:destination="@id/drinkerFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popUpTo="@+id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/drinkerFragment"
@@ -65,7 +72,7 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@id/driveFragment"
+            app:popUpTo="@+id/driveFragment"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

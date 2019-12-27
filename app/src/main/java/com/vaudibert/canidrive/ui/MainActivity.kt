@@ -14,14 +14,17 @@ class MainActivity : AppCompatActivity() {
 
     val drinkerRepository = DrinkerRepository()
 
+    var init = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val sharedPref = this.getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE)
+        val sharedPref = this.getSharedPreferences(getString(R.string.user_preferences), Context.MODE_PRIVATE)
 
-        val weight = sharedPref.getFloat("WEIGHT", 70F).toDouble()
-        val sex = sharedPref.getString("SEX", "NONE")
+        val weight = sharedPref.getFloat(getString(R.string.user_weight), 70F).toDouble()
+        val sex = sharedPref.getString(getString(R.string.user_sex), "NONE")
+        init = sharedPref.getBoolean(getString(R.string.user_initialized), false)
 
         val drinker = Drinker(weight, sex)
 
