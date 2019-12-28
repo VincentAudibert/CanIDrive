@@ -58,10 +58,41 @@ class AddDrinkFragment : Fragment() {
                 return@setOnClickListener
             }
         }
+
+        val volumeLabels = arrayOf("5cL", "8cL", "13cL", "25cL", "33cL", "40cL", "50cL", "1L")
+        val volumes = doubleArrayOf(50.0, 80.0, 130.0, 250.0, 330.0, 400.0, 500.0, 1000.0)
+        numberPickerVolume.minValue = 0
+        numberPickerVolume.maxValue = volumeLabels.size-1
+        numberPickerVolume.displayedValues = volumeLabels
+        numberPickerVolume.setOnValueChangedListener { picker, oldVal, newVal ->
+            editTextQuantity.setText(volumes[newVal].toString())
+        }
+
+        val degreeLabels = arrayOf("2.5%", "5%", "7.5%", "10%", "13%", "15%", "20%", "30%", "40%", "60%", "80%")
+        val degrees = doubleArrayOf(2.5, 5.0, 7.5, 10.0, 13.0, 15.0, 20.0, 30.0, 40.0, 60.0, 80.0)
+        numberPickerDegree.minValue = 0
+        numberPickerDegree.maxValue = degreeLabels.size -1
+        numberPickerDegree.displayedValues = degreeLabels
+        numberPickerDegree.setOnValueChangedListener { picker, oldVal, newVal ->
+            editTextDegree.setText(degrees[newVal].toString())
+        }
+
+        val delayLabels = arrayOf("now", "20min ago", "1h ago", "2h ago", "3h ago", "5h ago")
+        val delays = longArrayOf(0, 20, 60, 120, 180, 300)
+        numberPickerWhen.minValue = 0
+        numberPickerWhen.maxValue = delays.size -1
+        numberPickerWhen.displayedValues = delayLabels
+        numberPickerWhen.setOnValueChangedListener { picker, oldVal, newVal ->
+            editTextBefore.setText(delays[newVal].toString())
+        }
+
+        editTextQuantity.setText(volumes[0].toString())
+        editTextDegree.setText(degrees[0].toString())
+        editTextBefore.setText(delays[0].toString())
+
     }
 
     private fun longToast(message: String) =
         Toast.makeText(this.context, message, Toast.LENGTH_LONG).show()
-
 
 }
