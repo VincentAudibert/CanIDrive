@@ -26,64 +26,61 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <LinearLayout
-        android:id="@+id/linearUserInputs"
+        android:id="@+id/linearPickersDrinker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/appBarDrinker"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/appBarDrinker"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/TextViewTitle"
-            android:text="Enter your weight (in Kg):" />
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            >
 
-        <EditText
-            android:id="@+id/editTextWeight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/TextViewTitle"
-            android:text="Select your sex:" />
-
-        <RadioGroup
-            android:id="@+id/radioGroupSex"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:checkedButton="@id/radioButtonMale">
-
-            <RadioButton
-                android:id="@+id/radioButtonMale"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Male"/>
+                style="@style/TextViewTitle"
+                android:text="Weight" />
 
-            <RadioButton
-                android:id="@+id/radioButtonFemale"
+            <NumberPicker
+                android:id="@+id/numberPickerWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            >
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Female"/>
+                style="@style/TextViewTitle"
+                android:text="Sex" />
 
-            <RadioButton
-                android:id="@+id/radioButtonOther"
-                android:layout_width="wrap_content"
+            <NumberPicker
+                android:id="@+id/numberPickerSex"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Other"/>
+                />
 
-        </RadioGroup>
+        </LinearLayout>
 
 
     </LinearLayout>

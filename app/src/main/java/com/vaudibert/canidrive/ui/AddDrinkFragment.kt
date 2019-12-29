@@ -17,6 +17,7 @@ import java.util.*
 
 /**
  * Fragment to add a drink.
+ * TODO : split into 2-3 tabs (history, presets, custom drink)
  */
 class AddDrinkFragment : Fragment() {
 
@@ -64,7 +65,7 @@ class AddDrinkFragment : Fragment() {
         numberPickerVolume.minValue = 0
         numberPickerVolume.maxValue = volumeLabels.size-1
         numberPickerVolume.displayedValues = volumeLabels
-        numberPickerVolume.setOnValueChangedListener { picker, oldVal, newVal ->
+        numberPickerVolume.setOnValueChangedListener { _, _, newVal ->
             editTextQuantity.setText(volumes[newVal].toString())
         }
 
@@ -73,7 +74,7 @@ class AddDrinkFragment : Fragment() {
         numberPickerDegree.minValue = 0
         numberPickerDegree.maxValue = degreeLabels.size -1
         numberPickerDegree.displayedValues = degreeLabels
-        numberPickerDegree.setOnValueChangedListener { picker, oldVal, newVal ->
+        numberPickerDegree.setOnValueChangedListener { _, _, newVal ->
             editTextDegree.setText(degrees[newVal].toString())
         }
 
@@ -82,7 +83,7 @@ class AddDrinkFragment : Fragment() {
         numberPickerWhen.minValue = 0
         numberPickerWhen.maxValue = delays.size -1
         numberPickerWhen.displayedValues = delayLabels
-        numberPickerWhen.setOnValueChangedListener { picker, oldVal, newVal ->
+        numberPickerWhen.setOnValueChangedListener { _, _, newVal ->
             editTextBefore.setText(delays[newVal].toString())
         }
 
