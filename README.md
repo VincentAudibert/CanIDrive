@@ -1,6 +1,18 @@
 # CanIDrive
 
+## About
 ... is an Android app letting you evaluate whether you can drive or not.
+
+It is a personnal project aimed at getting experience building something simple yet as professionnal as possible.
+
+## Features
+- track your drinks
+- get a yes/no status on your legal ability to drive
+- takes into account your sex and weight
+
+## Limitations
+- for use in France only (hard-coded 0.5g/L limit).
+- pessimistic estimates, no confidence nor probabilities.
 
 ## Get the app
 ### PlayStore
@@ -12,11 +24,7 @@ Soon in open beta...
 * open it with Android Studio
 * have fun with it...
 
-## Features
-- track your drinks
-- get a yes/no status on your legal ability to drive
-- takes into account your sex and weight
+### Tech stack
+- kotlin
+- github actions
 
-## Limitations
-- for use in France only (hard-coded 0.5g/L limit).
-- pessimistic estimates, no confidence nor probabilities.
