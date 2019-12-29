@@ -25,4 +25,8 @@
     <string name="car_colored_with_status" translatable="false">car colored with status</string>
     <string name="drive_status_symbol" translatable="false">drive status symbol</string>
     <string name="time_to_wait" translatable="false">time to wait</string>
+    <string name="young_driver">Young driver</string>
+    <string name="professional_driver">Professional driver</string>
+    <string name="country">Country</string>
+    <string name="countryCode" translatable="false">COUNTRY_CODE</string>
 </resources>

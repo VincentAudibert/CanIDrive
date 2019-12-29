@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.vaudibert.canidrive.data.DrinkDao
 import com.vaudibert.canidrive.domain.Drink
 import com.vaudibert.canidrive.domain.Drinker
+import com.vaudibert.canidrive.domain.DriveLaw
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -61,5 +62,11 @@ class DrinkerRepository {
     fun getWeight() = drinker.weight
 
     fun getSex() = drinker.sex
+
+    fun setLaw(country: DriveLaw?) {
+        drinker.driveLaw = country
+    }
+
+    fun getLaw(): DriveLaw? = drinker.driveLaw
 
 }

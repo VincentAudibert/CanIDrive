@@ -6,17 +6,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
+import com.vaudibert.canidrive.domain.DriveLaw
+import com.vaudibert.canidrive.domain.DriveLawFactory
 import kotlinx.android.synthetic.main.fragment_drinker.*
+import java.util.*
 
 /**
  * The drinker fragment to enter its details.
  */
 class DrinkerFragment : Fragment() {
+
+    private var country : DriveLaw? = null
+    private var limit = 0.0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +46,28 @@ class DrinkerFragment : Fragment() {
         )
 
         val drinkerRepository = mainActivity.drinkerRepository
+
+        val countries = DriveLawFactory.countryLaws.map {
+                law -> law.countryCode + " " + Locale("", law.countryCode).displayCountry
+        }
+
+        spinnerCountry.adapter = ArrayAdapter(this.context!!, android.R.layout.simple_spinner_item, countries)
+        spinnerCountry.setSelection(DriveLawFactory.countryLaws.indexOf(drinkerRepository.getLaw()))
+        spinnerCountry.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View, position: Int, id: Long
+            ) {
+                country = DriveLawFactory.countryLaws[position]
+                limit = country?.limit ?: 0.0
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                country = null
+                limit = 0.0
+            }
+        }
 
         var weight = drinkerRepository.getWeight()
         var sex = drinkerRepository.getSex()
@@ -79,9 +109,11 @@ class DrinkerFragment : Fragment() {
         buttonValidateDrinker.setOnClickListener {
             drinkerRepository.setSex(sex)
             drinkerRepository.setWeight(weight)
+            drinkerRepository.setLaw(country)
             sharedPref
                 .edit()
                 .putString(getString(R.string.user_sex), sex)
+                .putString(getString(R.string.countryCode), country?.countryCode ?: "")
                 .putFloat(getString(R.string.user_weight), weight.toFloat())
                 .apply()
 

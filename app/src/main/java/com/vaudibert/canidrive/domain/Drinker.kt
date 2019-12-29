@@ -18,6 +18,8 @@ import kotlin.math.max
 
 class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
 
+    var driveLaw: DriveLaw? = null
+
     private val absorbedDrinks : MutableList<Drink> = ArrayList()
 
     fun ingest (drink: Drink) {
@@ -30,6 +32,11 @@ class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
     private fun effectiveWeight() = sexFactor() * weight
 
     private fun decreaseFactor() = if (sex == "MALE") 0.1 else 0.085
+
+    fun canDrive(date: Date = Date()): Boolean {
+        // TODO : extract a getLimit internal function
+        return alcoholRateAt(date) < (driveLaw?.limit ?: 0.0)
+    }
 
     fun alcoholRateAt(date: Date): Double {
         val historicDrinks = absorbedDrinks.filter {
@@ -65,7 +72,7 @@ class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
         absorbedDrinks.remove(drink)
     }
 
-    fun timeToReach(limit: Double) : Date {
+    fun timeToReachLimit(limit: Double = driveLaw?.limit ?: 0.0) : Date {
         val now = Date()
         val rate = alcoholRateAt(now)
         if (rate < limit) return now
