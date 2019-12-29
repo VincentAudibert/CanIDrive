@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -18,9 +17,6 @@ import kotlinx.android.synthetic.main.fragment_drinker.*
  * The drinker fragment to enter its details.
  */
 class DrinkerFragment : Fragment() {
-
-    private var weight = 30.0
-    private var sex = "NONE"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +38,9 @@ class DrinkerFragment : Fragment() {
         )
 
         val drinkerRepository = mainActivity.drinkerRepository
+
+        var weight = drinkerRepository.getWeight()
+        var sex = drinkerRepository.getSex()
 
         val weights = intArrayOf(30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 110, 120, 130, 140, 150)
         val weightLabels = weights.map { i -> i.toString() + "kg"}.toTypedArray()
@@ -108,8 +107,4 @@ class DrinkerFragment : Fragment() {
         }
 
     }
-
-    private fun longToast(message: String) =
-        Toast.makeText(this.context, message, Toast.LENGTH_LONG).show()
-
 }

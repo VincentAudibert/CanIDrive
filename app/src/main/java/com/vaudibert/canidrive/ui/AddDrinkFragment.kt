@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
@@ -17,9 +16,12 @@ import java.util.*
 
 /**
  * Fragment to add a drink.
- * TODO : split into 2-3 tabs (history, presets, custom drink)
  */
 class AddDrinkFragment : Fragment() {
+
+    private var volume = 0.0
+    private var degree = 0.0
+    private var delay: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,29 +37,17 @@ class AddDrinkFragment : Fragment() {
         val drinkerRepository = (this.activity as MainActivity).drinkerRepository
 
         buttonValidateNewDrink.setOnClickListener {
-            try {
-                var quantity = editTextQuantity.text.toString().toDouble()
-                var degree = editTextDegree.text.toString().toDouble()
-                var ingestionTime = Date(Date().time - (editTextBefore.text.toString().toLong() * 60000))
+            val ingestionTime = Date(Date().time - (delay * 60000))
 
-                drinkerRepository.ingest(
-                    Drink(quantity, degree, ingestionTime)
-                )
+            drinkerRepository.ingest(
+                Drink(volume, degree, ingestionTime)
+            )
 
-                editTextQuantity.text.clear()
-                editTextDegree.text.clear()
-                editTextBefore.text.clear()
+            KeyboardUtils.hideKeyboard(this.activity as Activity)
 
-                KeyboardUtils.hideKeyboard(this.activity as Activity)
-
-                findNavController().navigate(
-                    AddDrinkFragmentDirections.actionAddDrinkFragmentToDriveFragment()
-                )
-
-            } catch (e:Exception) {
-                longToast("You did not correctly fill in the values \nPlease try again")
-                return@setOnClickListener
-            }
+            findNavController().navigate(
+                AddDrinkFragmentDirections.actionAddDrinkFragmentToDriveFragment()
+            )
         }
 
         val volumeLabels = arrayOf("5cL", "8cL", "13cL", "25cL", "33cL", "40cL", "50cL", "1L")
@@ -65,8 +55,9 @@ class AddDrinkFragment : Fragment() {
         numberPickerVolume.minValue = 0
         numberPickerVolume.maxValue = volumeLabels.size-1
         numberPickerVolume.displayedValues = volumeLabels
+        volume = volumes[0]
         numberPickerVolume.setOnValueChangedListener { _, _, newVal ->
-            editTextQuantity.setText(volumes[newVal].toString())
+            volume = volumes[newVal]
         }
 
         val degreeLabels = arrayOf("2.5%", "5%", "7.5%", "10%", "13%", "15%", "20%", "30%", "40%", "60%", "80%")
@@ -74,8 +65,9 @@ class AddDrinkFragment : Fragment() {
         numberPickerDegree.minValue = 0
         numberPickerDegree.maxValue = degreeLabels.size -1
         numberPickerDegree.displayedValues = degreeLabels
+        degree = degrees[0]
         numberPickerDegree.setOnValueChangedListener { _, _, newVal ->
-            editTextDegree.setText(degrees[newVal].toString())
+            degree = degrees[newVal]
         }
 
         val delayLabels = arrayOf("now", "20min ago", "1h ago", "2h ago", "3h ago", "5h ago")
@@ -83,17 +75,9 @@ class AddDrinkFragment : Fragment() {
         numberPickerWhen.minValue = 0
         numberPickerWhen.maxValue = delays.size -1
         numberPickerWhen.displayedValues = delayLabels
+        delay = delays[0]
         numberPickerWhen.setOnValueChangedListener { _, _, newVal ->
-            editTextBefore.setText(delays[newVal].toString())
+            delay = delays[newVal]
         }
-
-        editTextQuantity.setText(volumes[0].toString())
-        editTextDegree.setText(degrees[0].toString())
-        editTextBefore.setText(delays[0].toString())
-
     }
-
-    private fun longToast(message: String) =
-        Toast.makeText(this.context, message, Toast.LENGTH_LONG).show()
-
 }
