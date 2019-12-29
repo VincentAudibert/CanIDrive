@@ -27,45 +27,87 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <LinearLayout
+        android:id="@+id/linearPickersAddDrink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/appBarAddDrink"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarAddDrink"
         app:layout_constraintEnd_toEndOf="parent"
-        >
+        android:baselineAligned="false">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/TextViewTitle"
-            android:text="Describe your drink:" />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/editTextQuantity"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:hint="Volume (in mL)"
-            android:inputType="number"
-            android:textSize="12sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextViewTitle"
+                android:text="Volume" />
 
-        <EditText
-            android:id="@+id/editTextDegree"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:hint="% of alcohol"
-            android:inputType="numberDecimal"
-            android:textSize="12sp" />
+            <NumberPicker
+                android:id="@+id/numberPickerVolume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1" />
 
-        <EditText
-            android:id="@+id/editTextBefore"
-            android:layout_width="200dp"
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="How long (in mn)"
-            android:inputType="number"
-            android:textSize="12sp" />
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextViewTitle"
+                android:text="Degree"
+                />
+
+            <NumberPicker
+                android:id="@+id/numberPickerDegree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextViewTitle"
+                android:text="When"
+                />
+
+            <NumberPicker
+                android:id="@+id/numberPickerWhen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

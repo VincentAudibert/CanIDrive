@@ -7,8 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -19,7 +17,6 @@ import kotlinx.android.synthetic.main.fragment_drinker.*
  * The drinker fragment to enter its details.
  */
 class DrinkerFragment : Fragment() {
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,49 +39,44 @@ class DrinkerFragment : Fragment() {
 
         val drinkerRepository = mainActivity.drinkerRepository
 
-        // update fields with present data
-        editTextWeight.setText(drinkerRepository.getWeight().toString())
-        radioGroupSex.check(when (drinkerRepository.getSex()) {
-            "MALE" -> R.id.radioButtonMale
-            "FEMALE" -> R.id.radioButtonFemale
-            else -> R.id.radioButtonOther
-        })
+        var weight = drinkerRepository.getWeight()
+        var sex = drinkerRepository.getSex()
 
-        editTextWeight.setOnFocusChangeListener { _, hasFocus ->
-            run {
-                if (!hasFocus)
-                    try {
-                        val weight = editTextWeight.text.toString().toDouble()
-                        drinkerRepository.setWeight(weight)
-                        sharedPref
-                            .edit()
-                            .putFloat(getString(R.string.user_weight), weight.toFloat())
-                            .apply()
-                    } catch (e:Exception) {
-                        longToast("You did not correctly fill your weight \nPlease try again")
-                        return@setOnFocusChangeListener
-                    }
-            }
+        val weights = intArrayOf(30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 110, 120, 130, 140, 150)
+        val weightLabels = weights.map { i -> i.toString() + "kg"}.toTypedArray()
+        numberPickerWeight.minValue = 0
+        numberPickerWeight.maxValue = weights.size -1
+        numberPickerWeight.displayedValues = weightLabels
+
+        val i = weights.indexOf(drinkerRepository.getWeight().toInt())
+        numberPickerWeight.value = i.coerceAtLeast(0)
+
+        numberPickerWeight.setOnValueChangedListener { _, _, newVal ->
+            weight = weights[newVal].toDouble()
         }
 
-        radioGroupSex.setOnCheckedChangeListener {
-                _,
-            checkedId ->
-            run {
-                val sex = if (checkedId != -1)
-                    view.findViewById<RadioButton>(checkedId).text.toString().toUpperCase()
-                else
-                    "NONE"
-                drinkerRepository.setSex(sex)
-                sharedPref
-                    .edit()
-                    .putString(getString(R.string.user_sex), sex)
-                    .apply()
-            }
-
+        val sexValues = arrayOf("MALE", "OTHER", "FEMALE")
+        numberPickerSex.minValue = 0
+        numberPickerSex.maxValue = sexValues.size -1
+        numberPickerSex.value = when (drinkerRepository.getSex()) {
+            "MALE" -> 0
+            "FEMALE" -> 2
+            else -> 1
+        }
+        numberPickerSex.displayedValues = sexValues
+        numberPickerSex.setOnValueChangedListener { _, _, newVal ->
+            sex = sexValues[newVal]
         }
 
         buttonValidateDrinker.setOnClickListener {
+            drinkerRepository.setSex(sex)
+            drinkerRepository.setWeight(weight)
+            sharedPref
+                .edit()
+                .putString(getString(R.string.user_sex), sex)
+                .putFloat(getString(R.string.user_weight), weight.toFloat())
+                .apply()
+
             KeyboardUtils.hideKeyboard(mainActivity)
 
             if (!mainActivity.init) {
@@ -115,8 +107,4 @@ class DrinkerFragment : Fragment() {
         }
 
     }
-
-    private fun longToast(message: String) =
-        Toast.makeText(this.context, message, Toast.LENGTH_LONG).show()
-
 }
