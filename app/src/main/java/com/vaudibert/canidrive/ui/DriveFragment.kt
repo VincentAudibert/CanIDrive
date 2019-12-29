@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -78,10 +79,15 @@ class DriveFragment : Fragment() {
     private fun updateDriveStatus() {
         val drinker = liveDrinker.value ?: return
 
-        textViewDriveStatus.text = if (drinker.alcoholRateAt(Date()) < 0.5)
-            "DRIVE : YES"
-        else
-            "DRIVE : NO"
+        if (drinker.alcoholRateAt(Date()) < 0.5) {
+            imageCar.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveGreen))
+            imageDriveStatus.setImageResource(R.drawable.ic_check_white_24dp)
+            imageDriveStatus.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveGreen))
+        } else {
+            imageCar.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveRed))
+            imageDriveStatus.setImageResource(R.drawable.ic_forbidden_white_24dp)
+            imageDriveStatus.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveRed))
+        }
 
         pastDrinksAdapter.notifyDataSetChanged()
     }
