@@ -32,7 +32,7 @@ internal class DrinkerTest {
     }
 
     @Test
-    fun `A 100kg male should reach instantly 0,28g per L with a 500ml 5 deg beer`() {
+    fun `A 100kg male should reach 0,28g per L with a 500ml 5 deg beer after 30 min`() {
         // 500ml at 5 deg makes 25ml of alcohol
         // density 0.8 gives 20g
         // body mass to consider is 0.7 * 100 = 70
@@ -40,20 +40,20 @@ internal class DrinkerTest {
 
         val drinker = getMaleDrinkerWithBeer()
 
-        val measureTime = Date()
+        val measureTime = Date(Date().time + 1800_000)
         assertEquals(0.28, drinker.alcoholRateAt(measureTime),
             RATE_PRECISION
         )
     }
 
     @Test
-    fun `A 50kg female should reach instantly 0,67g per L with a 500ml 5 deg beer`() {
+    fun `A 50kg female should reach 0,67g per L with a 500ml 5 deg beer after 30 min`() {
         // 500ml 5deg gives 20g
         // 20 / (0.6 * 50) = 0.67
 
         val drinker = getFemaleDrinkerWithBeer()
 
-        val measureTime = Date()
+        val measureTime = Date(Date().time + 1800_000)
         assertEquals(0.67, drinker.alcoholRateAt(measureTime),
             RATE_PRECISION
         )
@@ -64,7 +64,7 @@ internal class DrinkerTest {
 
         val ratio = 2.0
         val drinker = getMaleDrinkerWithBeer()
-        val measureTime = Date()
+        val measureTime = Date(Date().time + 1800_000)
         val firstRate = drinker.alcoholRateAt(measureTime)
 
         drinker.weight /= ratio
@@ -78,7 +78,7 @@ internal class DrinkerTest {
 
         val drinker = getMaleDrinkerWithBeer()
 
-        val measureTime = Date()
+        val measureTime = Date(Date().time + 1800_000)
         val maleRate = drinker.alcoholRateAt(measureTime)
 
         drinker.sex = "FEMALE"
@@ -120,13 +120,14 @@ internal class DrinkerTest {
     }
 
     @Test
-    fun `Alcohol rate must remain stable during first 30min`() {
+    fun `Alcohol rate is considered decreasing during first 30min`() {
         val drinker = getMaleDrinkerWithBeer()
 
         val measureTime = Date()
         val later = Date(measureTime.time + 1800000)
-        assertEquals(drinker.alcoholRateAt(later), drinker.alcoholRateAt(measureTime),
-            RATE_PRECISION
-        )
+
+        val decrease = drinker.alcoholRateAt(measureTime) -
+                drinker.alcoholRateAt(later)
+        assertEquals(decrease, 0.05, RATE_PRECISION)
     }
 }

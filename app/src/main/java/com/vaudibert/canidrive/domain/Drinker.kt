@@ -41,7 +41,8 @@ class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
         var lastRate = 0.0
 
         historicDrinks.forEach {
-            lastRate = newRate(lastRate, lastIngestion, it.ingestionTime) + (it.alcoholMass() / effectiveWeight())
+            lastRate = newRate(lastRate, lastIngestion, it.ingestionTime) +
+                    (it.alcoholMass() / effectiveWeight() + (decreaseFactor()/2))
             lastIngestion = it.ingestionTime
         }
 
@@ -54,12 +55,8 @@ class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
     private fun newRate(lastRate: Double, lastIngestion: Date, now: Date) : Double {
         val timeLapse = hoursBetween(lastIngestion, now)
 
-        return if (timeLapse < 0.5) lastRate
-        else {
-            val newRate = lastRate - (decreaseFactor() * (timeLapse - 0.5))
-            max(0.0, newRate)
-        }
-
+        val newRate = lastRate - (decreaseFactor() * timeLapse)
+        return max(0.0, newRate)
     }
 
     fun getDrinks() = ArrayList(absorbedDrinks)
