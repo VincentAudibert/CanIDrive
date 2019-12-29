@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#3D4759</color>
     <color name="colorAccent">#D4715E</color>
     <color name="WHITE">#FFFFFF</color>
+    <color name="driveGreen">#30CA36</color>
+    <color name="driveRed">#FF0000</color>
+    <color name="driveAmber">#FF5722</color>
+
 </resources>

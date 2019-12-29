@@ -67,4 +67,14 @@ class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
     fun remove(drink: Drink) {
         absorbedDrinks.remove(drink)
     }
+
+    fun timeToReach(limit: Double) : Date {
+        val now = Date()
+        val rate = alcoholRateAt(now)
+        if (rate < limit) return now
+
+        return Date(
+            now.time + ((rate-limit) / decreaseFactor() * 3_600_000).toLong()
+        )
+    }
 }

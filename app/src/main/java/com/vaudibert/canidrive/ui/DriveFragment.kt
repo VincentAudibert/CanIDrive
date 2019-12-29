@@ -7,6 +7,8 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -14,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.Drinker
 import kotlinx.android.synthetic.main.fragment_drive.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -29,6 +32,8 @@ class DriveFragment : Fragment() {
     lateinit var mainHandler: Handler
 
     private lateinit var pastDrinksAdapter: PastDrinksAdapter
+
+    private val dateFormat = SimpleDateFormat("HH:mm")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,10 +83,18 @@ class DriveFragment : Fragment() {
     private fun updateDriveStatus() {
         val drinker = liveDrinker.value ?: return
 
-        textViewDriveStatus.text = if (drinker.alcoholRateAt(Date()) < 0.5)
-            "DRIVE : YES"
-        else
-            "DRIVE : NO"
+        if (drinker.alcoholRateAt(Date()) < 0.5) {
+            imageCar.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveGreen))
+            imageDriveStatus.setImageResource(R.drawable.ic_check_white_24dp)
+            imageDriveStatus.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveGreen))
+            linearWaitToGreen.visibility = LinearLayout.GONE
+        } else {
+            imageCar.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveRed))
+            imageDriveStatus.setImageResource(R.drawable.ic_forbidden_white_24dp)
+            imageDriveStatus.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveRed))
+            textViewTimeToWait.text = dateFormat.format(drinker.timeToReach(0.5))
+            linearWaitToGreen.visibility = LinearLayout.VISIBLE
+        }
 
         pastDrinksAdapter.notifyDataSetChanged()
     }

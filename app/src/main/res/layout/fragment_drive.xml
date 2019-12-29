@@ -26,17 +26,66 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:id="@+id/textViewDriveStatus"
+    <LinearLayout
+        android:id="@+id/linearDriveStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="40dp"
-        android:textSize="16pt"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/appBarDriveStatus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="DRIVE : MAYBE" />
+        >
+
+        <ImageView
+            android:id="@+id/imageCar"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:src="@drawable/ic_directions_car_white_24dp"
+            android:tint="@color/driveGreen"
+            android:layout_gravity="center"
+            android:contentDescription="@string/car_colored_with_status" />
+
+        <ImageView
+            android:id="@+id/imageDriveStatus"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_forbidden_white_24dp"
+            android:tint="@color/driveRed"
+            android:layout_gravity="center"
+            android:contentDescription="@string/drive_status_symbol"
+            />
+
+        <LinearLayout
+            android:id="@+id/linearWaitToGreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            >
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_update_white_24dp"
+                android:tint="@color/colorPrimary"
+                android:contentDescription="@string/time_to_wait" />
+
+            <TextView
+                android:id="@+id/textViewTimeToWait"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:text="12:34"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -45,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/textViewDriveStatus"
+        app:layout_constraintTop_toBottomOf="@id/linearDriveStatus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/colorPrimary"
@@ -66,8 +115,11 @@
     <ListView
         android:id="@+id/listViewPastDrinks"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/linearPastDrinkTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
