@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:title="Can I Drive ?"
+            app:title="@string/can_i_drive_question"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -57,7 +57,7 @@
             android:padding="5dp"
             android:drawableStart="@drawable/ic_history_white_24dp"
             android:drawableEnd="@drawable/ic_local_drink_white_24dp"
-            android:text=" "
+            android:text="@string/spacer"
             />
 
     </LinearLayout>

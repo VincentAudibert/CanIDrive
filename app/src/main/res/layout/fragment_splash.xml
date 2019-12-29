@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Can I Drive ?"
+        android:text="@string/can_i_drive_question"
         android:textSize="20pt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,7 +26,7 @@
         android:layout_margin="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="version"
+        android:text="@string/version"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

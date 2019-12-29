@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:title="About you"
+            app:title="@string/about_you"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextViewTitle"
-                android:text="Weight" />
+                android:text="@string/weight" />
 
             <NumberPicker
                 android:id="@+id/numberPickerWeight"
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextViewTitle"
-                android:text="Sex" />
+                android:text="@string/sex" />
 
             <NumberPicker
                 android:id="@+id/numberPickerSex"

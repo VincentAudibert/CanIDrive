@@ -1,9 +1,25 @@
 <resources>
-    <string name="app_name">CanIDrive</string>
+    <string name="app_name" translatable="false">CanIDrive</string>
     <string name="action_settings">Settings</string>
 
-    <string name="user_preferences">USER_PREFS</string>
-    <string name="user_weight">WEIGHT</string>
-    <string name="user_sex">SEX</string>
-    <string name="user_initialized">INITIALIZED</string>
+    <string name="user_preferences" translatable="false">USER_PREFS</string>
+    <string name="user_weight" translatable="false">WEIGHT</string>
+    <string name="user_sex" translatable="false">SEX</string>
+    <string name="user_initialized" translatable="false">INITIALIZED</string>
+
+
+    <string name="volume">Volume</string>
+    <string name="degree">Degree</string>
+    <string name="when">When</string>
+    <string name="weight">Weight</string>
+    <string name="sex">Sex</string>
+    <string name="spacer" translatable="false" >" "</string>
+    <string name="male">MALE</string>
+    <string name="female">FEMALE</string>
+    <string name="other">OTHER</string>
+    <string name="about_you">About you</string>
+    <string name="can_i_drive_question">Can I Drive ?</string>
+    <string name="version" translatable="false">version</string>
+    <string name="add_a_drink">Add a drink</string>
+    <string name="now">now</string>
 </resources>

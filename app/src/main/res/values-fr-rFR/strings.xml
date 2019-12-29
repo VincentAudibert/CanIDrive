@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Options</string>
+    <string name="volume">Volume</string>
+    <string name="degree">Degré</string>
+    <string name="when">Quand</string>
+    <string name="weight">Poids</string>
+    <string name="sex">Genre</string>
+    <string name="male">HOMME</string>
+    <string name="female">FEMME</string>
+    <string name="other">AUTRE</string>
+    <string name="about_you">À propos de vous</string>
+    <string name="add_a_drink">Ajouter une boisson</string>
+    <string name="now">maintenant</string>
+    <string name="can_i_drive_question">Puis-je conduire ?</string>
+</resources>

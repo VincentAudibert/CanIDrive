@@ -55,7 +55,11 @@ class DrinkerFragment : Fragment() {
             weight = weights[newVal].toDouble()
         }
 
-        val sexValues = arrayOf("MALE", "OTHER", "FEMALE")
+        val sexValues = arrayOf(
+            getString(R.string.male),
+            getString(R.string.other),
+            getString(R.string.female)
+        )
         numberPickerSex.minValue = 0
         numberPickerSex.maxValue = sexValues.size -1
         numberPickerSex.value = when (drinkerRepository.getSex()) {
@@ -65,7 +69,11 @@ class DrinkerFragment : Fragment() {
         }
         numberPickerSex.displayedValues = sexValues
         numberPickerSex.setOnValueChangedListener { _, _, newVal ->
-            sex = sexValues[newVal]
+            sex = when (newVal) {
+                0 -> "MALE"
+                2 -> "FEMALE"
+                else -> "OTHER"
+            }
         }
 
         buttonValidateDrinker.setOnClickListener {

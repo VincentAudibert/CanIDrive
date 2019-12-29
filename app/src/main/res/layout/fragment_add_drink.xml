@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:title="Add a drink"
+            app:title="@string/add_a_drink"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -48,14 +48,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextViewTitle"
-                android:text="Volume" />
+                android:text="@string/volume" />
 
             <NumberPicker
                 android:id="@+id/numberPickerVolume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:layout_weight="1" />
+                />
 
 
         </LinearLayout>
@@ -71,14 +71,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextViewTitle"
-                android:text="Degree"
+                android:text="@string/degree"
                 />
 
             <NumberPicker
                 android:id="@+id/numberPickerDegree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="10dp"
                 />
 
@@ -95,14 +94,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextViewTitle"
-                android:text="When"
+                android:text="@string/when"
                 />
 
             <NumberPicker
                 android:id="@+id/numberPickerWhen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="10dp"
                 />
 

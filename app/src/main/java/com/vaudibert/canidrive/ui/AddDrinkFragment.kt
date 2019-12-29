@@ -50,8 +50,8 @@ class AddDrinkFragment : Fragment() {
             )
         }
 
-        val volumeLabels = arrayOf("5cL", "8cL", "13cL", "25cL", "33cL", "40cL", "50cL", "1L")
-        val volumes = doubleArrayOf(50.0, 80.0, 130.0, 250.0, 330.0, 400.0, 500.0, 1000.0)
+        val volumeLabels = arrayOf("5cL", "8cL", "13cL", "25cL", "33cL", "50cL", "1L")
+        val volumes = doubleArrayOf(50.0, 80.0, 130.0, 250.0, 330.0, 500.0, 1000.0)
         numberPickerVolume.minValue = 0
         numberPickerVolume.maxValue = volumeLabels.size-1
         numberPickerVolume.displayedValues = volumeLabels
@@ -70,7 +70,7 @@ class AddDrinkFragment : Fragment() {
             degree = degrees[newVal]
         }
 
-        val delayLabels = arrayOf("now", "20min ago", "1h ago", "2h ago", "3h ago", "5h ago")
+        val delayLabels = arrayOf(getString(R.string.now), "20min", "1h", "2h", "3h", "5h")
         val delays = longArrayOf(0, 20, 60, 120, 180, 300)
         numberPickerWhen.minValue = 0
         numberPickerWhen.maxValue = delays.size -1
