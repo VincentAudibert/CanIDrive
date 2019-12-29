@@ -1,7 +1,6 @@
 package com.vaudibert.canidrive.ui
 
 
-import KeyboardUtils
 import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.Drink
 import kotlinx.android.synthetic.main.fragment_add_drink.*

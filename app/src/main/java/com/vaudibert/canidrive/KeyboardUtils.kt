@@ -1,3 +1,5 @@
+package com.vaudibert.canidrive
+
 import android.R
 import android.app.Activity
 import android.content.Context

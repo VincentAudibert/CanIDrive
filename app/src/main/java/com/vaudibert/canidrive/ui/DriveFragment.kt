@@ -28,7 +28,7 @@ class DriveFragment : Fragment() {
 
     lateinit var mainHandler: Handler
 
-    lateinit var pastDrinksAdapter: PastDrinksAdapter
+    private lateinit var pastDrinksAdapter: PastDrinksAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
