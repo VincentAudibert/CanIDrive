@@ -10,11 +10,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.domain.Drinker
 import kotlinx.android.synthetic.main.fragment_drive.*
 import java.text.DateFormat
 
@@ -25,8 +23,6 @@ import java.text.DateFormat
  *  - what were the past drinks ?
  */
 class DriveFragment : Fragment() {
-
-    private lateinit var liveDrinker : LiveData<Drinker>
 
     private lateinit var drinkerRepository: DrinkerRepository
 
@@ -47,8 +43,6 @@ class DriveFragment : Fragment() {
 
         drinkerRepository = (this.activity as MainActivity).drinkerRepository
 
-        liveDrinker = drinkerRepository.liveDrinker
-
         pastDrinksAdapter =
             PastDrinksAdapter(
                 this.context!!,
@@ -56,8 +50,7 @@ class DriveFragment : Fragment() {
             )
         listViewPastDrinks.adapter = pastDrinksAdapter
 
-
-        liveDrinker.observe(this, Observer {
+        drinkerRepository.liveDrinker.observe(this, Observer {
 
             pastDrinksAdapter.setDrinkList(drinkerRepository.getDrinks())
             updateDriveStatus()
