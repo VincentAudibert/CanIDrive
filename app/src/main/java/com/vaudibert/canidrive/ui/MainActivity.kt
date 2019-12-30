@@ -9,7 +9,7 @@ import androidx.room.Room
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.data.DrinkDatabase
 import com.vaudibert.canidrive.domain.Drinker
-import com.vaudibert.canidrive.domain.DriveLawFactory
+import com.vaudibert.canidrive.domain.DriveLaws
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,12 +25,12 @@ class MainActivity : AppCompatActivity() {
         val sharedPref = this.getSharedPreferences(getString(R.string.user_preferences), Context.MODE_PRIVATE)
 
         val weight = sharedPref.getFloat(getString(R.string.user_weight), 70F).toDouble()
-        val sex = sharedPref.getString(getString(R.string.user_sex), "NONE")
+        val sex = sharedPref.getString(getString(R.string.user_sex), "NONE") ?: "NONE"
         val countryCode = sharedPref.getString(getString(R.string.countryCode), "")
         init = sharedPref.getBoolean(getString(R.string.user_initialized), false)
 
         val drinker = Drinker(weight, sex)
-        drinker.driveLaw = DriveLawFactory.countryLaws.find { law -> law.countryCode == countryCode }
+        drinkerRepository.driveLaw = DriveLaws.countryLaws.find { law -> law.countryCode == countryCode }
 
         val drinkDB = Room
             .databaseBuilder(this, DrinkDatabase::class.java, "drink-database")

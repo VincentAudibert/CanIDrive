@@ -9,9 +9,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.*
 
 class DrinkerRepository {
     private var drinker = Drinker()
+
+    var driveLaw : DriveLaw? = null
 
     private var daoJob = Job()
 
@@ -63,10 +66,13 @@ class DrinkerRepository {
 
     fun getSex() = drinker.sex
 
-    fun setLaw(country: DriveLaw?) {
-        drinker.driveLaw = country
+    fun getLaw(): DriveLaw? = driveLaw
+
+    fun canDrive(): Boolean {
+        return drinker.alcoholRateAt(Date()) <= driveLaw?.limit ?:0.01
     }
 
-    fun getLaw(): DriveLaw? = drinker.driveLaw
-
+    fun timeToDrive(): Date {
+        return drinker.timeToReachLimit(driveLaw?.limit ?: 0.01)
+    }
 }

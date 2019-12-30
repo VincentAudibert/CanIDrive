@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.DriveLaw
-import com.vaudibert.canidrive.domain.DriveLawFactory
+import com.vaudibert.canidrive.domain.DriveLaws
 import kotlinx.android.synthetic.main.fragment_drinker.*
 import java.util.*
 
@@ -47,19 +47,19 @@ class DrinkerFragment : Fragment() {
 
         val drinkerRepository = mainActivity.drinkerRepository
 
-        val countries = DriveLawFactory.countryLaws.map {
+        val countries = DriveLaws.countryLaws.map {
                 law -> law.countryCode + " " + Locale("", law.countryCode).displayCountry
         }
 
         spinnerCountry.adapter = ArrayAdapter(this.context!!, android.R.layout.simple_spinner_item, countries)
-        spinnerCountry.setSelection(DriveLawFactory.countryLaws.indexOf(drinkerRepository.getLaw()))
+        spinnerCountry.setSelection(DriveLaws.countryLaws.indexOf(drinkerRepository.getLaw()))
         spinnerCountry.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View, position: Int, id: Long
             ) {
-                country = DriveLawFactory.countryLaws[position]
+                country = DriveLaws.countryLaws[position]
                 limit = country?.limit ?: 0.0
             }
 
@@ -109,7 +109,7 @@ class DrinkerFragment : Fragment() {
         buttonValidateDrinker.setOnClickListener {
             drinkerRepository.setSex(sex)
             drinkerRepository.setWeight(weight)
-            drinkerRepository.setLaw(country)
+            drinkerRepository.driveLaw = this.country
             sharedPref
                 .edit()
                 .putString(getString(R.string.user_sex), sex)

@@ -1,6 +1,6 @@
 package com.vaudibert.canidrive.domain
 
-object DriveLawFactory {
+object DriveLaws {
     // need to expose a list of handled country legislation
     val countryLaws = listOf(
         DriveLaw("FR" , 0.5),
@@ -36,4 +36,4 @@ object DriveLawFactory {
     // need to produce a drivelaw regarding a country
 }
 
-data class DriveLaw(val countryCode:String, val limit:Double = 0.0)
+data class DriveLaw(val countryCode:String, val limit:Double = 0.01)
