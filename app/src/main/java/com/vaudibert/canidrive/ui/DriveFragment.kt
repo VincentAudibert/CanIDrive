@@ -75,6 +75,7 @@ class DriveFragment : Fragment() {
     private fun updateDriveStatus() {
 
         if (drinkerRepository.canDrive()) {
+            // Set status icons to drive-able
             imageCar.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveGreen))
             imageDriveStatus.setImageResource(R.drawable.ic_check_white_24dp)
             imageDriveStatus.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveGreen))
@@ -84,6 +85,7 @@ class DriveFragment : Fragment() {
                 .getTimeInstance(DateFormat.SHORT)
                 .format(drinkerRepository.timeToDrive())
 
+            // Set status icons to NOT drive-able
             imageCar.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveRed))
             imageDriveStatus.setImageResource(R.drawable.ic_forbidden_white_24dp)
             imageDriveStatus.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveRed))
