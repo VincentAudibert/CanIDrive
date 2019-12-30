@@ -36,7 +36,7 @@ class SplashFragment : Fragment() {
         val mainHandler = Handler(Looper.getMainLooper())
         mainHandler.postDelayed( {
 
-            val init = (this.activity as MainActivity).init
+            val init = (this.activity as MainActivity).drinkerRepository.init
 
             val action = if (init)
                 SplashFragmentDirections.actionSplashFragmentToDriveFragment()

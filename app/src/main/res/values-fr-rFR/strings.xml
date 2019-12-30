@@ -13,4 +13,7 @@
     <string name="add_a_drink">Ajouter une boisson</string>
     <string name="now">maintenant</string>
     <string name="can_i_drive_question">Puis-je conduire ?</string>
+    <string name="young_driver">Jeune conducteur</string>
+    <string name="professional_driver">Conducteur professionnel</string>
+    <string name="country">Pays</string>
 </resources>
