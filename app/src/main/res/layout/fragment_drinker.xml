@@ -123,17 +123,17 @@
             android:id="@+id/checkboxYoungDriver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/young_driver"
             android:layout_margin="5dp"
-            />
+            android:text="@string/young_driver"
+            android:visibility="gone" />
 
         <CheckBox
             android:id="@+id/checkboxProfessionalDriver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/professional_driver"
             android:layout_margin="5dp"
-            />
+            android:text="@string/professional_driver"
+            android:visibility="gone" />
 
 
     </LinearLayout>
