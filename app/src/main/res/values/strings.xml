@@ -29,4 +29,5 @@
     <string name="professional_driver">Professional driver</string>
     <string name="country">Country</string>
     <string name="countryCode" translatable="false">COUNTRY_CODE</string>
+    <string name="alcohol_blood_rate" translatable="false">alcohol blood rate</string>
 </resources>

@@ -44,7 +44,7 @@
         android:id="@+id/driveFragment"
         android:name="com.vaudibert.canidrive.ui.DriveFragment"
         android:label="fragment_drive"
-        tools:layout="@layout/fragment_drive" >
+        tools:layout="@layout/fragment_drive_status" >
         <action
             android:id="@+id/action_driveFragment_to_addDrinkFragment"
             app:destination="@id/addDrinkFragment"
