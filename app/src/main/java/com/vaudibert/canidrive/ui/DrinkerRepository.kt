@@ -141,22 +141,6 @@ class DrinkerRepository {
     fun getSex() = drinker.sex
 
     /**
-     * Returns a boolean drive status.
-     *
-     * Makes use of the drive law selected to assess if limit is reached.
-     */
-    fun canDrive(): Boolean {
-        return drinker.alcoholRateAt(Date()) <= driveLaw?.limit ?:0.01
-    }
-
-    /**
-     * Returns the date when drinker is legally safe to drive.
-     */
-    fun timeToDrive(): Date {
-        return drinker.timeToReachLimit(driveLaw?.limit ?: 0.01)
-    }
-
-    /**
      * Returns the position of the drive law in list of drive laws (per country).
      *
      * Used for UI (spinner current selection).
@@ -164,4 +148,20 @@ class DrinkerRepository {
     fun getCountryPosition() : Int {
         return DriveLaws.countryLaws.indexOf(driveLaw).coerceAtLeast(0)
     }
+
+    fun status() : DrinkerStatus {
+        return DrinkerStatus(
+            drinker.alcoholRateAt(Date()) <= driveLaw?.limit ?:0.01,
+            drinker.alcoholRateAt(Date()),
+            drinker.timeToReachLimit(driveLaw?.limit ?: 0.01),
+            drinker.timeToReachLimit(0.01)
+        )
+    }
 }
+
+data class DrinkerStatus(
+    val canDrive : Boolean,
+    val alcoholRate: Double,
+    val canDriveDate : Date,
+    val soberDate : Date
+    )
