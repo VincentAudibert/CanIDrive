@@ -31,7 +31,7 @@ object DriveLaws {
         DriveLaw("RO"),
         DriveLaw("UA"),
         DriveLaw("AM")
-    )
+    ).sortedBy { law -> law.countryCode }
     // need to produce a drivelaw regarding a country
 }
 
