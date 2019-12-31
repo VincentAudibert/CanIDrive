@@ -12,8 +12,8 @@ android {
         applicationId = "com.vaudibert.canidrive"
         minSdkVersion(19)
         targetSdkVersion(28)
-        versionCode = 5
-        versionName = "0.0.4"
+        versionCode = 6
+        versionName = "0.0.5"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
