@@ -4,14 +4,13 @@ object DriveLaws {
     // need to expose a list of handled country legislation
     val countryLaws = listOf(
         DriveLaw("FR" , 0.5),
-        DriveLaw("UK" , 0.8),
+        DriveLaw("GB" , 0.8),
         DriveLaw("BE" , 0.5),
         DriveLaw("NL" , 0.5),
         DriveLaw("DE" , 0.5),
         DriveLaw("LU" , 0.5),
         DriveLaw("CH" , 0.5),
         DriveLaw("IT" , 0.5),
-        DriveLaw("DH" , 0.5),
         DriveLaw("FI" , 0.5),
         DriveLaw("ES" , 0.5),
         DriveLaw("PT" , 0.5),

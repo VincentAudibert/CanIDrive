@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.DriveLaw
 import com.vaudibert.canidrive.domain.DriveLaws
+import com.vaudibert.canidrive.toFlagEmoji
 import kotlinx.android.synthetic.main.fragment_drinker.*
 import java.util.*
 
@@ -41,12 +42,12 @@ class DrinkerFragment : Fragment() {
         val drinkerRepository = mainActivity.drinkerRepository
 
         val countries = DriveLaws.countryLaws.map {
-                law -> law.countryCode + " " + Locale("", law.countryCode).displayCountry
+                law -> law.countryCode.toFlagEmoji() + " " + Locale("", law.countryCode).displayCountry
         }
 
         spinnerCountry.adapter = ArrayAdapter(
             this.context!!,
-            android.R.layout.simple_spinner_item,
+            R.layout.item_country_spinner,
             countries
         )
         spinnerCountry.setSelection(drinkerRepository.getCountryPosition())
