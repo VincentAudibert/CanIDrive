@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.room.Room
+import com.google.android.material.appbar.AppBarLayout
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.data.DrinkDatabase
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +26,21 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         drinkerRepository.setDao(drinkDB.drinkDao())
+
+        findNavController(R.id.nav_host_fragment)
+            .addOnDestinationChangedListener { _, destination, _ ->
+                appBarDrinker.visibility = if (destination.id == R.id.splashFragment)
+                    AppBarLayout.GONE
+                else
+                    AppBarLayout.VISIBLE
+                toolbar.title =  when (destination.id) {
+                    R.id.driveFragment -> getString(R.string.can_i_drive_question)
+                    R.id.drinkerFragment -> getString(R.string.about_you)
+                    R.id.addDrinkFragment -> getString(R.string.add_a_drink)
+                    else -> ""
+
+                }
+            }
     }
 
 
