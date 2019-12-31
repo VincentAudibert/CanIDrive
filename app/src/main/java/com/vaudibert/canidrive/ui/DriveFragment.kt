@@ -82,12 +82,13 @@ class DriveFragment : Fragment() {
             imageCar.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveGreen))
             imageDriveStatus.setImageResource(R.drawable.ic_check_white_24dp)
             imageDriveStatus.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveGreen))
-            linearWaitToGreen.visibility = LinearLayout.GONE
+            linearWaitToDrive.visibility = LinearLayout.GONE
 
         } else {
             linearAlcoholRate.visibility = LinearLayout.VISIBLE
             linearWaitToSober.visibility = LinearLayout.VISIBLE
-            textViewAlcoholRate.text = drinkerStatus.alcoholRate.toString().substring(0, 3) + " g/L"
+            textViewAlcoholRate.text =
+                "${drinkerStatus.alcoholRate.toString().substring(0, 4)} g/L"
 
             textViewTimeToSober.text = DateFormat
                 .getTimeInstance(DateFormat.SHORT)
@@ -96,9 +97,9 @@ class DriveFragment : Fragment() {
             if (drinkerStatus.canDrive) {
                 // Set status icons to drive-able
                 imageCar.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveGreen))
-                imageDriveStatus.setImageResource(R.drawable.ic_check_white_24dp)
-                imageDriveStatus.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveGreen))
-                linearWaitToGreen.visibility = LinearLayout.GONE
+                imageDriveStatus.setImageResource(R.drawable.ic_warning_white_24dp)
+                imageDriveStatus.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveAmber))
+                linearWaitToDrive.visibility = LinearLayout.GONE
                 textViewAlcoholRate.setTextColor(ContextCompat.getColor(this.context!!,R.color.driveAmber))
             } else {
                 textViewTimeToDrive.text = DateFormat
@@ -109,7 +110,7 @@ class DriveFragment : Fragment() {
                 imageCar.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveRed))
                 imageDriveStatus.setImageResource(R.drawable.ic_forbidden_white_24dp)
                 imageDriveStatus.setColorFilter(ContextCompat.getColor(this.context!!, R.color.driveRed))
-                linearWaitToGreen.visibility = LinearLayout.VISIBLE
+                linearWaitToDrive.visibility = LinearLayout.VISIBLE
                 textViewAlcoholRate.setTextColor(ContextCompat.getColor(this.context!!,R.color.driveRed))
             }
 
