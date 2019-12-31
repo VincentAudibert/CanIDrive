@@ -30,4 +30,6 @@
     <string name="country">Country</string>
     <string name="countryCode" translatable="false">COUNTRY_CODE</string>
     <string name="alcohol_blood_rate" translatable="false">alcohol blood rate</string>
+    <string name="dev_alcohol_rate_example_text" translatable="false">0.6 g/L</string>
+    <string name="dev_time_example_text" translatable="false">12:34</string>
 </resources>

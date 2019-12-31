@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             >
@@ -53,7 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_margin="4dp">
+                android:layout_margin="4dp"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -65,7 +66,7 @@
                     android:id="@+id/textViewAlcoholRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0.6 g/L"
+                    android:text="@string/dev_alcohol_rate_example_text"
                     android:textColor="@color/driveAmber"
                     android:textSize="22sp" />
             </LinearLayout>
@@ -77,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_margin="4dp"
-                >
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -90,7 +91,7 @@
                     android:id="@+id/textViewTimeToDrive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12:34"
+                    android:text="@string/dev_time_example_text"
                     android:textColor="@color/driveAmber"
                     android:textSize="22sp" />
             </LinearLayout>
@@ -101,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_margin="4dp"
-                >
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="20dp"
@@ -114,7 +115,7 @@
                     android:id="@+id/textViewTimeToSober"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12:34"
+                    android:text="@string/dev_time_example_text"
                     android:textColor="@color/driveGreen"
                     android:textSize="18sp" />
             </LinearLayout>
