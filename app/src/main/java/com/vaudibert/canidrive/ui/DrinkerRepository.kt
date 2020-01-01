@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.math.min
 
 /**
  * Repository holding the drinker and driveLaw instances.
@@ -33,7 +34,10 @@ class DrinkerRepository {
 
     // Main instances to link
     private var drinker = Drinker()
+
     private var driveLaw : DriveLaw? = null
+
+    private val defaultLimit = 0.01
 
     // Flag for initialization, saved when set.
     var init : Boolean = false
@@ -169,13 +173,31 @@ class DrinkerRepository {
         return DriveLaws.countryLaws.indexOf(driveLaw).coerceAtLeast(0)
     }
 
+
     fun status() : DrinkerStatus {
+        val driveLimit = driveLimit()
         return DrinkerStatus(
-            drinker.alcoholRateAt(Date()) <= driveLaw?.limit ?:0.01,
+            drinker.alcoholRateAt(Date()) <= driveLimit,
             drinker.alcoholRateAt(Date()),
-            drinker.timeToReachLimit(driveLaw?.limit ?: 0.01),
-            drinker.timeToReachLimit(0.01)
+            drinker.timeToReachLimit(driveLimit),
+            drinker.timeToReachLimit(defaultLimit)
         )
+    }
+
+    private fun driveLimit() : Double {
+        val regularLimit = driveLaw?.limit ?: defaultLimit
+
+        val youngLimit = if (drinker.isYoungDriver)
+            driveLaw?.youngLimit?.limit ?: regularLimit
+        else
+            regularLimit
+
+        val professionalLimit = if (drinker.isProfessionalDriver)
+            driveLaw?.professionalLimit?.limit ?: regularLimit
+        else
+            regularLimit
+
+        return min(youngLimit, professionalLimit)
     }
 }
 
