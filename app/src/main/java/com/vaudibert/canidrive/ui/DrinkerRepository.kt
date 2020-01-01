@@ -184,7 +184,7 @@ class DrinkerRepository {
         )
     }
 
-    private fun driveLimit() : Double {
+    fun driveLimit() : Double {
         val regularLimit = driveLaw?.limit ?: defaultLimit
 
         val youngLimit = if (drinker.isYoungDriver)

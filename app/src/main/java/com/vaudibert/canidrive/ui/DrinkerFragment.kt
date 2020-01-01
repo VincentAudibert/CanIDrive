@@ -62,6 +62,8 @@ class DrinkerFragment : Fragment() {
                 limit = country?.limit ?: 0.0
                 updateCheckBoxYoung()
                 updateCheckBoxProfessional()
+                updateCurrentLimit(drinkerRepository)
+                drinkerRepository.setDriveLaw(country)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 country = null
@@ -114,17 +116,25 @@ class DrinkerFragment : Fragment() {
         checkboxYoungDriver.isChecked = drinkerRepository.getYoung()
         checkboxProfessionalDriver.isChecked = drinkerRepository.getProfessional()
 
-        // Make visible only if the driveLaw has the condition
         updateCheckBoxYoung()
 
-        checkboxProfessionalDriver.visibility = if (country?.professionalLimit != null) CheckBox.VISIBLE else CheckBox.GONE
+        updateCheckBoxProfessional()
+
+        updateCurrentLimit(drinkerRepository)
+
+        checkboxYoungDriver.setOnCheckedChangeListener { _, isChecked ->
+            drinkerRepository.setYoung(isChecked)
+            updateCurrentLimit(drinkerRepository)
+        }
+
+        checkboxProfessionalDriver.setOnCheckedChangeListener { _, isChecked ->
+            drinkerRepository.setProfessional(isChecked)
+            updateCurrentLimit(drinkerRepository)
+        }
 
         buttonValidateDrinker.setOnClickListener {
             drinkerRepository.setSex(sex)
             drinkerRepository.setWeight(weight)
-            drinkerRepository.setYoung(checkboxYoungDriver.isChecked)
-            drinkerRepository.setProfessional(checkboxProfessionalDriver.isChecked)
-            drinkerRepository.setDriveLaw(this.country)
 
             if (!drinkerRepository.init) {
                 drinkerRepository.init = true
@@ -149,6 +159,10 @@ class DrinkerFragment : Fragment() {
 
         }
 
+    }
+
+    private fun updateCurrentLimit(drinkerRepository: DrinkerRepository) {
+        textViewCurrentLimit.text = drinkerRepository.driveLimit().toString() + " g/L"
     }
 
     private fun updateCheckBoxYoung() {
