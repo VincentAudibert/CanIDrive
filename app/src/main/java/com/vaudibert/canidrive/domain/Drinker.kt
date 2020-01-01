@@ -42,15 +42,12 @@ class Drinker(
     private fun decreaseFactor() = if (sex == "MALE") 0.1 else 0.085
 
     fun alcoholRateAt(date: Date): Double {
-        val historicDrinks = absorbedDrinks.filter {
-                absorbedDrink -> absorbedDrink.ingestionTime.before(date)
-        }
-        if (historicDrinks.isEmpty()) return 0.0
+        if (absorbedDrinks.isEmpty()) return 0.0
 
-        var lastIngestion = historicDrinks[0].ingestionTime
+        var lastIngestion = absorbedDrinks[0].ingestionTime
         var lastRate = 0.0
 
-        historicDrinks.forEach {
+        absorbedDrinks.forEach {
             lastRate = newRate(lastRate, lastIngestion, it.ingestionTime) +
                     (it.alcoholMass() / effectiveWeight() + (decreaseFactor()/2))
             lastIngestion = it.ingestionTime

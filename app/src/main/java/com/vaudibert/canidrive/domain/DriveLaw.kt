@@ -266,11 +266,11 @@ object DriveLaws {
 
 data class DriveLaw(
     val countryCode:String,
-    val limit:Double = 0.01,
+    val limit:Double = 0.0,
     val youngLimit: YoungLimit? = null,
     val professionalLimit: ProfessionalLimit? = null
 )
 
-data class YoungLimit(val limit:Double = 0.01, val explanationId: Int)
+data class YoungLimit(val limit:Double = 0.0, val explanationId: Int)
 
-data class ProfessionalLimit(val limit:Double = 0.01)
+data class ProfessionalLimit(val limit:Double = 0.0)
