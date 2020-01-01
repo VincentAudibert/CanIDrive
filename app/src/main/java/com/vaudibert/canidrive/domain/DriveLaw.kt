@@ -69,6 +69,83 @@ object DriveLaws {
             YoungLimit(0.2, R.string.motor_cycle_or_less_two_years_driving),
             ProfessionalLimit(0.2)),
 
+        // Hungary
+        DriveLaw("HU"),
+
+        // Iceland
+        // TODO : check data
+        DriveLaw("IS" , 0.2),
+
+        // Ireland
+        DriveLaw("IE" , 0.5,
+            YoungLimit(0.2, R.string.motor_cycle_or_less_two_years_driving),
+            ProfessionalLimit(0.2)),
+
+        // Italy
+        DriveLaw("IT" , 0.5,
+            YoungLimit(0.01, R.string.three_years_driving),
+            ProfessionalLimit(0.01)),
+
+        // Latvia
+        DriveLaw("LV", 0.5,
+            YoungLimit(0.2, R.string.two_years_young_driver)
+        ),
+
+        // Liechtenstein
+        // TODO : check if code is OK
+        DriveLaw("FL", 0.8),
+
+        // Lithuania
+        DriveLaw("", 0.4,
+            YoungLimit(explanationId = R.string.motor_cycle_or_less_two_years_driving),
+            ProfessionalLimit()
+        ),
+
+        // Luxemburg
+        DriveLaw("LU" , 0.5,
+            YoungLimit(0.2, R.string.two_years_young_driver),
+            ProfessionalLimit(0.2)),
+
+        // Malta
+        DriveLaw("MT", 0.8),
+
+        // Moldova
+        DriveLaw("MD", 0.3),
+
+        // Montenegro
+        DriveLaw("ME", 0.3),
+
+        // Netherlands
+        // TODO : check data, missing professional ?
+        DriveLaw("NL" , 0.5,
+            YoungLimit(0.2, R.string.five_years_driving)),
+
+        // TODO : North macedonia
+
+        // Norway
+        DriveLaw("NO" , 0.2),
+
+        // Poland
+        DriveLaw("PL" , 0.2),
+
+        // Portugal
+        DriveLaw("PT" , 0.5,
+            YoungLimit(0.2, R.string.three_years_driving)
+        ),
+
+        // Romania
+        DriveLaw("RO"),
+
+        // Russia
+        DriveLaw("RU", 0.356),
+
+        // Serbia
+
+
+
+
+
+        // ----------------------------- Not up-to-date below ---------------------
 
         // Great-Britain (includes scotland...)
         // TODO : treat special case of scotland (not a country yet different law).
@@ -77,35 +154,14 @@ object DriveLaws {
         ),
 
 
-        // Netherlands
-        DriveLaw("NL" , 0.5),
-
-        // Luxemburg
-        DriveLaw("LU" , 0.5),
-
         // Switzland
         DriveLaw("CH" , 0.5, professionalLimit = ProfessionalLimit(0.2)),
-
-        // Italy
-        DriveLaw("IT" , 0.5, professionalLimit = ProfessionalLimit(0.2)),
 
         // Spain
         DriveLaw("ES" , 0.5, professionalLimit = ProfessionalLimit(0.2)),
 
-        // Portugal
-        DriveLaw("PT" , 0.5, professionalLimit = ProfessionalLimit(0.2)),
-
         // Slovenia
         DriveLaw("SI" , 0.5),
-
-        // Ireland
-        DriveLaw("IE" , 0.5, professionalLimit = ProfessionalLimit(0.2)),
-
-        // Iceland
-        DriveLaw("IS" , 0.5),
-
-        // Norway
-        DriveLaw("NO" , 0.2, professionalLimit = ProfessionalLimit(0.2)),
 
         // Sweden
         DriveLaw("SE" , 0.2, professionalLimit = ProfessionalLimit(0.2)),
@@ -113,23 +169,11 @@ object DriveLaws {
         // Serbia
         DriveLaw("RS" , 0.2),
 
-        // Poland
-        DriveLaw("PL" , 0.2, professionalLimit = ProfessionalLimit(0.2)),
-
         // Slovakia
         DriveLaw("SK"),
 
-        // Hungary
-        DriveLaw("HU"),
-
-        // Romania
-        DriveLaw("RO"),
-
         // Ukraine
-        DriveLaw("UA"),
-
-        // Armenia
-        DriveLaw("AM")
+        DriveLaw("UA")
     ).sortedBy { law -> law.countryCode }
     // need to produce a drivelaw regarding a country
 }

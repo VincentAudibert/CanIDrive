@@ -41,4 +41,6 @@
     <string name="sixteen_to_twenty_four_years_old">16-24 years old</string>
     <string name="twenty_one_young_or_less_two_years_driving">Less than 21 years old or less than 2 years driving.</string>
     <string name="motor_cycle_or_less_two_years_driving">Motor cycle or less than 2 years driving.</string>
+    <string name="three_years_driving">Less than 3 years driving.</string>
+    <string name="five_years_driving">Less than 5 years driving.</string>
 </resources>
