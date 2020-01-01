@@ -3,16 +3,18 @@ package com.vaudibert.canidrive.domain
 import com.vaudibert.canidrive.R
 
 object DriveLaws {
-    // need to expose a list of handled country legislation
+
+    // Main source : https://en.wikipedia.org/wiki/Drunk_driving_law_by_country
+
     val countryLaws = listOf(
+        // -------------------------- Europe --------------------------
         // Albania
         DriveLaw("AL", 0.1),
 
         // Austria
         DriveLaw("AT" , 0.5,
-            YoungLimit(0.1, R.string.two_years_young_driver),
+            YoungLimit(0.1, R.string.less_two_years_driving),
             professionalLimit = ProfessionalLimit(0.2)),
-
 
         // Belarus
         DriveLaw("BY", 0.3),
@@ -50,7 +52,7 @@ object DriveLaws {
 
         // France
         DriveLaw("FR" , 0.5,
-            YoungLimit(0.2, R.string.two_years_young_driver),
+            YoungLimit(0.2, R.string.less_two_years_driving),
             ProfessionalLimit(0.2)),
 
         // Georgia
@@ -88,22 +90,18 @@ object DriveLaws {
 
         // Latvia
         DriveLaw("LV", 0.5,
-            YoungLimit(0.2, R.string.two_years_young_driver)
+            YoungLimit(0.2, R.string.less_two_years_driving)
         ),
 
-        // Liechtenstein
-        // TODO : check if code is OK
-        DriveLaw("FL", 0.8),
-
         // Lithuania
-        DriveLaw("", 0.4,
+        DriveLaw("LT", 0.4,
             YoungLimit(explanationId = R.string.motor_cycle_or_less_two_years_driving),
             ProfessionalLimit()
         ),
 
         // Luxemburg
         DriveLaw("LU" , 0.5,
-            YoungLimit(0.2, R.string.two_years_young_driver),
+            YoungLimit(0.2, R.string.less_two_years_driving),
             ProfessionalLimit(0.2)),
 
         // Malta
@@ -140,12 +138,34 @@ object DriveLaws {
         DriveLaw("RU", 0.356),
 
         // Serbia
+        DriveLaw("RS", 0.2,
+            YoungLimit(explanationId = R.string.motor_cycle_or_young_drivers),
+            ProfessionalLimit()
+        ),
 
+        // Slovakia
+        DriveLaw("SK"),
 
+        // Slovenia
+        DriveLaw("SI" , 0.5,
+            YoungLimit(explanationId = R.string.three_years_driving),
+            ProfessionalLimit()
+        ),
 
+        // Spain
+        DriveLaw("ES" , 0.5,
+            YoungLimit(0.3, R.string.less_two_years_driving),
+            ProfessionalLimit(0.2)),
 
+        // Sweden
+        DriveLaw("SE" , 0.2),
 
-        // ----------------------------- Not up-to-date below ---------------------
+        // Switzland
+        DriveLaw("CH" , 0.5,
+            YoungLimit(explanationId = R.string.three_years_driving)),
+
+        // Ukraine
+        DriveLaw("UA", 0.2),
 
         // Great-Britain (includes scotland...)
         // TODO : treat special case of scotland (not a country yet different law).
@@ -153,29 +173,95 @@ object DriveLaws {
             professionalLimit = ProfessionalLimit(0.8)
         ),
 
+        // -------------------- Americas --------------------
+        // Canada
+        DriveLaw("CA", 0.8),
 
-        // Switzland
-        DriveLaw("CH" , 0.5, professionalLimit = ProfessionalLimit(0.2)),
+        // USA
+        DriveLaw("US", 0.8,
+            YoungLimit(explanationId = R.string.twenty_one_young)),
 
-        // Spain
-        DriveLaw("ES" , 0.5, professionalLimit = ProfessionalLimit(0.2)),
+        // -------------------- Asia --------------------
+        // China
+        DriveLaw("CN"),
 
-        // Slovenia
-        DriveLaw("SI" , 0.5),
+        // Hong-Kong
+        DriveLaw("HK", 0.5),
 
-        // Sweden
-        DriveLaw("SE" , 0.2, professionalLimit = ProfessionalLimit(0.2)),
+        // Japan
+        DriveLaw("JP", 0.3),
 
-        // Serbia
-        DriveLaw("RS" , 0.2),
+        // South Korea
+        DriveLaw("KR", 0.3),
 
-        // Slovakia
-        DriveLaw("SK"),
+        // Taiwan
+        DriveLaw("TW", 0.3),
 
-        // Ukraine
-        DriveLaw("UA")
+        // India
+        DriveLaw("IN", 0.3),
+
+        // Nepal
+        DriveLaw("NP"),
+
+        // Pakistan
+        DriveLaw("PK"),
+
+        // Sri-lanka
+        DriveLaw("LK", 0.6),
+
+        // Indonesia
+        DriveLaw("ID"),
+
+        // Laos
+        DriveLaw("LA", 0.8),
+
+        // Malaysia
+        DriveLaw("MY", 0.8),
+
+        // Philippines
+        DriveLaw("PH", 0.5,
+            YoungLimit(0.1, R.string.motor_cycle_or_young_drivers),
+            ProfessionalLimit(0.1)
+        ),
+
+        // Singapore
+        DriveLaw("SG", 0.8),
+
+        // Thailand
+        DriveLaw("TH", 0.5, professionalLimit = ProfessionalLimit()),
+
+        // Vietnam
+        // TODO : weird case for motorbikes : 0.5
+        DriveLaw("VN"),
+
+        // Armenia
+        DriveLaw("AM", 0.4),
+
+        // Iran
+        DriveLaw("IR"),
+
+        // Israel
+        DriveLaw("IL", 0.24,
+            YoungLimit(0.05, R.string.new_driver_or_twenty_four),
+            ProfessionalLimit(0.05)
+        ),
+
+        // Jordan
+        DriveLaw("JO", 0.5),
+
+        // Kuwait
+        DriveLaw("KW"),
+
+        // Saudi Arabia
+        DriveLaw("SA"),
+
+        // United Arab Emirates
+        DriveLaw("AE"),
+
+        // Turkey
+        DriveLaw("TR", 0.5, professionalLimit = ProfessionalLimit())
+
     ).sortedBy { law -> law.countryCode }
-    // need to produce a drivelaw regarding a country
 }
 
 data class DriveLaw(

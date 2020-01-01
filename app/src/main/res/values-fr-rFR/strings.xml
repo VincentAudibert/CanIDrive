@@ -16,6 +16,14 @@
     <string name="young_driver">Jeune conducteur</string>
     <string name="professional_driver">Conducteur professionnel</string>
     <string name="country">Pays</string>
-    <string name="two_years_young_driver">Moins de 2 ans de permis.</string>
+    <string name="less_two_years_driving">Moins de 2 ans de permis.</string>
     <string name="twenty_one_young_or_less_three_years_driving">Moins de 21 ans ou moins de 3 ans de permis.</string>
+    <string name="five_years_driving">Moins de 5 ans de permis.</string>
+    <string name="motor_cycle_or_less_two_years_driving">Moto ou moins de 2 ans de permis.</string>
+    <string name="motor_cycle_or_young_drivers">Moto ou jeune conducteur.</string>
+    <string name="sixteen_to_twenty_four_years_old">16–24 ans.</string>
+    <string name="three_years_driving">Moins de 3 ans de permis.</string>
+    <string name="twenty_one_young">Moins de 21 ans.</string>
+    <string name="twenty_one_young_or_less_two_years_driving">Moins de 21 ans ou moins de 2 ans de permis.</string>
+    <string name="new_driver_or_twenty_four">Nouveaux conducteurs ou moins de 24 ans.</string>
 </resources>
