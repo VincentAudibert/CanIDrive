@@ -47,6 +47,23 @@ internal class DrinkerTest {
     }
 
     @Test
+    fun `A drinker rate should not be impacted by far past drinks`() {
+        // 500ml at 5 deg makes 25ml of alcohol
+        // density 0.8 gives 20g
+        // body mass to consider is 0.7 * 100 = 70
+        // 20/70 = 0.28g per L of blood.
+
+        val drinker = getMaleDrinkerWithBeer()
+        val pastBeer = Drink(500.0, 5.0, Date(Date().time - (15*3600_000)))
+        drinker.ingest(pastBeer)
+
+        val measureTime = Date(Date().time + 1800_000)
+        assertEquals(0.28, drinker.alcoholRateAt(measureTime),
+            RATE_PRECISION
+        )
+    }
+
+    @Test
     fun `A 50kg female should reach 0,67g per L with a 500ml 5 deg beer after 30 min`() {
         // 500ml 5deg gives 20g
         // 20 / (0.6 * 50) = 0.67
