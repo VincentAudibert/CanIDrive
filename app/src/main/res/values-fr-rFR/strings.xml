@@ -16,4 +16,6 @@
     <string name="young_driver">Jeune conducteur</string>
     <string name="professional_driver">Conducteur professionnel</string>
     <string name="country">Pays</string>
+    <string name="two_years_young_driver">Moins de 2 ans de permis.</string>
+    <string name="twenty_one_young_or_less_three_years_driving">Moins de 21 ans ou moins de 3 ans de permis.</string>
 </resources>

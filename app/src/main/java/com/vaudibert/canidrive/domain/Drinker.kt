@@ -21,7 +21,12 @@ import kotlin.math.max
  * This simplifies greatly calculation while staying safe and reliable regarding the drive status.
  */
 
-class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
+class Drinker(
+    var weight: Double = 80.0,
+    var sex: String = "NONE",
+    var isYoungDriver: Boolean = false,
+    var isProfessionalDriver:Boolean = false
+) {
 
     private val absorbedDrinks : MutableList<Drink> = ArrayList()
 

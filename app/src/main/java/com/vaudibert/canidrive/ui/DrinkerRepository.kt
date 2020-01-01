@@ -67,10 +67,12 @@ class DrinkerRepository {
 
         val weight = sharedPref.getFloat(context.getString(R.string.user_weight), 70F).toDouble()
         val sex = sharedPref.getString(context.getString(R.string.user_sex), "NONE") ?: "NONE"
+        val isYoung = sharedPref.getBoolean(context.getString(R.string.user_young_driver), false)
+        val isProfessional = sharedPref.getBoolean(context.getString(R.string.user_professional_driver), false)
         val countryCode = sharedPref.getString(context.getString(R.string.countryCode), "")
         init = sharedPref.getBoolean(context.getString(R.string.user_initialized), false)
 
-        drinker = Drinker(weight, sex)
+        drinker = Drinker(weight, sex, isYoung, isProfessional)
         driveLaw = DriveLaws.countryLaws.find { law -> law.countryCode == countryCode }
         liveDrinker.value = drinker
 
@@ -132,6 +134,20 @@ class DrinkerRepository {
             .apply()
     }
 
+    fun setYoung(isYoung:Boolean) {
+        this.drinker.isYoungDriver = isYoung
+        sharedPref.edit()
+            .putBoolean(context.getString(R.string.user_young_driver), isYoung)
+            .apply()
+    }
+
+    fun setProfessional(isProfessional:Boolean) {
+        this.drinker.isProfessionalDriver = isProfessional
+        sharedPref.edit()
+            .putBoolean(context.getString(R.string.user_professional_driver), isProfessional)
+            .apply()
+    }
+
     // Getters needed for UI
 
     fun getDrinks() = drinker.getDrinks()
@@ -139,6 +155,10 @@ class DrinkerRepository {
     fun getWeight() = drinker.weight
 
     fun getSex() = drinker.sex
+
+    fun getYoung() = drinker.isYoungDriver
+
+    fun getProfessional() = drinker.isProfessionalDriver
 
     /**
      * Returns the position of the drive law in list of drive laws (per country).
