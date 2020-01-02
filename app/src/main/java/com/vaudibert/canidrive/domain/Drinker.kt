@@ -21,7 +21,12 @@ import kotlin.math.max
  * This simplifies greatly calculation while staying safe and reliable regarding the drive status.
  */
 
-class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
+class Drinker(
+    var weight: Double = 80.0,
+    var sex: String = "NONE",
+    var isYoungDriver: Boolean = false,
+    var isProfessionalDriver:Boolean = false
+) {
 
     private val absorbedDrinks : MutableList<Drink> = ArrayList()
 
@@ -37,15 +42,12 @@ class Drinker(var weight: Double = 80.0, var sex: String = "NONE") {
     private fun decreaseFactor() = if (sex == "MALE") 0.1 else 0.085
 
     fun alcoholRateAt(date: Date): Double {
-        val historicDrinks = absorbedDrinks.filter {
-                absorbedDrink -> absorbedDrink.ingestionTime.before(date)
-        }
-        if (historicDrinks.isEmpty()) return 0.0
+        if (absorbedDrinks.isEmpty()) return 0.0
 
-        var lastIngestion = historicDrinks[0].ingestionTime
+        var lastIngestion = absorbedDrinks[0].ingestionTime
         var lastRate = 0.0
 
-        historicDrinks.forEach {
+        absorbedDrinks.forEach {
             lastRate = newRate(lastRate, lastIngestion, it.ingestionTime) +
                     (it.alcoholMass() / effectiveWeight() + (decreaseFactor()/2))
             lastIngestion = it.ingestionTime

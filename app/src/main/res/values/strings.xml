@@ -5,6 +5,9 @@
     <string name="user_preferences" translatable="false">USER_PREFS</string>
     <string name="user_weight" translatable="false">WEIGHT</string>
     <string name="user_sex" translatable="false">SEX</string>
+    <string name="user_young_driver" translatable="false">YOUNG_DRIVER</string>
+    <string name="user_professional_driver" translatable="false">PROFESSIONAL_DRIVER</string>
+
     <string name="user_initialized" translatable="false">INITIALIZED</string>
 
 
@@ -32,4 +35,15 @@
     <string name="alcohol_blood_rate" translatable="false">alcohol blood rate</string>
     <string name="dev_alcohol_rate_example_text" translatable="false">0.6 g/L</string>
     <string name="dev_time_example_text" translatable="false">12:34</string>
+
+    <string name="less_two_years_driving">Less than 2 years of driving experience.</string>
+    <string name="twenty_one_young_or_less_three_years_driving">Less than 21 years old, or less than 3 years of driving experience</string>
+    <string name="sixteen_to_twenty_four_years_old">16–24 years old</string>
+    <string name="twenty_one_young_or_less_two_years_driving">Less than 21 years old or less than 2 years driving.</string>
+    <string name="motor_cycle_or_less_two_years_driving">Motor cycle or less than 2 years driving.</string>
+    <string name="three_years_driving">Less than 3 years driving.</string>
+    <string name="five_years_driving">Less than 5 years driving.</string>
+    <string name="motor_cycle_or_young_drivers">Motor cycle or young driver.</string>
+    <string name="twenty_one_young">Less than 21 years old.</string>
+    <string name="new_driver_or_twenty_four">New drivers or less than 24 years old.</string>
 </resources>

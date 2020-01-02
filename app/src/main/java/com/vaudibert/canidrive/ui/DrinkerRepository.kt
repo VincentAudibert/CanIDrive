@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.math.min
 
 /**
  * Repository holding the drinker and driveLaw instances.
@@ -33,7 +34,10 @@ class DrinkerRepository {
 
     // Main instances to link
     private var drinker = Drinker()
+
     private var driveLaw : DriveLaw? = null
+
+    private val defaultLimit = 0.01
 
     // Flag for initialization, saved when set.
     var init : Boolean = false
@@ -67,10 +71,12 @@ class DrinkerRepository {
 
         val weight = sharedPref.getFloat(context.getString(R.string.user_weight), 70F).toDouble()
         val sex = sharedPref.getString(context.getString(R.string.user_sex), "NONE") ?: "NONE"
+        val isYoung = sharedPref.getBoolean(context.getString(R.string.user_young_driver), false)
+        val isProfessional = sharedPref.getBoolean(context.getString(R.string.user_professional_driver), false)
         val countryCode = sharedPref.getString(context.getString(R.string.countryCode), "")
         init = sharedPref.getBoolean(context.getString(R.string.user_initialized), false)
 
-        drinker = Drinker(weight, sex)
+        drinker = Drinker(weight, sex, isYoung, isProfessional)
         driveLaw = DriveLaws.countryLaws.find { law -> law.countryCode == countryCode }
         liveDrinker.value = drinker
 
@@ -132,6 +138,20 @@ class DrinkerRepository {
             .apply()
     }
 
+    fun setYoung(isYoung:Boolean) {
+        this.drinker.isYoungDriver = isYoung
+        sharedPref.edit()
+            .putBoolean(context.getString(R.string.user_young_driver), isYoung)
+            .apply()
+    }
+
+    fun setProfessional(isProfessional:Boolean) {
+        this.drinker.isProfessionalDriver = isProfessional
+        sharedPref.edit()
+            .putBoolean(context.getString(R.string.user_professional_driver), isProfessional)
+            .apply()
+    }
+
     // Getters needed for UI
 
     fun getDrinks() = drinker.getDrinks()
@@ -139,6 +159,10 @@ class DrinkerRepository {
     fun getWeight() = drinker.weight
 
     fun getSex() = drinker.sex
+
+    fun getYoung() = drinker.isYoungDriver
+
+    fun getProfessional() = drinker.isProfessionalDriver
 
     /**
      * Returns the position of the drive law in list of drive laws (per country).
@@ -149,13 +173,31 @@ class DrinkerRepository {
         return DriveLaws.countryLaws.indexOf(driveLaw).coerceAtLeast(0)
     }
 
+
     fun status() : DrinkerStatus {
+        val driveLimit = driveLimit()
         return DrinkerStatus(
-            drinker.alcoholRateAt(Date()) <= driveLaw?.limit ?:0.01,
+            drinker.alcoholRateAt(Date()) <= driveLimit,
             drinker.alcoholRateAt(Date()),
-            drinker.timeToReachLimit(driveLaw?.limit ?: 0.01),
-            drinker.timeToReachLimit(0.01)
+            drinker.timeToReachLimit(driveLimit),
+            drinker.timeToReachLimit(defaultLimit)
         )
+    }
+
+    fun driveLimit() : Double {
+        val regularLimit = driveLaw?.limit ?: defaultLimit
+
+        val youngLimit = if (drinker.isYoungDriver)
+            driveLaw?.youngLimit?.limit ?: regularLimit
+        else
+            regularLimit
+
+        val professionalLimit = if (drinker.isProfessionalDriver)
+            driveLaw?.professionalLimit?.limit ?: regularLimit
+        else
+            regularLimit
+
+        return min(youngLimit, professionalLimit)
     }
 }
 

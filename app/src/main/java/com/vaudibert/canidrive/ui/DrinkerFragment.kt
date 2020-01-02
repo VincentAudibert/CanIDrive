@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.CheckBox
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -59,8 +60,11 @@ class DrinkerFragment : Fragment() {
             ) {
                 country = DriveLaws.countryLaws[position]
                 limit = country?.limit ?: 0.0
+                updateCheckBoxYoung()
+                updateCheckBoxProfessional()
+                updateCurrentLimit(drinkerRepository)
+                drinkerRepository.setDriveLaw(country)
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 country = null
                 limit = 0.0
@@ -69,6 +73,7 @@ class DrinkerFragment : Fragment() {
 
         var weight = drinkerRepository.getWeight()
         var sex = drinkerRepository.getSex()
+
 
         val weights = intArrayOf(30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95,
             100, 110, 120, 130, 140, 150)
@@ -84,6 +89,7 @@ class DrinkerFragment : Fragment() {
         numberPickerWeight.setOnValueChangedListener { _, _, newVal ->
             weight = weights[newVal].toDouble()
         }
+
 
         val sexValues = arrayOf(
             getString(R.string.male),
@@ -106,13 +112,29 @@ class DrinkerFragment : Fragment() {
             }
         }
 
+        // Always update checkboxes even if not visible as they hold the state.
+        checkboxYoungDriver.isChecked = drinkerRepository.getYoung()
+        checkboxProfessionalDriver.isChecked = drinkerRepository.getProfessional()
+
+        updateCheckBoxYoung()
+
+        updateCheckBoxProfessional()
+
+        updateCurrentLimit(drinkerRepository)
+
+        checkboxYoungDriver.setOnCheckedChangeListener { _, isChecked ->
+            drinkerRepository.setYoung(isChecked)
+            updateCurrentLimit(drinkerRepository)
+        }
+
+        checkboxProfessionalDriver.setOnCheckedChangeListener { _, isChecked ->
+            drinkerRepository.setProfessional(isChecked)
+            updateCurrentLimit(drinkerRepository)
+        }
+
         buttonValidateDrinker.setOnClickListener {
             drinkerRepository.setSex(sex)
             drinkerRepository.setWeight(weight)
-            drinkerRepository.setDriveLaw(this.country)
-
-            // TODO : remove hideKeyboard once confirmed useless.
-            //KeyboardUtils.hideKeyboard(mainActivity)
 
             if (!drinkerRepository.init) {
                 drinkerRepository.init = true
@@ -137,5 +159,26 @@ class DrinkerFragment : Fragment() {
 
         }
 
+    }
+
+    private fun updateCurrentLimit(drinkerRepository: DrinkerRepository) {
+        textViewCurrentLimit.text = drinkerRepository.driveLimit().toString() + " g/L"
+    }
+
+    private fun updateCheckBoxYoung() {
+        if (country?.youngLimit != null) {
+            checkboxYoungDriver.visibility = CheckBox.VISIBLE
+            checkboxYoungDriver.text = getString(country?.youngLimit?.explanationId ?: 0)
+        } else {
+            checkboxYoungDriver.visibility = CheckBox.GONE
+        }
+    }
+
+    private fun updateCheckBoxProfessional() {
+        if (country?.professionalLimit != null) {
+            checkboxProfessionalDriver.visibility = CheckBox.VISIBLE
+        } else {
+            checkboxProfessionalDriver.visibility = CheckBox.GONE
+        }
     }
 }
