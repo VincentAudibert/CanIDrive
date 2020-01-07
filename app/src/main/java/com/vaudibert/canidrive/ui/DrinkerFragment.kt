@@ -62,8 +62,8 @@ class DrinkerFragment : Fragment() {
                 limit = country?.limit ?: 0.0
                 updateCheckBoxYoung()
                 updateCheckBoxProfessional()
-                updateCurrentLimit(drinkerRepository)
                 drinkerRepository.setDriveLaw(country)
+                updateCurrentLimit(drinkerRepository)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 country = null
