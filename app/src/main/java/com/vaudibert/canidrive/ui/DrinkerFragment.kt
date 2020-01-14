@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.DriveLaw
 import com.vaudibert.canidrive.domain.DriveLaws
@@ -42,28 +44,45 @@ class DrinkerFragment : Fragment() {
 
         val drinkerRepository = mainActivity.drinkerRepository
 
-        val countries = DriveLaws.countryLaws.map {
-                law -> law.countryCode.toFlagEmoji() + " " + Locale("", law.countryCode).displayCountry
+        val countries: List<String> = DriveLaws.countryLaws.map { law ->
+            if (law.countryCode == "")
+                "other"
+            else
+                law.countryCode.toFlagEmoji() + " " + Locale("", law.countryCode).displayCountry
         }
+
 
         spinnerCountry.adapter = ArrayAdapter(
             this.context!!,
             R.layout.item_country_spinner,
             countries
         )
-        spinnerCountry.setSelection(drinkerRepository.getCountryPosition())
+        val i = drinkerRepository.getCountryPosition()
+        spinnerCountry.setSelection(i)
+        val customCountry = i == 0
+
+        updateCustomCountry(customCountry)
+
         spinnerCountry.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
                 view: View, position: Int, id: Long
             ) {
-                country = DriveLaws.countryLaws[position]
+                if (position == 0) {
+                    // handle the other country case
+                    country = DriveLaw("other", 0.0)
+
+                } else {
+                    country = DriveLaws.countryLaws[position]
+                }
+                updateCustomCountry(position == 0)
                 limit = country?.limit ?: 0.0
                 updateCheckBoxYoung()
                 updateCheckBoxProfessional()
                 drinkerRepository.setDriveLaw(country)
                 updateCurrentLimit(drinkerRepository)
+
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 country = null
@@ -161,8 +180,20 @@ class DrinkerFragment : Fragment() {
 
     }
 
+    private fun updateCustomCountry(customCountry: Boolean) {
+        if (customCountry) {
+            // country is custom
+            textViewCurrentLimit.visibility = TextView.GONE
+            editTextCurrentLimit.visibility = TextView.VISIBLE
+        } else {
+            textViewCurrentLimit.visibility = TextView.VISIBLE
+            editTextCurrentLimit.visibility = TextView.GONE
+            KeyboardUtils.hideKeyboard(this.activity!!)
+        }
+    }
+
     private fun updateCurrentLimit(drinkerRepository: DrinkerRepository) {
-        textViewCurrentLimit.text = drinkerRepository.driveLimit().toString() + " g/L"
+        textViewCurrentLimit.text = drinkerRepository.driveLimit().toString()
     }
 
     private fun updateCheckBoxYoung() {

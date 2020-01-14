@@ -7,6 +7,10 @@ object DriveLaws {
     // Main source : https://en.wikipedia.org/wiki/Drunk_driving_law_by_country
 
     val countryLaws = listOf(
+
+        // Other
+        DriveLaw("", 0.0),
+
         // -------------------------- Europe --------------------------
         // Albania
         DriveLaw("AL", 0.1),
