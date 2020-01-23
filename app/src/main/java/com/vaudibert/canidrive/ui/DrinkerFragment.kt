@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.constraint_drinker_country.*
 import kotlinx.android.synthetic.main.fragment_drinker.*
 import kotlinx.android.synthetic.main.linear_drinker_weight_sex.*
 import java.util.*
+import kotlin.math.roundToInt
 
 /**
  * The drinker fragment to enter its details.
@@ -29,6 +30,8 @@ class DrinkerFragment : Fragment() {
 
     private var country : DriveLaw? = null
     private var limit = 0.0
+    private var weight = 0.0
+    private var sex = "NONE"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,109 +56,25 @@ class DrinkerFragment : Fragment() {
                 law.countryCode.toFlagEmoji() + " " + Locale("", law.countryCode).displayCountry
         }
 
+        setupSpinnerCountry(countries, drinkerRepository)
 
-        spinnerCountry.adapter = ArrayAdapter(
-            this.context!!,
-            R.layout.item_country_spinner,
-            countries
-        )
-        val i = drinkerRepository.getCountryPosition()
-        spinnerCountry.setSelection(i)
-        val customCountry = i == 0
+        weight = setupWeightPicker(drinkerRepository)
 
-        updateCustomCountry(customCountry)
+        sex = setupSexPicker(drinkerRepository)
 
-        spinnerCountry.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View, position: Int, id: Long
-            ) {
-                if (position == 0) {
-                    // handle the other country case
-                    country = DriveLaw("other", 0.0)
+        setupCheckBoxes(drinkerRepository)
 
-                } else {
-                    country = DriveLaws.countryLaws[position]
-                }
-                updateCustomCountry(position == 0)
-                limit = country?.limit ?: 0.0
-                updateCheckBoxYoung()
-                updateCheckBoxProfessional()
-                drinkerRepository.setDriveLaw(country)
-                updateCurrentLimit(drinkerRepository)
+        setupValidationButton(drinkerRepository)
 
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                country = null
-                limit = 0.0
-            }
-        }
+    }
 
-        var weight = drinkerRepository.getWeight()
-        var sex = drinkerRepository.getSex()
-
-
-        val weights = intArrayOf(30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95,
-            100, 110, 120, 130, 140, 150)
-        val weightLabels = weights.map { i -> i.toString() + "kg"}.toTypedArray()
-        numberPickerWeight.minValue = 0
-        numberPickerWeight.maxValue = weights.size -1
-        numberPickerWeight.displayedValues = weightLabels
-
-        numberPickerWeight.value = weights
-            .indexOf(drinkerRepository.getWeight().toInt())
-            .coerceAtLeast(0)
-
-        numberPickerWeight.setOnValueChangedListener { _, _, newVal ->
-            weight = weights[newVal].toDouble()
-        }
-
-
-        val sexValues = arrayOf(
-            getString(R.string.male),
-            getString(R.string.other),
-            getString(R.string.female)
-        )
-        numberPickerSex.minValue = 0
-        numberPickerSex.maxValue = sexValues.size -1
-        numberPickerSex.value = when (drinkerRepository.getSex()) {
-            "MALE" -> 0
-            "FEMALE" -> 2
-            else -> 1
-        }
-        numberPickerSex.displayedValues = sexValues
-        numberPickerSex.setOnValueChangedListener { _, _, newVal ->
-            sex = when (newVal) {
-                0 -> "MALE"
-                2 -> "FEMALE"
-                else -> "OTHER"
-            }
-        }
-
-        // Always update checkboxes even if not visible as they hold the state.
-        checkboxYoungDriver.isChecked = drinkerRepository.getYoung()
-        checkboxProfessionalDriver.isChecked = drinkerRepository.getProfessional()
-
-        updateCheckBoxYoung()
-
-        updateCheckBoxProfessional()
-
-        updateCurrentLimit(drinkerRepository)
-
-        checkboxYoungDriver.setOnCheckedChangeListener { _, isChecked ->
-            drinkerRepository.setYoung(isChecked)
-            updateCurrentLimit(drinkerRepository)
-        }
-
-        checkboxProfessionalDriver.setOnCheckedChangeListener { _, isChecked ->
-            drinkerRepository.setProfessional(isChecked)
-            updateCurrentLimit(drinkerRepository)
-        }
-
+    private fun setupValidationButton(drinkerRepository: DrinkerRepository) {
         buttonValidateDrinker.setOnClickListener {
             drinkerRepository.setSex(sex)
             drinkerRepository.setWeight(weight)
+
+            if (spinnerCountry.selectedItemPosition == 0)
+                drinkerRepository.setCustomCountryLimit(editTextCurrentLimit.text.toString().toDouble())
 
             if (!drinkerRepository.init) {
                 drinkerRepository.init = true
@@ -179,7 +98,128 @@ class DrinkerFragment : Fragment() {
             }
 
         }
+    }
 
+    private fun setupCheckBoxes(drinkerRepository: DrinkerRepository) {
+        // Always update checkboxes even if not visible as they hold the state.
+        checkboxYoungDriver.isChecked = drinkerRepository.getYoung()
+        checkboxProfessionalDriver.isChecked = drinkerRepository.getProfessional()
+
+        updateCheckBoxYoung()
+
+        updateCheckBoxProfessional()
+
+        updateCurrentLimit(drinkerRepository)
+
+        checkboxYoungDriver.setOnCheckedChangeListener { _, isChecked ->
+            drinkerRepository.setYoung(isChecked)
+            updateCurrentLimit(drinkerRepository)
+        }
+
+        checkboxProfessionalDriver.setOnCheckedChangeListener { _, isChecked ->
+            drinkerRepository.setProfessional(isChecked)
+            updateCurrentLimit(drinkerRepository)
+        }
+    }
+
+    private fun setupSexPicker(drinkerRepository: DrinkerRepository): String {
+        var sex = drinkerRepository.getSex()
+
+        val sexValues = arrayOf(
+            getString(R.string.male),
+            getString(R.string.other),
+            getString(R.string.female)
+        )
+        numberPickerSex.minValue = 0
+        numberPickerSex.maxValue = sexValues.size - 1
+        numberPickerSex.value = when (drinkerRepository.getSex()) {
+            "MALE" -> 0
+            "FEMALE" -> 2
+            else -> 1
+        }
+        numberPickerSex.displayedValues = sexValues
+        numberPickerSex.setOnValueChangedListener { _, _, newVal ->
+            sex = when (newVal) {
+                0 -> "MALE"
+                2 -> "FEMALE"
+                else -> "OTHER"
+            }
+        }
+        return sex
+    }
+
+    private fun setupWeightPicker(drinkerRepository: DrinkerRepository): Double {
+        var weight = drinkerRepository.getWeight()
+
+        val weights = intArrayOf(
+            30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95,
+            100, 110, 120, 130, 140, 150
+        )
+        val weightLabels = weights.map { i -> i.toString() + "kg" }.toTypedArray()
+        numberPickerWeight.minValue = 0
+        numberPickerWeight.maxValue = weights.size - 1
+        numberPickerWeight.displayedValues = weightLabels
+
+        numberPickerWeight.value = weights
+            .indexOf(drinkerRepository.getWeight().toInt())
+            .coerceAtLeast(0)
+
+        numberPickerWeight.setOnValueChangedListener { _, _, newVal ->
+            weight = weights[newVal].toDouble()
+        }
+        return weight
+    }
+
+    private fun setupSpinnerCountry(
+        countries: List<String>,
+        drinkerRepository: DrinkerRepository
+    ) {
+        spinnerCountry.adapter = ArrayAdapter(
+            this.context!!,
+            R.layout.item_country_spinner,
+            countries
+        )
+        val i = drinkerRepository.getCountryPosition()
+        spinnerCountry.setSelection(i)
+        val customCountry = i == 0
+
+        updateCustomCountry(customCountry)
+
+        spinnerCountry.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View, position: Int, id: Long
+            ) {
+                if (position == 0) {
+                    // handle the other country case
+                    val customLimit = drinkerRepository.getCustomCountryLimit()
+                    // TODO : UI should not handle DriveLaw constructors
+                    country = DriveLaw("other", customLimit)
+                    updateCustomLimit(customLimit)
+                } else {
+                    country = DriveLaws.countryLaws[position]
+                }
+                updateCustomCountry(position == 0)
+                limit = country?.limit ?: 0.0
+                updateCheckBoxYoung()
+                updateCheckBoxProfessional()
+                drinkerRepository.setDriveLaw(country)
+                updateCurrentLimit(drinkerRepository)
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                country = null
+                limit = 0.0
+            }
+        }
+    }
+
+    private fun updateCustomLimit(customLimit: Double) {
+        editTextCurrentLimit.setText(
+            (Math.round(customLimit * 100.0) / 100.0).toString()
+        )
     }
 
     private fun updateCustomCountry(customCountry: Boolean) {
