@@ -49,4 +49,5 @@
     <string name="forbidden_symbol" translatable="false">forbidden symbol</string>
     <string name="drop_symbol" translatable="false">drop symbol</string>
     <string name="customCountryLimit" translatable="false">CUSTOM_COUNTRY_LIMIT</string>
+    <string name="customCountryLabel">Other</string>
 </resources>

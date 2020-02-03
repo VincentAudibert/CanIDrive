@@ -32,6 +32,7 @@ class DrinkerFragment : Fragment() {
     private var limit = 0.0
     private var weight = 0.0
     private var sex = "NONE"
+    private lateinit var drinkerRepository : DrinkerRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,11 +48,11 @@ class DrinkerFragment : Fragment() {
 
         val mainActivity = this.activity as MainActivity
 
-        val drinkerRepository = mainActivity.drinkerRepository
+        drinkerRepository = mainActivity.drinkerRepository
 
         val countries: List<String> = DriveLaws.countryLaws.map { law ->
             if (law.countryCode == "")
-                "other"
+                mainActivity.getString(R.string.customCountryLabel)
             else
                 law.countryCode.toFlagEmoji() + " " + Locale("", law.countryCode).displayCountry
         }
@@ -68,13 +69,17 @@ class DrinkerFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateCustomLimit(drinkerRepository.getCustomCountryLimit())
+    }
+
     private fun setupValidationButton(drinkerRepository: DrinkerRepository) {
         buttonValidateDrinker.setOnClickListener {
             drinkerRepository.setSex(sex)
             drinkerRepository.setWeight(weight)
 
-            if (spinnerCountry.selectedItemPosition == 0)
-                drinkerRepository.setCustomCountryLimit(editTextCurrentLimit.text.toString().toDouble())
+            drinkerRepository.setCustomCountryLimit(editTextCurrentLimit.text.toString().toDouble())
 
             if (!drinkerRepository.init) {
                 drinkerRepository.init = true
@@ -195,7 +200,7 @@ class DrinkerFragment : Fragment() {
                     // handle the other country case
                     val customLimit = drinkerRepository.getCustomCountryLimit()
                     // TODO : UI should not handle DriveLaw constructors
-                    country = DriveLaw("other", customLimit)
+                    country = DriveLaw("", customLimit)
                     updateCustomLimit(customLimit)
                 } else {
                     country = DriveLaws.countryLaws[position]
@@ -206,7 +211,6 @@ class DrinkerFragment : Fragment() {
                 updateCheckBoxProfessional()
                 drinkerRepository.setDriveLaw(country)
                 updateCurrentLimit(drinkerRepository)
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
