@@ -49,25 +49,28 @@ dependencies {
     testImplementation(kotlin("test-junit"))
 
     // Navigation (Kotlin)
-    implementation( "androidx.navigation:navigation-fragment-ktx:2.1.0")
-    implementation( "androidx.navigation:navigation-ui-ktx:2.1.0")
+    val navigationVersion = "2.2.0"
+    implementation( "androidx.navigation:navigation-fragment-ktx:$navigationVersion")
+    implementation( "androidx.navigation:navigation-ui-ktx:$navigationVersion")
 
 
-    val lifecycleVersion = "2.1.0"
 
     // ViewModel and LiveData
+    val lifecycleVersion = "2.2.0"
     implementation("androidx.lifecycle:lifecycle-extensions:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-rc03")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
 
     kapt("androidx.lifecycle:lifecycle-compiler:$lifecycleVersion")
 
     // optional - ReactiveStreams support for LiveData
-    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycleVersion") // For Kotlin use lifecycle-reactivestreams-ktx
+    // For Kotlin use lifecycle-reactivestreams-ktx
+    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycleVersion")
 
     // optional - Test helpers for LiveData
-    testImplementation("androidx.arch.core:core-testing:$lifecycleVersion")
+    val coreTestingVersion = "2.1.0"
+    testImplementation("androidx.arch.core:core-testing:$coreTestingVersion")
 
 
     // Room

@@ -46,4 +46,8 @@
     <string name="motor_cycle_or_young_drivers">Motor cycle or young driver.</string>
     <string name="twenty_one_young">Less than 21 years old.</string>
     <string name="new_driver_or_twenty_four">New drivers or less than 24 years old.</string>
+    <string name="forbidden_symbol" translatable="false">forbidden symbol</string>
+    <string name="drop_symbol" translatable="false">drop symbol</string>
+    <string name="customCountryLimit" translatable="false">CUSTOM_COUNTRY_LIMIT</string>
+    <string name="customCountryLabel">Other</string>
 </resources>

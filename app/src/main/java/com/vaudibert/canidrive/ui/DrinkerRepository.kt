@@ -60,6 +60,8 @@ class DrinkerRepository {
     // LiveData exposed to UI.
     val liveDrinker = MutableLiveData<Drinker>(drinker)
 
+    private var customLimit = 0.0
+
     /**
      * Context (main activity) reference set.
      *
@@ -74,10 +76,13 @@ class DrinkerRepository {
         val isYoung = sharedPref.getBoolean(context.getString(R.string.user_young_driver), false)
         val isProfessional = sharedPref.getBoolean(context.getString(R.string.user_professional_driver), false)
         val countryCode = sharedPref.getString(context.getString(R.string.countryCode), "")
+        customLimit = sharedPref.getFloat(context.getString(R.string.customCountryLimit), 0.0F).toDouble()
         init = sharedPref.getBoolean(context.getString(R.string.user_initialized), false)
 
         drinker = Drinker(weight, sex, isYoung, isProfessional)
-        driveLaw = DriveLaws.countryLaws.find { law -> law.countryCode == countryCode }
+        driveLaw = DriveLaws.countryLaws.find {
+                law -> law.countryCode == countryCode
+        }
         liveDrinker.value = drinker
 
     }
@@ -152,6 +157,14 @@ class DrinkerRepository {
             .apply()
     }
 
+    fun setCustomCountryLimit(limit : Double) {
+        this.driveLaw = DriveLaw("", limit)
+        customLimit = limit
+        sharedPref.edit()
+            .putString(context.getString(R.string.countryCode), "")
+            .putFloat(context.getString(R.string.customCountryLimit), limit.toFloat())
+            .apply()
+    }
     // Getters needed for UI
 
     fun getDrinks() = drinker.getDrinks()
@@ -164,13 +177,20 @@ class DrinkerRepository {
 
     fun getProfessional() = drinker.isProfessionalDriver
 
+    fun getCustomCountryLimit() = customLimit
+
     /**
      * Returns the position of the drive law in list of drive laws (per country).
      *
      * Used for UI (spinner current selection).
      */
     fun getCountryPosition() : Int {
-        return DriveLaws.countryLaws.indexOf(driveLaw).coerceAtLeast(0)
+        //return DriveLaws.countryLaws.indexOf(driveLaw).coerceAtLeast(0)
+        return DriveLaws.countryLaws
+            .indexOfFirst {
+                law -> law.countryCode == driveLaw?.countryCode
+            }
+            .coerceAtLeast(0)
     }
 
 
