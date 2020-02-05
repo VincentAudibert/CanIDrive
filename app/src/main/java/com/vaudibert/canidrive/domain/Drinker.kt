@@ -66,7 +66,7 @@ class Drinker(
         return max(0.0, newRate)
     }
 
-    fun getDrinks() = ArrayList(absorbedDrinks)
+    fun getDrinks() = ArrayList(absorbedDrinks).reversed()
 
     fun remove(drink: Drink) {
         absorbedDrinks.remove(drink)
