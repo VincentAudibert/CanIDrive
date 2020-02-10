@@ -2,6 +2,7 @@ package com.vaudibert.canidrive.ui
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -128,7 +129,6 @@ class DrinkerFragment : Fragment() {
     }
 
     private fun setupSexPicker(drinkerRepository: DrinkerRepository) {
-        // FIXME : variable shadowed
         sex = drinkerRepository.getSex()
 
         val sexValues = arrayOf(
@@ -183,28 +183,33 @@ class DrinkerFragment : Fragment() {
             R.layout.item_country_spinner,
             countries
         )
-        val i = drinkerRepository.getCountryPosition()
-        spinnerCountry.setSelection(i)
-        val customCountry = i == 0
+        val initialPosition = drinkerRepository.getCountryPosition()
+        spinnerCountry.setSelection(initialPosition)
+        val isCustomCountry = initialPosition == 0
 
-        updateCustomCountry(customCountry)
+        updateViewForCustomCountry(isCustomCountry)
 
         spinnerCountry.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View, position: Int, id: Long
+                view: View,
+                position: Int,
+                id: Long
             ) {
+                Log.d("DrinkerFragment", "position is $position")
                 if (position == 0) {
                     // handle the other country case
                     val customLimit = drinkerRepository.getCustomCountryLimit()
                     // TODO : UI should not handle DriveLaw constructors
                     country = DriveLaw("", customLimit)
                     updateCustomLimit(customLimit)
+
                 } else {
                     country = DriveLaws.countryLaws[position]
                 }
-                updateCustomCountry(position == 0)
+                updateViewForCustomCountry(position == 0)
+                Log.d("DrinkerFragment", "country code is " + country?.countryCode)
                 limit = country?.limit ?: 0.0
                 updateCheckBoxYoung()
                 updateCheckBoxProfessional()
@@ -225,7 +230,7 @@ class DrinkerFragment : Fragment() {
         )
     }
 
-    private fun updateCustomCountry(customCountry: Boolean) {
+    private fun updateViewForCustomCountry(customCountry: Boolean) {
         if (customCountry) {
             // country is custom
             textViewCurrentLimit.visibility = TextView.GONE
