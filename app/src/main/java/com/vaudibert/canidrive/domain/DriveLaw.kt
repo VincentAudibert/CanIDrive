@@ -266,6 +266,22 @@ object DriveLaws {
         DriveLaw("TR", 0.5, professionalLimit = ProfessionalLimit())
 
     ).sortedBy { law -> law.countryCode }
+
+    fun getIndexOf(countryCode: String?): Int {
+        if (countryCode == null) return 0
+
+        val index = countryLaws
+                .indexOfFirst {
+                law -> law.countryCode == countryCode
+        }
+        return index.coerceAtLeast(0)
+    }
+
+    fun findByCountryCode(countryCode: String): DriveLaw? {
+        return countryLaws.find {
+                law -> law.countryCode == countryCode
+        }
+    }
 }
 
 data class DriveLaw(

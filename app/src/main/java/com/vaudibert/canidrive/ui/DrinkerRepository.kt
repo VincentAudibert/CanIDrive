@@ -80,9 +80,7 @@ class DrinkerRepository {
         init = sharedPref.getBoolean(context.getString(R.string.user_initialized), false)
 
         drinker = Drinker(weight, sex, isYoung, isProfessional)
-        driveLaw = DriveLaws.countryLaws.find {
-                law -> law.countryCode == countryCode
-        }
+        driveLaw = DriveLaws.findByCountryCode(countryCode)
         liveDrinker.value = drinker
 
     }
@@ -185,12 +183,8 @@ class DrinkerRepository {
      * Used for UI (spinner current selection).
      */
     fun getCountryPosition() : Int {
-        //return DriveLaws.countryLaws.indexOf(driveLaw).coerceAtLeast(0)
-        return DriveLaws.countryLaws
-            .indexOfFirst {
-                law -> law.countryCode == driveLaw?.countryCode
-            }
-            .coerceAtLeast(0)
+
+        return DriveLaws.getIndexOf(driveLaw?.countryCode)
     }
 
 
