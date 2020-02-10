@@ -10,11 +10,14 @@ import android.widget.TextView
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.Drink
 import java.text.SimpleDateFormat
+import java.util.*
 
 class PastDrinksAdapter(
     val context: Context,
     private var drinkList : List<Drink>
     ) : BaseAdapter() {
+
+    private val DAY_IN_MILLIS = 3600*1000*24
 
     private val inflater: LayoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -29,9 +32,18 @@ class PastDrinksAdapter(
         val quantityText = drinkView.findViewById(R.id.pastDrinkTextQuantity) as TextView
         val degreeText = drinkView.findViewById(R.id.pastDrinkTextDegree) as TextView
         val timeText = drinkView.findViewById(R.id.pastDrinkTextTime) as TextView
+        val daysText = drinkView.findViewById(R.id.textViewPastDays) as TextView
 
         quantityText.text = "${drink.volume} ml"
         degreeText.text = "${drink.degree} %"
+        val days: Long = (drink.ingestionTime.time / DAY_IN_MILLIS) - (Date().time / DAY_IN_MILLIS)
+        if (days == 0L)
+            daysText.visibility = TextView.GONE
+        else {
+            daysText.visibility = TextView.VISIBLE
+            daysText.text = "$days${context.getString(R.string.day_unit)} "
+        }
+
         timeText.text = dateFormat.format(drink.ingestionTime)
 
         val buttonRemovePastDrink =

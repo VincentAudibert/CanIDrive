@@ -59,9 +59,9 @@ class DrinkerFragment : Fragment() {
 
         setupSpinnerCountry(countries, drinkerRepository)
 
-        weight = setupWeightPicker(drinkerRepository)
+        setupWeightPicker(drinkerRepository)
 
-        sex = setupSexPicker(drinkerRepository)
+        setupSexPicker(drinkerRepository)
 
         setupCheckBoxes(drinkerRepository)
 
@@ -127,8 +127,9 @@ class DrinkerFragment : Fragment() {
         }
     }
 
-    private fun setupSexPicker(drinkerRepository: DrinkerRepository): String {
-        var sex = drinkerRepository.getSex()
+    private fun setupSexPicker(drinkerRepository: DrinkerRepository) {
+        // FIXME : variable shadowed
+        sex = drinkerRepository.getSex()
 
         val sexValues = arrayOf(
             getString(R.string.male),
@@ -150,11 +151,10 @@ class DrinkerFragment : Fragment() {
                 else -> "OTHER"
             }
         }
-        return sex
     }
 
-    private fun setupWeightPicker(drinkerRepository: DrinkerRepository): Double {
-        var weight = drinkerRepository.getWeight()
+    private fun setupWeightPicker(drinkerRepository: DrinkerRepository) {
+        weight = drinkerRepository.getWeight()
 
         val weights = intArrayOf(
             30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95,
@@ -172,7 +172,6 @@ class DrinkerFragment : Fragment() {
         numberPickerWeight.setOnValueChangedListener { _, _, newVal ->
             weight = weights[newVal].toDouble()
         }
-        return weight
     }
 
     private fun setupSpinnerCountry(
@@ -222,7 +221,7 @@ class DrinkerFragment : Fragment() {
 
     private fun updateCustomLimit(customLimit: Double) {
         editTextCurrentLimit.setText(
-            (Math.round(customLimit * 100.0) / 100.0).toString()
+            ((customLimit * 100.0).roundToInt() / 100.0).toString()
         )
     }
 

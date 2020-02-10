@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -28,7 +29,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:text="quantity"
-            />
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/pastDrinkTextDegree"
@@ -38,9 +39,16 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:text="alcohol rate"
-            />
+            tools:ignore="HardcodedText" />
 
     </LinearLayout>
+
+    <TextView android:id="@+id/textViewPastDays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="days"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/pastDrinkTextTime"
@@ -49,7 +57,7 @@
         android:layout_gravity="center"
         android:layout_margin="5dp"
         android:text="time"
-        />
+        tools:ignore="HardcodedText" />
 
     <ImageButton
         android:id="@+id/buttonRemovePastDrink"
@@ -59,6 +67,7 @@
         android:layout_gravity="center"
         android:layout_margin="5dp"
         android:src="@drawable/ic_delete_white_24dp"
-        />
+        android:contentDescription="Delete drink button"
+        tools:ignore="HardcodedText" />
 
 </LinearLayout>

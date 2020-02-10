@@ -27,4 +27,5 @@
     <string name="twenty_one_young_or_less_two_years_driving">Moins de 21 ans ou moins de 2 ans de permis.</string>
     <string name="new_driver_or_twenty_four">Nouveaux conducteurs ou moins de 24 ans.</string>
     <string name="customCountryLabel">Autre</string>
+    <string name="day_unit">j</string>
 </resources>
