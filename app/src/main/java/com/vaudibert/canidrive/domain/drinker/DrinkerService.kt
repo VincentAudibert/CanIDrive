@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive.domain
+package com.vaudibert.canidrive.domain.drinker
 
 import java.util.*
 import kotlin.collections.ArrayList
@@ -16,7 +16,7 @@ import kotlin.math.max
  * steadily decrease, reaching the theoretical max rate 30 min after ingestion.
  * This simplifies greatly calculation while staying safe and reliable regarding the drive status.
  */
-class DrinkerService(var drinker: Drinker) {
+class DrinkerService(var body: PhysicalBody) {
 
     private val absorbedDrinks : MutableList<Drink> = ArrayList()
 
@@ -40,7 +40,7 @@ class DrinkerService(var drinker: Drinker) {
 
         absorbedDrinks.forEach {
             lastRate = newRate(lastRate, lastIngestion, it.ingestionTime) +
-                    (it.alcoholMass() / drinker.effectiveWeight + (drinker.decreaseFactor/2))
+                    (it.alcoholMass() / body.effectiveWeight + (body.decreaseFactor/2))
             lastIngestion = it.ingestionTime
         }
 
@@ -53,7 +53,7 @@ class DrinkerService(var drinker: Drinker) {
         if (rate < limit) return now
 
         return Date(
-            now.time + ((rate-limit) / drinker.decreaseFactor* 3_600_000).toLong()
+            now.time + ((rate-limit) / body.decreaseFactor* 3_600_000).toLong()
         )
     }
 
@@ -63,7 +63,7 @@ class DrinkerService(var drinker: Drinker) {
     private fun newRate(lastRate: Double, lastIngestion: Date, now: Date) : Double {
         val timeLapse = ((now.time - lastIngestion.time).toDouble() / (3600*1000))
 
-        val newRate = lastRate - (drinker.decreaseFactor* timeLapse)
+        val newRate = lastRate - (body.decreaseFactor* timeLapse)
         return max(0.0, newRate)
     }
 }

@@ -6,6 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.data.DrinkDao
 import com.vaudibert.canidrive.domain.*
+import com.vaudibert.canidrive.domain.drinker.Drink
+import com.vaudibert.canidrive.domain.drinker.DrinkerService
+import com.vaudibert.canidrive.domain.drinker.DrinkerStatus
+import com.vaudibert.canidrive.domain.drinker.PhysicalBody
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -30,13 +34,14 @@ import kotlin.math.min
 class DrinkerRepository {
 
     // Main instance to link
-    private var drinker = Drinker()
+    private var drinker = PhysicalBody()
 
     // TODO : move driveLaw to another service
     private var driveLaw : DriveLaw? = null
 
     // TODO : get out of Repository ?
-    private val drinkerService = DrinkerService(drinker)
+    private val drinkerService =
+        DrinkerService(drinker)
 
     private val defaultLimit = 0.01
 
@@ -59,7 +64,7 @@ class DrinkerRepository {
     private lateinit var sharedPref: SharedPreferences
 
     // LiveData exposed to UI.
-    val liveDrinker = MutableLiveData<Drinker>(drinker)
+    val liveDrinker = MutableLiveData<PhysicalBody>(drinker)
 
     private var customLimit = 0.0
 
@@ -83,7 +88,12 @@ class DrinkerRepository {
         val isProfessional = sharedPref.getBoolean(context.getString(R.string.user_professional_driver), false)
         init = sharedPref.getBoolean(context.getString(R.string.user_initialized), false)
 
-        drinker = Drinker(weight, sex, isYoung, isProfessional)
+        drinker = PhysicalBody(
+            weight,
+            sex,
+            isYoung,
+            isProfessional
+        )
         liveDrinker.value = drinker
     }
 

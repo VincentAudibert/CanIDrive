@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     val drinkerRepository = DrinkerRepository()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

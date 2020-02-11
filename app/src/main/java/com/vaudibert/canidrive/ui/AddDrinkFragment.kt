@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.domain.Drink
+import com.vaudibert.canidrive.domain.drinker.Drink
 import kotlinx.android.synthetic.main.fragment_add_drink.*
 import java.text.DecimalFormat
 import java.util.*
@@ -42,7 +42,11 @@ class AddDrinkFragment : Fragment() {
             val ingestionTime = Date(Date().time - (delay * 60000))
 
             drinkerRepository.ingest(
-                Drink(volume, degree, ingestionTime)
+                Drink(
+                    volume,
+                    degree,
+                    ingestionTime
+                )
             )
 
             KeyboardUtils.hideKeyboard(this.activity as Activity)

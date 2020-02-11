@@ -1,11 +1,11 @@
-package com.vaudibert.canidrive.domain
+package com.vaudibert.canidrive.domain.drinker
 
 /**
  * Represents the person drinking.
  * The parameters such as weight and sex may change as the user adjusts the inputs.
  */
 
-class Drinker(
+class PhysicalBody(
     private var weight: Double = 80.0,
     private var sex: String = "NONE",
     var isYoungDriver: Boolean = false,

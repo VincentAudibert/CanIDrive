@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive.domain
+package com.vaudibert.canidrive.domain.drinker
 
 import java.util.*
 
