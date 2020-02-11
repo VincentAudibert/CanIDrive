@@ -29,10 +29,14 @@ import kotlin.math.min
  */
 class DrinkerRepository {
 
-    // Main instances to link
+    // Main instance to link
     private var drinker = Drinker()
 
+    // TODO : move driveLaw to another service
     private var driveLaw : DriveLaw? = null
+
+    // TODO : get out of Repository ?
+    private val drinkerService = DrinkerService(drinker)
 
     private val defaultLimit = 0.01
 
@@ -65,6 +69,11 @@ class DrinkerRepository {
      * Triggers the retrieval of all SharedPreferences-linked values.
      */
     fun setContext(context: Context) {
+        setContextForDrinker(context)
+        setContextForDriveLaw(context)
+    }
+
+    fun setContextForDrinker(context: Context) {
         this.context = context
         sharedPref = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE)
 
@@ -72,14 +81,22 @@ class DrinkerRepository {
         val sex = sharedPref.getString(context.getString(R.string.user_sex), "NONE") ?: "NONE"
         val isYoung = sharedPref.getBoolean(context.getString(R.string.user_young_driver), false)
         val isProfessional = sharedPref.getBoolean(context.getString(R.string.user_professional_driver), false)
-        val countryCode = sharedPref.getString(context.getString(R.string.countryCode), "")
-        customLimit = sharedPref.getFloat(context.getString(R.string.customCountryLimit), 0.0F).toDouble()
         init = sharedPref.getBoolean(context.getString(R.string.user_initialized), false)
 
         drinker = Drinker(weight, sex, isYoung, isProfessional)
-        driveLaw = DriveLaws.findByCountryCode(countryCode)
         liveDrinker.value = drinker
+    }
 
+    fun setContextForDriveLaw(context: Context) {
+        this.context = context
+        sharedPref = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE)
+
+        //val isYoung = sharedPref.getBoolean(context.getString(R.string.user_young_driver), false)
+        //val isProfessional = sharedPref.getBoolean(context.getString(R.string.user_professional_driver), false)
+        val countryCode = sharedPref.getString(context.getString(R.string.countryCode), "") ?: ""
+        customLimit = sharedPref.getFloat(context.getString(R.string.customCountryLimit), 0.0F).toDouble()
+
+        driveLaw = DriveLaws.findByCountryCode(countryCode)
     }
 
     /**
@@ -91,7 +108,7 @@ class DrinkerRepository {
         this.drinkDao = drinkDao
         uiScope.launch {
             val drinks = drinkDao.getAll()
-            drinks.forEach { drinker.ingest(it.toDrink())}
+            drinks.forEach { drinkerService.ingest(it.toDrink())}
             liveDrinker.postValue(drinker)
         }
     }
@@ -99,13 +116,13 @@ class DrinkerRepository {
     // Addition and removal of drinks, saved in DB
 
     fun ingest(drink : Drink) {
-        drinker.ingest(drink)
+        drinkerService.ingest(drink)
         uiScope.launch { drinkDao.insert(drink) }
         liveDrinker.value = drinker
     }
 
     fun remove(drink: Drink) {
-        drinker.remove(drink)
+        drinkerService.remove(drink)
         uiScope.launch { drinkDao.remove(drink) }
         liveDrinker.value = drinker
     }
@@ -113,7 +130,7 @@ class DrinkerRepository {
     // Set of values saved in SharedPreferences
 
     fun setWeight(weight: Double) {
-        drinker.weight = weight
+        drinker.changeWeight(weight)
         sharedPref
             .edit()
             .putFloat(context.getString(R.string.user_weight), weight.toFloat())
@@ -123,7 +140,7 @@ class DrinkerRepository {
     }
 
     fun setSex(sex: String) {
-        drinker.sex = sex
+        drinker.changeSex(sex)
         sharedPref
             .edit()
             .putString(context.getString(R.string.user_sex), sex)
@@ -162,11 +179,11 @@ class DrinkerRepository {
     }
     // Getters needed for UI
 
-    fun getDrinks() = drinker.getDrinks()
+    fun getDrinks() = drinkerService.getDrinks()
 
-    fun getWeight() = drinker.weight
+    fun getWeight() = drinker.getWeight()
 
-    fun getSex() = drinker.sex
+    fun getSex() = drinker.getSex()
 
     fun getYoung() = drinker.isYoungDriver
 
@@ -188,10 +205,10 @@ class DrinkerRepository {
     fun status() : DrinkerStatus {
         val driveLimit = driveLimit()
         return DrinkerStatus(
-            drinker.alcoholRateAt(Date()) <= driveLimit,
-            drinker.alcoholRateAt(Date()),
-            drinker.timeToReachLimit(driveLimit),
-            drinker.timeToReachLimit(defaultLimit)
+            drinkerService.alcoholRateAt(Date()) <= driveLimit,
+            drinkerService.alcoholRateAt(Date()),
+            drinkerService.timeToReachLimit(driveLimit),
+            drinkerService.timeToReachLimit(defaultLimit)
         )
     }
 
