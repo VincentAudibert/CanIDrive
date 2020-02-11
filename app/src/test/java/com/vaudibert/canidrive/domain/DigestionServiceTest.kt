@@ -3,7 +3,7 @@ package com.vaudibert.canidrive.domain
 import org.junit.jupiter.api.Assertions.fail
 import org.junit.jupiter.api.Test
 
-internal class DrinkerServiceTest {
+internal class DigestionServiceTest {
 
     @Test
     fun `write some useful tests`() {

@@ -2,7 +2,34 @@ package com.vaudibert.canidrive.domain
 
 import com.vaudibert.canidrive.R
 
+data class DriveLaw(
+    val countryCode:String,
+    val limit:Double = 0.0,
+    val youngLimit: YoungLimit? = null,
+    val professionalLimit: ProfessionalLimit? = null
+)
+
+data class YoungLimit(val limit:Double = 0.0, val explanationId: Int)
+
+data class ProfessionalLimit(val limit:Double = 0.0)
+
 object DriveLaws {
+
+    fun getIndexOf(countryCode: String?): Int {
+                if (countryCode == null) return 0
+
+        val index = countryLaws
+                .indexOfFirst {
+                    law -> law.countryCode == countryCode
+                }
+        return index.coerceAtLeast(0)
+    }
+
+    fun findByCountryCode(countryCode: String): DriveLaw? {
+        return countryLaws.find {
+                law -> law.countryCode == countryCode
+        }
+    }
 
     // Main source : https://en.wikipedia.org/wiki/Drunk_driving_law_by_country
 
@@ -267,30 +294,5 @@ object DriveLaws {
 
     ).sortedBy { law -> law.countryCode }
 
-    fun getIndexOf(countryCode: String?): Int {
-        if (countryCode == null) return 0
-
-        val index = countryLaws
-                .indexOfFirst {
-                law -> law.countryCode == countryCode
-        }
-        return index.coerceAtLeast(0)
-    }
-
-    fun findByCountryCode(countryCode: String): DriveLaw? {
-        return countryLaws.find {
-                law -> law.countryCode == countryCode
-        }
-    }
 }
 
-data class DriveLaw(
-    val countryCode:String,
-    val limit:Double = 0.0,
-    val youngLimit: YoungLimit? = null,
-    val professionalLimit: ProfessionalLimit? = null
-)
-
-data class YoungLimit(val limit:Double = 0.0, val explanationId: Int)
-
-data class ProfessionalLimit(val limit:Double = 0.0)

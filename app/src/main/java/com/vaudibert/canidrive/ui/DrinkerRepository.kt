@@ -7,8 +7,8 @@ import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.data.DrinkDao
 import com.vaudibert.canidrive.domain.*
 import com.vaudibert.canidrive.domain.drinker.Drink
-import com.vaudibert.canidrive.domain.drinker.DrinkerService
-import com.vaudibert.canidrive.domain.drinker.DrinkerStatus
+import com.vaudibert.canidrive.domain.drinker.DigestionService
+import com.vaudibert.canidrive.domain.DrinkerStatus
 import com.vaudibert.canidrive.domain.drinker.PhysicalBody
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,14 +34,13 @@ import kotlin.math.min
 class DrinkerRepository {
 
     // Main instance to link
-    private var drinker = PhysicalBody()
+    private var body = PhysicalBody()
 
     // TODO : move driveLaw to another service
     private var driveLaw : DriveLaw? = null
 
     // TODO : get out of Repository ?
-    private val drinkerService =
-        DrinkerService(drinker)
+    val digestionService = DigestionService(body)
 
     private val defaultLimit = 0.01
 
@@ -64,7 +63,7 @@ class DrinkerRepository {
     private lateinit var sharedPref: SharedPreferences
 
     // LiveData exposed to UI.
-    val liveDrinker = MutableLiveData<PhysicalBody>(drinker)
+    val liveDrinker = MutableLiveData<PhysicalBody>(body)
 
     private var customLimit = 0.0
 
@@ -78,7 +77,7 @@ class DrinkerRepository {
         setContextForDriveLaw(context)
     }
 
-    fun setContextForDrinker(context: Context) {
+    private fun setContextForDrinker(context: Context) {
         this.context = context
         sharedPref = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE)
 
@@ -88,16 +87,25 @@ class DrinkerRepository {
         val isProfessional = sharedPref.getBoolean(context.getString(R.string.user_professional_driver), false)
         init = sharedPref.getBoolean(context.getString(R.string.user_initialized), false)
 
-        drinker = PhysicalBody(
+        body = PhysicalBody(
             weight,
             sex,
             isYoung,
             isProfessional
         )
-        liveDrinker.value = drinker
+
+        body.onUpdate = { updatedSex: String, updatedWeight: Double -> run {
+            sharedPref
+                .edit()
+                .putString(context.getString(R.string.user_sex), updatedSex)
+                .putFloat(context.getString(R.string.user_weight), updatedWeight.toFloat())
+                .apply()
+        } }
+
+        liveDrinker.value = body
     }
 
-    fun setContextForDriveLaw(context: Context) {
+    private fun setContextForDriveLaw(context: Context) {
         this.context = context
         sharedPref = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE)
 
@@ -118,44 +126,46 @@ class DrinkerRepository {
         this.drinkDao = drinkDao
         uiScope.launch {
             val drinks = drinkDao.getAll()
-            drinks.forEach { drinkerService.ingest(it.toDrink())}
-            liveDrinker.postValue(drinker)
+            drinks.forEach { digestionService.ingest(it.toDrink())}
+            liveDrinker.postValue(body)
+        }
+
+        digestionService.ingestCallback = {
+            drink -> run {
+                uiScope.launch { drinkDao.insert(drink) }
+            }
+        }
+
+        digestionService.removeCallback = {
+            drink -> run {
+                uiScope.launch { drinkDao.remove(drink) }
+            }
         }
     }
 
     // Addition and removal of drinks, saved in DB
-
+    // TODO : move livedata update elsewhere to detach ingest from repository
     fun ingest(drink : Drink) {
-        drinkerService.ingest(drink)
-        uiScope.launch { drinkDao.insert(drink) }
-        liveDrinker.value = drinker
+        digestionService.ingest(drink)
+        liveDrinker.value = body
     }
 
+    // TODO : move livedata update elsewhere to detach remove from repository
     fun remove(drink: Drink) {
-        drinkerService.remove(drink)
-        uiScope.launch { drinkDao.remove(drink) }
-        liveDrinker.value = drinker
+        digestionService.remove(drink)
+        liveDrinker.value = body
     }
 
     // Set of values saved in SharedPreferences
 
     fun setWeight(weight: Double) {
-        drinker.changeWeight(weight)
-        sharedPref
-            .edit()
-            .putFloat(context.getString(R.string.user_weight), weight.toFloat())
-            .apply()
-
-        liveDrinker.value = drinker
+        body.update(weight = weight)
+        liveDrinker.value = body
     }
 
     fun setSex(sex: String) {
-        drinker.changeSex(sex)
-        sharedPref
-            .edit()
-            .putString(context.getString(R.string.user_sex), sex)
-            .apply()
-        liveDrinker.value = drinker
+        body.update(sex = sex)
+        liveDrinker.value = body
     }
 
     fun setDriveLaw(driveLaw: DriveLaw?) {
@@ -166,14 +176,14 @@ class DrinkerRepository {
     }
 
     fun setYoung(isYoung:Boolean) {
-        this.drinker.isYoungDriver = isYoung
+        this.body.isYoungDriver = isYoung
         sharedPref.edit()
             .putBoolean(context.getString(R.string.user_young_driver), isYoung)
             .apply()
     }
 
     fun setProfessional(isProfessional:Boolean) {
-        this.drinker.isProfessionalDriver = isProfessional
+        this.body.isProfessionalDriver = isProfessional
         sharedPref.edit()
             .putBoolean(context.getString(R.string.user_professional_driver), isProfessional)
             .apply()
@@ -189,15 +199,15 @@ class DrinkerRepository {
     }
     // Getters needed for UI
 
-    fun getDrinks() = drinkerService.getDrinks()
+    fun getDrinks() = digestionService.getDrinks()
 
-    fun getWeight() = drinker.getWeight()
+    fun getWeight() = body.getWeight()
 
-    fun getSex() = drinker.getSex()
+    fun getSex() = body.getSex()
 
-    fun getYoung() = drinker.isYoungDriver
+    fun getYoung() = body.isYoungDriver
 
-    fun getProfessional() = drinker.isProfessionalDriver
+    fun getProfessional() = body.isProfessionalDriver
 
     fun getCustomCountryLimit() = customLimit
 
@@ -215,22 +225,22 @@ class DrinkerRepository {
     fun status() : DrinkerStatus {
         val driveLimit = driveLimit()
         return DrinkerStatus(
-            drinkerService.alcoholRateAt(Date()) <= driveLimit,
-            drinkerService.alcoholRateAt(Date()),
-            drinkerService.timeToReachLimit(driveLimit),
-            drinkerService.timeToReachLimit(defaultLimit)
+            digestionService.alcoholRateAt(Date()) <= driveLimit,
+            digestionService.alcoholRateAt(Date()),
+            digestionService.timeToReachLimit(driveLimit),
+            digestionService.timeToReachLimit(defaultLimit)
         )
     }
 
     fun driveLimit() : Double {
         val regularLimit = driveLaw?.limit ?: defaultLimit
 
-        val youngLimit = if (drinker.isYoungDriver)
+        val youngLimit = if (body.isYoungDriver)
             driveLaw?.youngLimit?.limit ?: regularLimit
         else
             regularLimit
 
-        val professionalLimit = if (drinker.isProfessionalDriver)
+        val professionalLimit = if (body.isProfessionalDriver)
             driveLaw?.professionalLimit?.limit ?: regularLimit
         else
             regularLimit
