@@ -11,38 +11,34 @@ class PhysicalBody(
     var isYoungDriver: Boolean = false,
     var isProfessionalDriver:Boolean = false
 ) {
-    private var sexFactor: Double = 0.6
+    // TODO : find a more kotlin way to declare these constants
+    private val MALE = "MALE"
+    private val MALE_SEX_FACTOR = 0.7
+    private val MALE_DECREASE = 0.1
 
-    var decreaseFactor: Double = 0.085
+    private val FEMALE_SEX_FACTOR = 0.6
+    private val FEMALE_DECREASE = 0.085
 
-    var effectiveWeight:Double = weight * sexFactor
+
+    var onUpdate = { _ : String, _ : Double -> }
+
+    var decreaseFactor: Double = FEMALE_DECREASE
+
+    var effectiveWeight:Double = weight * FEMALE_SEX_FACTOR
 
     init {
-        changeSex(sex)
-        setDecreaseFactor(sex)
+        update()
     }
 
-    fun changeSex(sex: String) {
+    fun update(
+        sex: String = this.sex,
+        weight: Double = this.weight
+    ) {
         this.sex = sex
-        setSexFactor(sex)
-        effectiveWeight = computeEffectiveWeight()
-        setDecreaseFactor(sex)
-    }
-
-    fun changeWeight(weight: Double) {
         this.weight = weight
-        effectiveWeight = computeEffectiveWeight()
-    }
-
-    private fun setSexFactor(sex: String) {
-        sexFactor = if (sex == "MALE") 0.7 else 0.6
-    }
-
-    private fun computeEffectiveWeight() = sexFactor * weight
-
-
-    private fun setDecreaseFactor(sex: String) {
-        decreaseFactor = if (sex == "MALE") 0.1 else 0.085
+        effectiveWeight = weight * (if (sex == MALE) MALE_SEX_FACTOR else FEMALE_SEX_FACTOR)
+        decreaseFactor = if (sex == MALE) MALE_DECREASE else FEMALE_DECREASE
+        onUpdate(sex, weight)
     }
 
     fun getWeight() = weight

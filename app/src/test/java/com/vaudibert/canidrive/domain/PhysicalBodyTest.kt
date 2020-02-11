@@ -29,12 +29,12 @@ internal class PhysicalBodyTest {
         val changer =
             PhysicalBody(100.0, "MALE")
 
-        changer.changeSex("FEMALE")
+        changer.update(sex="FEMALE")
 
         assertEquals(60.0, changer.effectiveWeight)
         assertEquals(0.085, changer.decreaseFactor)
 
-        changer.changeSex("MALE")
+        changer.update(sex="MALE")
 
         assertEquals(70.0, changer.effectiveWeight)
         assertEquals(0.1, changer.decreaseFactor)
@@ -45,7 +45,7 @@ internal class PhysicalBodyTest {
         val shrinker = PhysicalBody(200.0)
         val decrease = shrinker.decreaseFactor
 
-        shrinker.changeWeight(50.0)
+        shrinker.update(weight = 50.0)
 
         assertEquals(30.0, shrinker.effectiveWeight)
         assertEquals(decrease, shrinker.decreaseFactor)
