@@ -5,10 +5,7 @@ import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.data.DrinkDao
-import com.vaudibert.canidrive.domain.Drink
-import com.vaudibert.canidrive.domain.Drinker
-import com.vaudibert.canidrive.domain.DriveLaw
-import com.vaudibert.canidrive.domain.DriveLaws
+import com.vaudibert.canidrive.domain.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -214,10 +211,3 @@ class DrinkerRepository {
         return min(youngLimit, professionalLimit)
     }
 }
-
-data class DrinkerStatus(
-    val canDrive : Boolean,
-    val alcoholRate: Double,
-    val canDriveDate : Date,
-    val soberDate : Date
-    )

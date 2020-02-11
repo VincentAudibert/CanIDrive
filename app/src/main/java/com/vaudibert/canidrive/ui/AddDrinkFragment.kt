@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.Drink
-import com.vaudibert.canidrive.domain.DrinkData
 import kotlinx.android.synthetic.main.fragment_add_drink.*
 import java.text.DecimalFormat
 import java.util.*
@@ -87,22 +86,22 @@ class AddDrinkFragment : Fragment() {
     }
 
     private fun setDegreePicker() {
-        val degreeLabels = DrinkData.degrees.map { deg ->
+        val degreeLabels = Drink.degrees.map { deg ->
             "${doubleFormat.format(deg)} %"
         }.toTypedArray()
         numberPickerDegree.minValue = 0
         numberPickerDegree.maxValue = degreeLabels.size - 1
         numberPickerDegree.displayedValues = degreeLabels
         val startDegree = degreeLabels.size / 2
-        degree = DrinkData.degrees[startDegree]
+        degree = Drink.degrees[startDegree]
         numberPickerDegree.value = startDegree
         numberPickerDegree.setOnValueChangedListener { _, _, newVal ->
-            degree = DrinkData.degrees[newVal]
+            degree = Drink.degrees[newVal]
         }
     }
 
     private fun setVolumePicker() {
-        val volumeLabels = DrinkData.volumes.map { vol ->
+        val volumeLabels = Drink.volumes.map { vol ->
             if (vol < 1000.0)
                 "${doubleFormat.format(vol / 10.0)} cL"
             else
@@ -113,9 +112,9 @@ class AddDrinkFragment : Fragment() {
         numberPickerVolume.displayedValues = volumeLabels
         val middleVolume = volumeLabels.size / 2
         numberPickerVolume.value = middleVolume
-        volume = DrinkData.volumes[middleVolume]
+        volume = Drink.volumes[middleVolume]
         numberPickerVolume.setOnValueChangedListener { _, _, newVal ->
-            volume = DrinkData.volumes[newVal]
+            volume = Drink.volumes[newVal]
         }
     }
 }
