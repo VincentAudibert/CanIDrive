@@ -6,7 +6,9 @@ data class DriveLaw(
     val countryCode:String,
     val limit:Double = 0.0,
     val youngLimit: YoungLimit? = null,
-    val professionalLimit: ProfessionalLimit? = null
+    val professionalLimit: ProfessionalLimit? = null,
+    var isYoung: Boolean = false,
+    var isProfessional: Boolean = false
 )
 
 data class YoungLimit(val limit:Double = 0.0, val explanationId: Int)
@@ -14,6 +16,8 @@ data class YoungLimit(val limit:Double = 0.0, val explanationId: Int)
 data class ProfessionalLimit(val limit:Double = 0.0)
 
 object DriveLaws {
+
+    val defaultLaw = DriveLaw("", 0.0)
 
     fun getIndexOf(countryCode: String?): Int {
                 if (countryCode == null) return 0
@@ -25,10 +29,10 @@ object DriveLaws {
         return index.coerceAtLeast(0)
     }
 
-    fun findByCountryCode(countryCode: String): DriveLaw? {
+    fun findByCountryCode(countryCode: String): DriveLaw {
         return countryLaws.find {
                 law -> law.countryCode == countryCode
-        }
+        } ?: defaultLaw
     }
 
     // Main source : https://en.wikipedia.org/wiki/Drunk_driving_law_by_country
@@ -36,7 +40,7 @@ object DriveLaws {
     val countryLaws = listOf(
 
         // Other
-        DriveLaw("", 0.0),
+        defaultLaw,
 
         // -------------------------- Europe --------------------------
         // Albania

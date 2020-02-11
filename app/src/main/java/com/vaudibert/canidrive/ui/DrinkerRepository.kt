@@ -5,10 +5,11 @@ import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.data.DrinkDao
-import com.vaudibert.canidrive.domain.*
-import com.vaudibert.canidrive.domain.drinker.Drink
-import com.vaudibert.canidrive.domain.drinker.DigestionService
 import com.vaudibert.canidrive.domain.DrinkerStatus
+import com.vaudibert.canidrive.domain.DriveLaw
+import com.vaudibert.canidrive.domain.DriveLaws
+import com.vaudibert.canidrive.domain.drinker.DigestionService
+import com.vaudibert.canidrive.domain.drinker.Drink
 import com.vaudibert.canidrive.domain.drinker.PhysicalBody
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +38,7 @@ class DrinkerRepository {
     private var body = PhysicalBody()
 
     // TODO : move driveLaw to another service
-    private var driveLaw : DriveLaw? = null
+    private lateinit var driveLaw : DriveLaw
 
     // TODO : get out of Repository ?
     val digestionService = DigestionService(body)
@@ -109,12 +110,16 @@ class DrinkerRepository {
         this.context = context
         sharedPref = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE)
 
-        //val isYoung = sharedPref.getBoolean(context.getString(R.string.user_young_driver), false)
-        //val isProfessional = sharedPref.getBoolean(context.getString(R.string.user_professional_driver), false)
+        val isYoung = sharedPref.getBoolean(context.getString(R.string.user_young_driver), false)
+        val isProfessional = sharedPref.getBoolean(context.getString(R.string.user_professional_driver), false)
         val countryCode = sharedPref.getString(context.getString(R.string.countryCode), "") ?: ""
         customLimit = sharedPref.getFloat(context.getString(R.string.customCountryLimit), 0.0F).toDouble()
 
         driveLaw = DriveLaws.findByCountryCode(countryCode)
+
+        driveLaw.isYoung = isYoung
+        driveLaw.isProfessional = isProfessional
+
     }
 
     /**
@@ -124,12 +129,15 @@ class DrinkerRepository {
      */
     fun setDao(drinkDao: DrinkDao) {
         this.drinkDao = drinkDao
+
+        // Add all drinks to current state
         uiScope.launch {
             val drinks = drinkDao.getAll()
             drinks.forEach { digestionService.ingest(it.toDrink())}
             liveDrinker.postValue(body)
         }
 
+        // Then set callbacks to keep DB updated
         digestionService.ingestCallback = {
             drink -> run {
                 uiScope.launch { drinkDao.insert(drink) }
@@ -168,10 +176,10 @@ class DrinkerRepository {
         liveDrinker.value = body
     }
 
-    fun setDriveLaw(driveLaw: DriveLaw?) {
+    fun setDriveLaw(driveLaw: DriveLaw) {
         this.driveLaw = driveLaw
         sharedPref.edit()
-            .putString(context.getString(R.string.countryCode), driveLaw?.countryCode ?: "")
+            .putString(context.getString(R.string.countryCode), driveLaw.countryCode)
             .apply()
     }
 
@@ -218,7 +226,7 @@ class DrinkerRepository {
      */
     fun getCountryPosition() : Int {
 
-        return DriveLaws.getIndexOf(driveLaw?.countryCode)
+        return DriveLaws.getIndexOf(driveLaw.countryCode)
     }
 
 
@@ -233,15 +241,15 @@ class DrinkerRepository {
     }
 
     fun driveLimit() : Double {
-        val regularLimit = driveLaw?.limit ?: defaultLimit
+        val regularLimit = driveLaw.limit
 
         val youngLimit = if (body.isYoungDriver)
-            driveLaw?.youngLimit?.limit ?: regularLimit
+            driveLaw.youngLimit?.limit ?: regularLimit
         else
             regularLimit
 
         val professionalLimit = if (body.isProfessionalDriver)
-            driveLaw?.professionalLimit?.limit ?: regularLimit
+            driveLaw.professionalLimit?.limit ?: regularLimit
         else
             regularLimit
 

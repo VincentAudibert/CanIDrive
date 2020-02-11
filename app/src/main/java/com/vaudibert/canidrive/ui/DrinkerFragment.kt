@@ -29,7 +29,7 @@ import kotlin.math.roundToInt
  */
 class DrinkerFragment : Fragment() {
 
-    private var country : DriveLaw? = null
+    private lateinit var country : DriveLaw
     private var limit = 0.0
     private var weight = 0.0
     private var sex = "NONE"
@@ -209,8 +209,8 @@ class DrinkerFragment : Fragment() {
                     country = DriveLaws.countryLaws[position]
                 }
                 updateViewForCustomCountry(position == 0)
-                Log.d("DrinkerFragment", "country code is " + country?.countryCode)
-                limit = country?.limit ?: 0.0
+                Log.d("DrinkerFragment", "country code is " + country.countryCode)
+                limit = country.limit
                 updateCheckBoxYoung()
                 updateCheckBoxProfessional()
                 drinkerRepository.setDriveLaw(country)
@@ -218,7 +218,6 @@ class DrinkerFragment : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                country = null
                 limit = 0.0
             }
         }
@@ -247,16 +246,16 @@ class DrinkerFragment : Fragment() {
     }
 
     private fun updateCheckBoxYoung() {
-        if (country?.youngLimit != null) {
+        if (country.youngLimit != null) {
             checkboxYoungDriver.visibility = CheckBox.VISIBLE
-            checkboxYoungDriver.text = getString(country?.youngLimit?.explanationId ?: 0)
+            checkboxYoungDriver.text = getString(country.youngLimit?.explanationId ?: 0)
         } else {
             checkboxYoungDriver.visibility = CheckBox.GONE
         }
     }
 
     private fun updateCheckBoxProfessional() {
-        if (country?.professionalLimit != null) {
+        if (country.professionalLimit != null) {
             checkboxProfessionalDriver.visibility = CheckBox.VISIBLE
         } else {
             checkboxProfessionalDriver.visibility = CheckBox.GONE
