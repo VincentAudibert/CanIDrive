@@ -1,14 +1,7 @@
 package com.vaudibert.canidrive.domain
 
-import org.junit.jupiter.api.Assertions.fail
-import org.junit.jupiter.api.Test
-
 internal class DigestionServiceTest {
 
-    @Test
-    fun `write some useful tests`() {
-        fail<Boolean>()
-    }
 
     /* tests to cover
      - drinker changes (sex, weight)
