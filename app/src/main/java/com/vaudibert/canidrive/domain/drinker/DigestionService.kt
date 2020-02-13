@@ -25,7 +25,9 @@ class DigestionService(private var body: PhysicalBody) {
 
     fun ingest (drink: Drink) {
         absorbedDrinks.add(drink)
-        absorbedDrinks.sortBy { absorbedDrink -> absorbedDrink.ingestionTime.time }
+        absorbedDrinks.sortBy {
+                absorbedDrink -> absorbedDrink.ingestionTime.time
+        }
         ingestCallback(drink)
     }
 
