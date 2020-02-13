@@ -8,8 +8,9 @@ internal class PhysicalBodyTest {
 
     @Test
     fun `A 100kg male drinker shall have eff-weight 70, decrease 0,1`() {
-        val male =
-            PhysicalBody(100.0, "MALE")
+        val male = PhysicalBody()
+        male.sex = "MALE"
+        male.weight = 100.0
 
         assertEquals(70.0, male.effectiveWeight)
         assertEquals(0.1, male.decreaseFactor)
@@ -17,8 +18,9 @@ internal class PhysicalBodyTest {
 
     @Test
     fun `A 50kg female drinker shall have eff-weight 30, decrease 0,085`() {
-        val female =
-            PhysicalBody(50.0, "FEMALE")
+        val female = PhysicalBody()
+        female.sex = "FEMALE"
+        female.weight = 50.0
 
         assertEquals(30.0, female.effectiveWeight)
         assertEquals(0.085, female.decreaseFactor)
@@ -26,15 +28,16 @@ internal class PhysicalBodyTest {
 
     @Test
     fun `Changing sex impacts effectiveWeight and decreaseFactor`() {
-        val changer =
-            PhysicalBody(100.0, "MALE")
+        val changer = PhysicalBody()
+        changer.sex = "MALE"
+        changer.weight = 100.0
 
-        changer.update(sex="FEMALE")
+        changer.sex="FEMALE"
 
         assertEquals(60.0, changer.effectiveWeight)
         assertEquals(0.085, changer.decreaseFactor)
 
-        changer.update(sex="MALE")
+        changer.sex="MALE"
 
         assertEquals(70.0, changer.effectiveWeight)
         assertEquals(0.1, changer.decreaseFactor)
@@ -42,10 +45,11 @@ internal class PhysicalBodyTest {
 
     @Test
     fun `Changing weight impacts only effectiveWeight`() {
-        val shrinker = PhysicalBody(200.0)
+        val shrinker = PhysicalBody()
+        shrinker.weight = 200.0
         val decrease = shrinker.decreaseFactor
 
-        shrinker.update(weight = 50.0)
+        shrinker.weight = 50.0
 
         assertEquals(30.0, shrinker.effectiveWeight)
         assertEquals(decrease, shrinker.decreaseFactor)

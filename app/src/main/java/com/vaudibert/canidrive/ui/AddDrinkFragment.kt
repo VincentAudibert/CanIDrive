@@ -37,11 +37,13 @@ class AddDrinkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val drinkerRepository = (this.activity as MainActivity).drinkerRepository
+        val drinkerRepository = (this.activity as MainActivity).mainRepository.drinkerRepository
+        val digestionService = drinkerRepository.digestionService
+
         buttonValidateNewDrink.setOnClickListener {
             val ingestionTime = Date(Date().time - (delay * 60000))
 
-            drinkerRepository.ingest(
+            digestionService.ingest(
                 Drink(
                     volume,
                     degree,

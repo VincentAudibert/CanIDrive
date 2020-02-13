@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
+import com.vaudibert.canidrive.domain.DrinkerStatusService
 import kotlinx.android.synthetic.main.fragment_drive_status.*
 import java.text.DateFormat
 
@@ -25,6 +26,7 @@ import java.text.DateFormat
 class DriveFragment : Fragment() {
 
     private lateinit var drinkerRepository: DrinkerRepository
+    private lateinit var drinkerStatusService: DrinkerStatusService
 
     lateinit var mainHandler: Handler
 
@@ -41,18 +43,22 @@ class DriveFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        drinkerRepository = (this.activity as MainActivity).drinkerRepository
+        val mainActivity = this.activity as MainActivity
+        val mainRepository = mainActivity.mainRepository
+        drinkerStatusService = mainRepository.drinkerStatusService
+
+        drinkerRepository = mainRepository.drinkerRepository
 
         pastDrinksAdapter =
             PastDrinksAdapter(
                 this.context!!,
-                drinkerRepository.getDrinks()
+                emptyList()
             )
         listViewPastDrinks.adapter = pastDrinksAdapter
 
-        drinkerRepository.liveDrinker.observe(this, Observer {
+        drinkerRepository.livePastDrinks.observe(this, Observer {
 
-            pastDrinksAdapter.setDrinkList(drinkerRepository.getDrinks())
+            pastDrinksAdapter.setDrinkList(it.asReversed())
             updateDriveStatus()
         })
 
@@ -73,7 +79,7 @@ class DriveFragment : Fragment() {
 
     }
     private fun updateDriveStatus() {
-        val drinkerStatus = drinkerRepository.status()
+        val drinkerStatus = drinkerStatusService.status()
 
         if (drinkerStatus.alcoholRate < 0.01) {
             linearAlcoholRate.visibility = LinearLayout.GONE

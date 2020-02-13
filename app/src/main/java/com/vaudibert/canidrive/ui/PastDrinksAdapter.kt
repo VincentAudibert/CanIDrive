@@ -19,6 +19,9 @@ class PastDrinksAdapter(
 
     private val DAY_IN_MILLIS = 3600*1000*24
 
+    private val digestionService =
+        (context as MainActivity).mainRepository.drinkerRepository.digestionService
+
     private val inflater: LayoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -50,8 +53,7 @@ class PastDrinksAdapter(
             drinkView.findViewById(R.id.buttonRemovePastDrink) as ImageButton
 
         buttonRemovePastDrink.setOnClickListener {
-            (context as MainActivity).drinkerRepository.remove(drink)
-            notifyDataSetInvalidated()
+            digestionService.remove(drink)
         }
 
         return drinkView

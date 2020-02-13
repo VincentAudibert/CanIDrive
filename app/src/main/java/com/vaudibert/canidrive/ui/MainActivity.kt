@@ -5,28 +5,19 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.room.Room
 import com.google.android.material.appbar.AppBarLayout
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.data.DrinkDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val drinkerRepository = DrinkerRepository()
-
+    val mainRepository = MainRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        drinkerRepository.setContext(this)
-
-        val drinkDB = Room
-            .databaseBuilder(this, DrinkDatabase::class.java, "drink-database")
-            .build()
-
-        drinkerRepository.setDao(drinkDB.drinkDao())
+        mainRepository.setContext(this)
 
         findNavController(R.id.nav_host_fragment)
             .addOnDestinationChangedListener { _, destination, _ ->
@@ -39,7 +30,6 @@ class MainActivity : AppCompatActivity() {
                     R.id.drinkerFragment -> getString(R.string.about_you)
                     R.id.addDrinkFragment -> getString(R.string.add_a_drink)
                     else -> ""
-
                 }
             }
     }

@@ -16,9 +16,9 @@ import kotlin.math.max
  * steadily decrease, reaching the theoretical max rate 30 min after ingestion.
  * This simplifies greatly calculation while staying safe and reliable regarding the drive status.
  */
-class DigestionService(var body: PhysicalBody) {
+class DigestionService(private var body: PhysicalBody) {
 
-    private val absorbedDrinks : MutableList<Drink> = ArrayList()
+    val absorbedDrinks : MutableList<Drink> = ArrayList()
 
     var ingestCallback = { _: Drink -> }
     var removeCallback = { _: Drink -> }
@@ -33,8 +33,6 @@ class DigestionService(var body: PhysicalBody) {
         absorbedDrinks.remove(drink)
         removeCallback(drink)
     }
-
-    fun getDrinks() = ArrayList(absorbedDrinks).reversed()
 
     // TODO : extract a time service to avoid java.util dependency ?
     fun alcoholRateAt(date: Date): Double {
