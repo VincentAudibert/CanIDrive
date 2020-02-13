@@ -1,9 +1,8 @@
 package com.vaudibert.canidrive.domain
 
-import java.util.*
 import kotlin.math.min
 
-class DriveLawService {
+class DriveLawService(private val countryNamer: (countryCode: String) -> String) {
 
     val defaultLimit = 0.0
 
@@ -32,7 +31,7 @@ class DriveLawService {
         }
 
     private val countryLaws = DriveLaws.list
-        .sortedBy { law -> Locale("", law.countryCode).displayCountry }
+        .sortedBy { law -> countryNamer(law.countryCode) }
 
     var driveLaw = DriveLaws.default
 
@@ -41,7 +40,7 @@ class DriveLawService {
             if (law.countryCode == "")
                 other
             else
-                stringToFlagEmoji(law.countryCode) + " " + Locale("", law.countryCode).displayCountry
+                stringToFlagEmoji(law.countryCode) + " " + countryNamer(law.countryCode)
         }
     }
 
@@ -107,7 +106,7 @@ class DriveLawService {
             return twoCharString
         }
 
-        val countryCodeCaps = twoCharString.toUpperCase(Locale.getDefault()) // upper case is important because we are calculating offset
+        val countryCodeCaps = twoCharString.toUpperCase() // upper case is important because we are calculating offset
         val firstLetter = Character.codePointAt(countryCodeCaps, 0) - 0x41 + 0x1F1E6
         val secondLetter = Character.codePointAt(countryCodeCaps, 1) - 0x41 + 0x1F1E6
 
