@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.vaudibert.canidrive.domain.Drink
+import com.vaudibert.canidrive.domain.drinker.Drink
 
 @Dao
 interface DrinkDao {

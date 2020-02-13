@@ -12,8 +12,8 @@ android {
         applicationId = "com.vaudibert.canidrive"
         minSdkVersion(19)
         targetSdkVersion(28)
-        versionCode = 9
-        versionName = "0.0.8"
+        versionCode = 10
+        versionName = "0.0.9"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -22,6 +22,13 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+    compileOptions {
+        sourceCompatibility.isJava8
+        targetCompatibility.isJava8
+    }
+    (kotlinOptions as org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions).apply {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
@@ -29,12 +36,12 @@ dependencies {
 
     // Kotlin
     implementation( kotlin("stdlib-jdk8", version = "1.3.61"))
-    implementation( "androidx.core:core-ktx:1.1.0")
+    implementation( "androidx.core:core-ktx:1.2.0")
 
     // Android
     implementation( "androidx.appcompat:appcompat:1.1.0")
     implementation( "androidx.constraintlayout:constraintlayout:1.1.3")
-    implementation( "com.google.android.material:material:1.0.0")
+    implementation( "com.google.android.material:material:1.1.0")
     implementation( "androidx.legacy:legacy-support-v4:1.0.0")
 
     // JUnit

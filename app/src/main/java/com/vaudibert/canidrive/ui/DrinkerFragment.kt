@@ -11,29 +11,30 @@ import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.observe
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.DriveLaw
-import com.vaudibert.canidrive.domain.DriveLaws
-import com.vaudibert.canidrive.toFlagEmoji
+import com.vaudibert.canidrive.domain.DriveLawService
 import kotlinx.android.synthetic.main.constraint_drinker_country.*
 import kotlinx.android.synthetic.main.fragment_drinker.*
 import kotlinx.android.synthetic.main.linear_drinker_weight_sex.*
-import java.util.*
 import kotlin.math.roundToInt
 
 /**
  * The drinker fragment to enter its details.
  */
+// TODO : split into 2 fragments : body and drive law ?
 class DrinkerFragment : Fragment() {
 
-    private var country : DriveLaw? = null
-    private var limit = 0.0
     private var weight = 0.0
     private var sex = "NONE"
+
+    private lateinit var mainRepository : MainRepository
     private lateinit var drinkerRepository : DrinkerRepository
+    private lateinit var driveLawService: DriveLawService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,87 +50,114 @@ class DrinkerFragment : Fragment() {
 
         val mainActivity = this.activity as MainActivity
 
-        drinkerRepository = mainActivity.drinkerRepository
+        mainRepository = mainActivity.mainRepository
+        drinkerRepository = mainRepository.drinkerRepository
 
-        val countries: List<String> = DriveLaws.countryLaws.map { law ->
-            if (law.countryCode == "")
-                mainActivity.getString(R.string.customCountryLabel)
-            else
-                law.countryCode.toFlagEmoji() + " " + Locale("", law.countryCode).displayCountry
-        }
+        val driveLawRepository = mainRepository.driveLawRepository
+        driveLawService = driveLawRepository.driveLawService
 
-        setupSpinnerCountry(countries, drinkerRepository)
+        setupSpinnerCountry(
+            driveLawService
+                .getListOfCountriesWithFlags(
+                    mainActivity.getString(R.string.customCountryLabel)
+                )
+        )
 
-        setupWeightPicker(drinkerRepository)
+        setupWeightPicker(drinkerRepository.body.weight)
 
-        setupSexPicker(drinkerRepository)
+        setupSexPicker(drinkerRepository.body.sex)
 
-        setupCheckBoxes(drinkerRepository)
 
         setupValidationButton(drinkerRepository)
+
+        driveLawRepository.liveDriveLaw.observe(this) { driveLaw: DriveLaw ->
+            // update the limit area (custom or not)
+            if (driveLaw.isCustom()) {
+                textViewCurrentLimit.visibility = TextView.GONE
+                editTextCurrentLimit.visibility = TextView.VISIBLE
+            } else {
+                textViewCurrentLimit.visibility = TextView.VISIBLE
+                // TODO : ugly structure for driveLimit call, move in driveLaw ?
+                textViewCurrentLimit.text = driveLawService.driveLimit().toString()
+                editTextCurrentLimit.visibility = TextView.GONE
+                KeyboardUtils.hideKeyboard(this.activity!!)
+            }
+
+            // Update for Young driver checkbox visibility (not value)
+            if (driveLaw.youngLimit != null) {
+                checkboxYoungDriver.visibility = CheckBox.VISIBLE
+                checkboxYoungDriver.text = getString(driveLaw.youngLimit.explanationId)
+            } else {
+                checkboxYoungDriver.visibility = CheckBox.GONE
+            }
+
+            // Update for Professional drive checkbox visibility (not value)
+            if (driveLaw.professionalLimit != null) {
+                checkboxProfessionalDriver.visibility = CheckBox.VISIBLE
+            } else {
+                checkboxProfessionalDriver.visibility = CheckBox.GONE
+            }
+        }
+
+        driveLawRepository.liveIsYoung.observe(this) {
+            checkboxYoungDriver.isChecked = it
+        }
+        driveLawRepository.liveIsProfessional.observe(this) {
+            checkboxProfessionalDriver.isChecked = it
+        }
+
+        setupCheckBoxes()
 
     }
 
     override fun onResume() {
         super.onResume()
-        updateCustomLimit(drinkerRepository.getCustomCountryLimit())
+        updateCustomLimit(driveLawService.customCountryLimit)
     }
 
     private fun setupValidationButton(drinkerRepository: DrinkerRepository) {
         buttonValidateDrinker.setOnClickListener {
-            drinkerRepository.setSex(sex)
-            drinkerRepository.setWeight(weight)
+            // country and law option selections were already recorded
+            // TODO : country selection and law options should only be recorded when validated (viewmodel?)
 
-            drinkerRepository.setCustomCountryLimit(editTextCurrentLimit.text.toString().toDouble())
+            drinkerRepository.body.sex = sex
+            drinkerRepository.body.weight = weight
 
-            if (!drinkerRepository.init) {
-                drinkerRepository.init = true
+            driveLawService.customCountryLimit = editTextCurrentLimit.text.toString().toDouble()
+
+            var navOptions:NavOptions? = null
+
+            if (!mainRepository.init) {
+                mainRepository.init = true
 
                 // Specific option needed for the init of the app, the drinker is the first fragment
                 // and needs to be cleared (take over nav_graph definition).
-                val navOptions = NavOptions.Builder()
+                navOptions = NavOptions.Builder()
                     .setPopUpTo(
                         R.id.drinkerFragment,
                         true
                     ).build()
-                // TODO : find a DRY way to call navController
-                findNavController().navigate(
-                    DrinkerFragmentDirections.actionDrinkerFragmentToDriveFragment(),
-                    navOptions
-                )
-            } else {
-                findNavController().navigate(
-                    DrinkerFragmentDirections.actionDrinkerFragmentToDriveFragment()
-                )
             }
 
+            findNavController().navigate(
+                DrinkerFragmentDirections.actionDrinkerFragmentToDriveFragment(),
+                navOptions
+            )
+
         }
     }
 
-    private fun setupCheckBoxes(drinkerRepository: DrinkerRepository) {
-        // Always update checkboxes even if not visible as they hold the state.
-        checkboxYoungDriver.isChecked = drinkerRepository.getYoung()
-        checkboxProfessionalDriver.isChecked = drinkerRepository.getProfessional()
-
-        updateCheckBoxYoung()
-
-        updateCheckBoxProfessional()
-
-        updateCurrentLimit(drinkerRepository)
-
+    private fun setupCheckBoxes() {
         checkboxYoungDriver.setOnCheckedChangeListener { _, isChecked ->
-            drinkerRepository.setYoung(isChecked)
-            updateCurrentLimit(drinkerRepository)
+            driveLawService.isYoung = isChecked
         }
-
         checkboxProfessionalDriver.setOnCheckedChangeListener { _, isChecked ->
-            drinkerRepository.setProfessional(isChecked)
-            updateCurrentLimit(drinkerRepository)
+            driveLawService.isProfessional = isChecked
         }
     }
 
-    private fun setupSexPicker(drinkerRepository: DrinkerRepository) {
-        sex = drinkerRepository.getSex()
+    private fun setupSexPicker(recordedSex: String) {
+        sex = recordedSex
 
         val sexValues = arrayOf(
             getString(R.string.male),
@@ -138,7 +166,7 @@ class DrinkerFragment : Fragment() {
         )
         numberPickerSex.minValue = 0
         numberPickerSex.maxValue = sexValues.size - 1
-        numberPickerSex.value = when (drinkerRepository.getSex()) {
+        numberPickerSex.value = when (sex) {
             "MALE" -> 0
             "FEMALE" -> 2
             else -> 1
@@ -153,8 +181,8 @@ class DrinkerFragment : Fragment() {
         }
     }
 
-    private fun setupWeightPicker(drinkerRepository: DrinkerRepository) {
-        weight = drinkerRepository.getWeight()
+    private fun setupWeightPicker(recordedWeight: Double) {
+        weight = recordedWeight
 
         val weights = intArrayOf(
             30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95,
@@ -166,7 +194,7 @@ class DrinkerFragment : Fragment() {
         numberPickerWeight.displayedValues = weightLabels
 
         numberPickerWeight.value = weights
-            .indexOf(drinkerRepository.getWeight().toInt())
+            .indexOf(weight.toInt())
             .coerceAtLeast(0)
 
         numberPickerWeight.setOnValueChangedListener { _, _, newVal ->
@@ -175,19 +203,15 @@ class DrinkerFragment : Fragment() {
     }
 
     private fun setupSpinnerCountry(
-        countries: List<String>,
-        drinkerRepository: DrinkerRepository
+        countries: List<String>
     ) {
         spinnerCountry.adapter = ArrayAdapter(
             this.context!!,
             R.layout.item_country_spinner,
             countries
         )
-        val initialPosition = drinkerRepository.getCountryPosition()
+        val initialPosition = driveLawService.getIndexOfCurrent()
         spinnerCountry.setSelection(initialPosition)
-        val isCustomCountry = initialPosition == 0
-
-        updateViewForCustomCountry(isCustomCountry)
 
         spinnerCountry.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
@@ -200,27 +224,15 @@ class DrinkerFragment : Fragment() {
                 Log.d("DrinkerFragment", "position is $position")
                 if (position == 0) {
                     // handle the other country case
-                    val customLimit = drinkerRepository.getCustomCountryLimit()
-                    // TODO : UI should not handle DriveLaw constructors
-                    country = DriveLaw("", customLimit)
+                    val customLimit = driveLawService.customCountryLimit
                     updateCustomLimit(customLimit)
 
-                } else {
-                    country = DriveLaws.countryLaws[position]
                 }
-                updateViewForCustomCountry(position == 0)
-                Log.d("DrinkerFragment", "country code is " + country?.countryCode)
-                limit = country?.limit ?: 0.0
-                updateCheckBoxYoung()
-                updateCheckBoxProfessional()
-                drinkerRepository.setDriveLaw(country)
-                updateCurrentLimit(drinkerRepository)
+                driveLawService.select(position)
+
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                country = null
-                limit = 0.0
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) { }
         }
     }
 
@@ -230,36 +242,4 @@ class DrinkerFragment : Fragment() {
         )
     }
 
-    private fun updateViewForCustomCountry(customCountry: Boolean) {
-        if (customCountry) {
-            // country is custom
-            textViewCurrentLimit.visibility = TextView.GONE
-            editTextCurrentLimit.visibility = TextView.VISIBLE
-        } else {
-            textViewCurrentLimit.visibility = TextView.VISIBLE
-            editTextCurrentLimit.visibility = TextView.GONE
-            KeyboardUtils.hideKeyboard(this.activity!!)
-        }
-    }
-
-    private fun updateCurrentLimit(drinkerRepository: DrinkerRepository) {
-        textViewCurrentLimit.text = drinkerRepository.driveLimit().toString()
-    }
-
-    private fun updateCheckBoxYoung() {
-        if (country?.youngLimit != null) {
-            checkboxYoungDriver.visibility = CheckBox.VISIBLE
-            checkboxYoungDriver.text = getString(country?.youngLimit?.explanationId ?: 0)
-        } else {
-            checkboxYoungDriver.visibility = CheckBox.GONE
-        }
-    }
-
-    private fun updateCheckBoxProfessional() {
-        if (country?.professionalLimit != null) {
-            checkboxProfessionalDriver.visibility = CheckBox.VISIBLE
-        } else {
-            checkboxProfessionalDriver.visibility = CheckBox.GONE
-        }
-    }
 }

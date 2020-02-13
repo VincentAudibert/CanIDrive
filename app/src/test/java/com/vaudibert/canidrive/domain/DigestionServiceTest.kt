@@ -1,26 +1,29 @@
 package com.vaudibert.canidrive.domain
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import java.util.*
+internal class DigestionServiceTest {
 
-const val RATE_PRECISION = 0.02
-val BEER = Drink(500.0, 5.0, Date(Date().time - 10))
 
-internal class DrinkerTest {
+    /* tests to cover
+     - drinker changes (sex, weight)
+     - alcohol rate computation for none, 1, several drinks
+     - timeToReachLimit
+     */
+
+
+    // tests of defunct mega drinker class
+/*
+    private fun getFemaleDrinkerWithBeer() : Drinker {
+        val drinker = getMaleDrinkerWithBeer()
+        drinker.weight = 50.0
+        drinker.sex = "FEMALE"
+        return drinker
+    }
 
     private fun getMaleDrinkerWithBeer() : Drinker {
         val drinker = Drinker(100.0, "MALE")
 
         drinker.ingest(BEER)
 
-        return drinker
-    }
-
-    private fun getFemaleDrinkerWithBeer() : Drinker {
-        val drinker = getMaleDrinkerWithBeer()
-        drinker.weight = 50.0
-        drinker.sex = "FEMALE"
         return drinker
     }
 
@@ -75,7 +78,7 @@ internal class DrinkerTest {
             RATE_PRECISION
         )
     }
-    
+
     @Test
     fun `Alcohol rate is inverse proportional to drinker's weight`() {
 
@@ -147,4 +150,5 @@ internal class DrinkerTest {
                 drinker.alcoholRateAt(later)
         assertEquals(decrease, 0.05, RATE_PRECISION)
     }
+    */
 }

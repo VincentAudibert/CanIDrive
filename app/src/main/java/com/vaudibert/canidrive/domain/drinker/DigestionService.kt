@@ -1,14 +1,10 @@
-package com.vaudibert.canidrive.domain
+package com.vaudibert.canidrive.domain.drinker
 
-import com.vaudibert.canidrive.hoursBetween
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.max
 
 /**
- * Represents the person drinking.
- * The parameters such as weight and sex may change as the user adjusts the inputs.
- *
  * Full rules :
  *  - it takes 30min to reach max alcohol rate (1h if eating before), see compromise
  *  - rate is : drink_volume * alcohol_degree * alcohol_density / (sex_factor * weight)
@@ -20,27 +16,25 @@ import kotlin.math.max
  * steadily decrease, reaching the theoretical max rate 30 min after ingestion.
  * This simplifies greatly calculation while staying safe and reliable regarding the drive status.
  */
+class DigestionService(private var body: PhysicalBody) {
 
-class Drinker(
-    var weight: Double = 80.0,
-    var sex: String = "NONE",
-    var isYoungDriver: Boolean = false,
-    var isProfessionalDriver:Boolean = false
-) {
+    val absorbedDrinks : MutableList<Drink> = ArrayList()
 
-    private val absorbedDrinks : MutableList<Drink> = ArrayList()
+    var ingestCallback = { _: Drink -> }
+    var removeCallback = { _: Drink -> }
 
     fun ingest (drink: Drink) {
         absorbedDrinks.add(drink)
         absorbedDrinks.sortBy { absorbedDrink -> absorbedDrink.ingestionTime.time }
+        ingestCallback(drink)
     }
 
-    private fun sexFactor() = if (sex == "MALE") 0.7 else 0.6
+    fun remove(drink: Drink) {
+        absorbedDrinks.remove(drink)
+        removeCallback(drink)
+    }
 
-    private fun effectiveWeight() = sexFactor() * weight
-
-    private fun decreaseFactor() = if (sex == "MALE") 0.1 else 0.085
-
+    // TODO : extract a time service to avoid java.util dependency ?
     fun alcoholRateAt(date: Date): Double {
         if (absorbedDrinks.isEmpty()) return 0.0
 
@@ -49,27 +43,11 @@ class Drinker(
 
         absorbedDrinks.forEach {
             lastRate = newRate(lastRate, lastIngestion, it.ingestionTime) +
-                    (it.alcoholMass() / effectiveWeight() + (decreaseFactor()/2))
+                    (it.alcoholMass() / body.effectiveWeight + (body.decreaseFactor/2))
             lastIngestion = it.ingestionTime
         }
 
         return newRate(lastRate, lastIngestion, date)
-    }
-
-    /**
-     * Computes the alcohol rate since the last ingestion.
-     */
-    private fun newRate(lastRate: Double, lastIngestion: Date, now: Date) : Double {
-        val timeLapse = hoursBetween(lastIngestion, now)
-
-        val newRate = lastRate - (decreaseFactor() * timeLapse)
-        return max(0.0, newRate)
-    }
-
-    fun getDrinks() = ArrayList(absorbedDrinks).reversed()
-
-    fun remove(drink: Drink) {
-        absorbedDrinks.remove(drink)
     }
 
     fun timeToReachLimit(limit: Double) : Date {
@@ -78,7 +56,17 @@ class Drinker(
         if (rate < limit) return now
 
         return Date(
-            now.time + ((rate-limit) / decreaseFactor() * 3_600_000).toLong()
+            now.time + ((rate-limit) / body.decreaseFactor* 3_600_000).toLong()
         )
+    }
+
+    /**
+     * Computes the alcohol rate since the last ingestion.
+     */
+    private fun newRate(lastRate: Double, lastIngestion: Date, now: Date) : Double {
+        val timeLapse = ((now.time - lastIngestion.time).toDouble() / (3600*1000))
+
+        val newRate = lastRate - (body.decreaseFactor* timeLapse)
+        return max(0.0, newRate)
     }
 }
