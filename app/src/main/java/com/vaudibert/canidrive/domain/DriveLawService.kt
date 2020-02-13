@@ -2,7 +2,11 @@ package com.vaudibert.canidrive.domain
 
 import kotlin.math.min
 
-class DriveLawService(private val countryNamer: (countryCode: String) -> String) {
+class DriveLawService(
+    private val countryNamer: (countryCode: String) -> String,
+    countryList: List<DriveLaw>,
+    private val defaultDriveLaw: DriveLaw
+) {
 
     val defaultLimit = 0.0
 
@@ -30,10 +34,10 @@ class DriveLawService(private val countryNamer: (countryCode: String) -> String)
             onProfessionalCallback(value)
         }
 
-    private val countryLaws = DriveLaws.list
+    private val countryLaws = countryList
         .sortedBy { law -> countryNamer(law.countryCode) }
 
-    var driveLaw = DriveLaws.default
+    var driveLaw = defaultDriveLaw
 
     fun getListOfCountriesWithFlags(other: String): List<String> {
         return countryLaws.map { law ->
@@ -59,7 +63,7 @@ class DriveLawService(private val countryNamer: (countryCode: String) -> String)
     private fun findByCountryCode(countryCode: String): DriveLaw {
         return countryLaws.find {
                 law -> law.countryCode == countryCode
-        } ?: DriveLaws.default
+        } ?: defaultDriveLaw
     }
 
     var onSelectCallback = { _:String -> }
@@ -75,7 +79,7 @@ class DriveLawService(private val countryNamer: (countryCode: String) -> String)
     }
 
     fun driveLimit() : Double {
-        if (driveLaw == DriveLaws.default) return customCountryLimit
+        if (driveLaw == defaultDriveLaw) return customCountryLimit
 
         val regularLimit = driveLaw.limit
 
