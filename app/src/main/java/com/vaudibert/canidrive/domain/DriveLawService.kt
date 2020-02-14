@@ -7,7 +7,6 @@ class DriveLawService(
     countryList: List<DriveLaw>,
     private val defaultDriveLaw: DriveLaw
 ) {
-
     val defaultLimit = 0.0
 
     var onCustomLimitCallback = { _:Double -> }
@@ -48,33 +47,24 @@ class DriveLawService(
         }
     }
 
-    private fun getIndexOf(countryCode: String?): Int {
-        if (countryCode == null) return 0
 
-        val index = countryLaws
-            .indexOfFirst {
-                    law -> law.countryCode == countryCode
-            }
-        return index.coerceAtLeast(0)
-    }
-
-    fun getIndexOfCurrent() = getIndexOf(driveLaw.countryCode)
-
-    private fun findByCountryCode(countryCode: String): DriveLaw {
-        return countryLaws.find {
-                law -> law.countryCode == countryCode
-        } ?: defaultDriveLaw
-    }
+    fun getIndexOfCurrent() = countryLaws
+        .indexOfFirst {
+                law -> law.countryCode == driveLaw.countryCode
+        }.coerceAtLeast(0)
 
     var onSelectCallback = { _:String -> }
 
     fun select(countryCode: String) {
-        driveLaw = findByCountryCode(countryCode)
+        driveLaw = countryLaws.find { law -> law.countryCode == countryCode } ?: defaultDriveLaw
         onSelectCallback(countryCode)
     }
 
     fun select(position: Int) {
-        driveLaw = countryLaws[position]
+        driveLaw = if (position !in countryLaws.indices)
+            defaultDriveLaw
+        else
+            countryLaws[position]
         onSelectCallback(driveLaw.countryCode)
     }
 

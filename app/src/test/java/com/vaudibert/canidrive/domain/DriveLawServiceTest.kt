@@ -2,47 +2,68 @@ package com.vaudibert.canidrive.domain
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class DriveLawServiceTest {
 
-    var defaultNamer = { s:String -> s}
+    private var defaultNamer = { s:String -> s}
 
-    var countryList: List<DriveLaw> = emptyList()
+    private var countryList: List<DriveLaw> = emptyList()
 
-    var defaultDriveLaw = DriveLaw("")
+    private val defaultDriveLaw = DriveLaw("")
+    private val aDriveLaw = DriveLaw("A-first", 0.7,
+        YoungLimit(0.15, 654321),
+        ProfessionalLimit(0.23)
+    )
+    private val zDriveLaw = DriveLaw("Z-last")
 
-    lateinit var driveLawService: DriveLawService
+    private lateinit var driveLawService: DriveLawService
+
+    @BeforeEach
+    fun beforeEach() {
+        countryList = listOf(zDriveLaw, aDriveLaw, defaultDriveLaw)
+        driveLawService = DriveLawService(defaultNamer, countryList, defaultDriveLaw)
+    }
 
     @Test
     fun `Default is selected at first time`() {
-        countryList = listOf(
-            DriveLaw("Z-last"),
-            DriveLaw("A-first"),
-            defaultDriveLaw
-        )
-
-        driveLawService = DriveLawService(defaultNamer, countryList, defaultDriveLaw)
         assertEquals(defaultDriveLaw, driveLawService.driveLaw)
     }
 
 
     @Test
-    fun `Drive laws are sorted by country name`() {
-        countryList = listOf(
-            DriveLaw("Z-last"),
-            DriveLaw("A-first"),
-            defaultDriveLaw
-        )
-
-        driveLawService = DriveLawService(defaultNamer, countryList, defaultDriveLaw)
-
+    fun `Drive laws are sorted by country name (with given namer)`() {
         val countryNames = driveLawService.getListOfCountriesWithFlags("other")
 
         assertEquals(3, countryNames.size)
         assertTrue(countryNames[0].contains("other"))
         assertTrue(countryNames[1].contains("first"))
         assertTrue(countryNames[2].contains("last"))
+    }
+
+    @Test
+    fun `Drive law is selectable by country code (with default fallback)`() {
+        driveLawService.select("A-first")
+        val a = driveLawService.driveLaw
+
+        driveLawService.select("gibberish")
+        val default = driveLawService.driveLaw
+
+        assertEquals(aDriveLaw, a)
+        assertEquals(defaultDriveLaw, default)
+    }
+
+    @Test
+    fun `Drive law is selectable by position with default fallback`() {
+        driveLawService.select(1)
+        val a = driveLawService.driveLaw
+
+        driveLawService.select(-3)
+        val default = driveLawService.driveLaw
+
+        assertEquals(aDriveLaw, a)
+        assertEquals(defaultDriveLaw, default)
     }
 
 }
