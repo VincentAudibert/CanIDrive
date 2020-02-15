@@ -1,21 +1,22 @@
-package com.vaudibert.canidrive.ui
+package com.vaudibert.canidrive.ui.repository
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.domain.DriveLaw
-import com.vaudibert.canidrive.domain.DriveLawService
-import com.vaudibert.canidrive.domain.DriveLaws
+import com.vaudibert.canidrive.domain.drivelaw.DriveLaw
+import com.vaudibert.canidrive.domain.drivelaw.DriveLawService
+import com.vaudibert.canidrive.domain.drivelaw.DriveLaws
 import java.util.*
 
 class DriveLawRepository {
 
-    val driveLawService = DriveLawService(
-        { code: String -> Locale("", code).displayCountry},
-        DriveLaws.list,
-        DriveLaws.default
+    val driveLawService =
+        DriveLawService(
+            { code: String -> Locale("", code).displayCountry },
+            DriveLaws.list,
+            DriveLaws.default
         )
 
     private val _liveDriveLaw = MutableLiveData<DriveLaw>()

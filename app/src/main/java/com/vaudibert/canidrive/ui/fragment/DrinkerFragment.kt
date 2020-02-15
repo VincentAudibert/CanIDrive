@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive.ui
+package com.vaudibert.canidrive.ui.fragment
 
 
 import android.os.Bundle
@@ -16,8 +16,11 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.domain.DriveLaw
-import com.vaudibert.canidrive.domain.DriveLawService
+import com.vaudibert.canidrive.domain.drivelaw.DriveLaw
+import com.vaudibert.canidrive.domain.drivelaw.DriveLawService
+import com.vaudibert.canidrive.ui.MainActivity
+import com.vaudibert.canidrive.ui.repository.DrinkerRepository
+import com.vaudibert.canidrive.ui.repository.MainRepository
 import kotlinx.android.synthetic.main.fragment_drinker.*
 import kotlin.math.roundToInt
 

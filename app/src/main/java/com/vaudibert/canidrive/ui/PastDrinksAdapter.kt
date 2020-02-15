@@ -8,7 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.TextView
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.domain.drinker.Drink
+import com.vaudibert.canidrive.domain.digestion.Drink
 import java.text.SimpleDateFormat
 import java.util.*
 

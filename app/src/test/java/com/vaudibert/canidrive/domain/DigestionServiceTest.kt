@@ -1,8 +1,8 @@
 package com.vaudibert.canidrive.domain
 
-import com.vaudibert.canidrive.domain.drinker.DigestionService
-import com.vaudibert.canidrive.domain.drinker.Drink
-import com.vaudibert.canidrive.domain.drinker.PhysicalBody
+import com.vaudibert.canidrive.domain.digestion.DigestionService
+import com.vaudibert.canidrive.domain.digestion.Drink
+import com.vaudibert.canidrive.domain.digestion.PhysicalBody
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach

@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive.ui
+package com.vaudibert.canidrive.ui.fragment
 
 
 import android.app.Activity
@@ -10,7 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.domain.drinker.Drink
+import com.vaudibert.canidrive.domain.digestion.Drink
+import com.vaudibert.canidrive.ui.MainActivity
 import kotlinx.android.synthetic.main.fragment_add_drink.*
 import java.text.DecimalFormat
 import java.util.*

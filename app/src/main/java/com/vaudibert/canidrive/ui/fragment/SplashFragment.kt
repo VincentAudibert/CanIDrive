@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive.ui
+package com.vaudibert.canidrive.ui.fragment
 
 
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.BuildConfig
 import com.vaudibert.canidrive.R
+import com.vaudibert.canidrive.ui.MainActivity
 import kotlinx.android.synthetic.main.fragment_splash.*
 
 /**

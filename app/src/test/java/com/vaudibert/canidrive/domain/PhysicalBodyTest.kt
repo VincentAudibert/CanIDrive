@@ -1,6 +1,6 @@
 package com.vaudibert.canidrive.domain
 
-import com.vaudibert.canidrive.domain.drinker.PhysicalBody
+import com.vaudibert.canidrive.domain.digestion.PhysicalBody
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

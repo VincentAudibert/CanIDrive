@@ -1,5 +1,9 @@
 package com.vaudibert.canidrive.domain
 
+import com.vaudibert.canidrive.domain.drivelaw.DriveLaw
+import com.vaudibert.canidrive.domain.drivelaw.DriveLawService
+import com.vaudibert.canidrive.domain.drivelaw.ProfessionalLimit
+import com.vaudibert.canidrive.domain.drivelaw.YoungLimit
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -11,19 +15,27 @@ internal class DriveLawServiceTest {
 
     private var countryList: List<DriveLaw> = emptyList()
 
-    private val defaultDriveLaw = DriveLaw("")
-    private val aDriveLaw = DriveLaw("A-first", 0.7,
+    private val defaultDriveLaw =
+        DriveLaw("")
+    private val aDriveLaw = DriveLaw(
+        "A-first", 0.7,
         YoungLimit(0.15, 654321),
         ProfessionalLimit(0.23)
     )
-    private val zDriveLaw = DriveLaw("Z-last")
+    private val zDriveLaw =
+        DriveLaw("Z-last")
 
     private lateinit var driveLawService: DriveLawService
 
     @BeforeEach
     fun beforeEach() {
         countryList = listOf(zDriveLaw, aDriveLaw, defaultDriveLaw)
-        driveLawService = DriveLawService(defaultNamer, countryList, defaultDriveLaw)
+        driveLawService =
+            DriveLawService(
+                defaultNamer,
+                countryList,
+                defaultDriveLaw
+            )
     }
 
     @Test

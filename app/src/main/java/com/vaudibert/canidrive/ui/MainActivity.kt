@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.google.android.material.appbar.AppBarLayout
 import com.vaudibert.canidrive.R
+import com.vaudibert.canidrive.ui.repository.MainRepository
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

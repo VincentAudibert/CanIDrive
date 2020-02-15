@@ -2,7 +2,7 @@ package com.vaudibert.canidrive.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.vaudibert.canidrive.domain.drinker.Drink
+import com.vaudibert.canidrive.domain.digestion.Drink
 import java.util.*
 
 @Entity

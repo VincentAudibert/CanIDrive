@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive.domain.drinker
+package com.vaudibert.canidrive.domain.digestion
 
 import java.util.*
 import kotlin.collections.ArrayList

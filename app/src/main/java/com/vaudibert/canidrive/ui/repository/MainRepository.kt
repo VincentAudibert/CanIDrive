@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive.ui
+package com.vaudibert.canidrive.ui.repository
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,8 +7,10 @@ import com.vaudibert.canidrive.domain.DrinkerStatusService
 
 class MainRepository {
 
-    val drinkerRepository = DrinkerRepository()
-    val driveLawRepository = DriveLawRepository()
+    val drinkerRepository =
+        DrinkerRepository()
+    val driveLawRepository =
+        DriveLawRepository()
     val drinkerStatusService = DrinkerStatusService(
         drinkerRepository.digestionService,
         driveLawRepository.driveLawService

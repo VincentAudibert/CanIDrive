@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive.ui
+package com.vaudibert.canidrive.ui.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -7,9 +7,9 @@ import androidx.room.Room
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.data.DrinkDao
 import com.vaudibert.canidrive.data.DrinkDatabase
-import com.vaudibert.canidrive.domain.drinker.DigestionService
-import com.vaudibert.canidrive.domain.drinker.Drink
-import com.vaudibert.canidrive.domain.drinker.PhysicalBody
+import com.vaudibert.canidrive.domain.digestion.DigestionService
+import com.vaudibert.canidrive.domain.digestion.Drink
+import com.vaudibert.canidrive.domain.digestion.PhysicalBody
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

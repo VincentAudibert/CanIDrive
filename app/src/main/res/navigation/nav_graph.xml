@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.vaudibert.canidrive.ui.SplashFragment"
+        android:name="com.vaudibert.canidrive.ui.fragment.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/drinkerFragment"
-        android:name="com.vaudibert.canidrive.ui.DrinkerFragment"
+        android:name="com.vaudibert.canidrive.ui.fragment.DrinkerFragment"
         android:label="fragment_drinker"
         tools:layout="@layout/fragment_drinker" >
         <action
@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/driveFragment"
-        android:name="com.vaudibert.canidrive.ui.DriveFragment"
+        android:name="com.vaudibert.canidrive.ui.fragment.DriveFragment"
         android:label="fragment_drive"
         tools:layout="@layout/fragment_drive_status" >
         <action
@@ -62,7 +62,7 @@
     </fragment>
     <fragment
         android:id="@+id/addDrinkFragment"
-        android:name="com.vaudibert.canidrive.ui.AddDrinkFragment"
+        android:name="com.vaudibert.canidrive.ui.fragment.AddDrinkFragment"
         android:label="fragment_add_drink"
         tools:layout="@layout/fragment_add_drink" >
         <action

@@ -1,6 +1,7 @@
 package com.vaudibert.canidrive.domain
 
-import com.vaudibert.canidrive.domain.drinker.DigestionService
+import com.vaudibert.canidrive.domain.digestion.DigestionService
+import com.vaudibert.canidrive.domain.drivelaw.DriveLawService
 import java.util.*
 
 class DrinkerStatusService(

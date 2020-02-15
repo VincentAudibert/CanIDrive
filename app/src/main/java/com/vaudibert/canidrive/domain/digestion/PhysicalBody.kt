@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive.domain.drinker
+package com.vaudibert.canidrive.domain.digestion
 
 /**
  * Represents the person drinking.
