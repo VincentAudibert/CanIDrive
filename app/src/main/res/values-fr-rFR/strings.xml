@@ -28,4 +28,7 @@
     <string name="new_driver_or_twenty_four">Nouveaux conducteurs ou moins de 24 ans.</string>
     <string name="customCountryLabel">Autre</string>
     <string name="day_unit">j</string>
+    <string name="drink_history">Historique boissons</string>
+    <string name="driver_status">Statut conducteur</string>
+    <string name="body_data">Physiologie</string>
 </resources>

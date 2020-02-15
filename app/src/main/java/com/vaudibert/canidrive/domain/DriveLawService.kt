@@ -1,10 +1,12 @@
 package com.vaudibert.canidrive.domain
 
-import java.util.*
 import kotlin.math.min
 
-class DriveLawService {
-
+class DriveLawService(
+    private val countryNamer: (countryCode: String) -> String,
+    countryList: List<DriveLaw>,
+    private val defaultDriveLaw: DriveLaw
+) {
     val defaultLimit = 0.0
 
     var onCustomLimitCallback = { _:Double -> }
@@ -31,52 +33,43 @@ class DriveLawService {
             onProfessionalCallback(value)
         }
 
-    private val countryLaws = DriveLaws.list
-        .sortedBy { law -> Locale("", law.countryCode).displayCountry }
+    private val countryLaws = countryList
+        .sortedBy { law -> countryNamer(law.countryCode) }
 
-    var driveLaw = DriveLaws.default
+    var driveLaw = defaultDriveLaw
 
     fun getListOfCountriesWithFlags(other: String): List<String> {
         return countryLaws.map { law ->
             if (law.countryCode == "")
                 other
             else
-                stringToFlagEmoji(law.countryCode) + " " + Locale("", law.countryCode).displayCountry
+                stringToFlagEmoji(law.countryCode) + " " + countryNamer(law.countryCode)
         }
     }
 
-    private fun getIndexOf(countryCode: String?): Int {
-        if (countryCode == null) return 0
 
-        val index = countryLaws
-            .indexOfFirst {
-                    law -> law.countryCode == countryCode
-            }
-        return index.coerceAtLeast(0)
-    }
-
-    fun getIndexOfCurrent() = getIndexOf(driveLaw.countryCode)
-
-    private fun findByCountryCode(countryCode: String): DriveLaw {
-        return countryLaws.find {
-                law -> law.countryCode == countryCode
-        } ?: DriveLaws.default
-    }
+    fun getIndexOfCurrent() = countryLaws
+        .indexOfFirst {
+                law -> law.countryCode == driveLaw.countryCode
+        }.coerceAtLeast(0)
 
     var onSelectCallback = { _:String -> }
 
     fun select(countryCode: String) {
-        driveLaw = findByCountryCode(countryCode)
+        driveLaw = countryLaws.find { law -> law.countryCode == countryCode } ?: defaultDriveLaw
         onSelectCallback(countryCode)
     }
 
     fun select(position: Int) {
-        driveLaw = countryLaws[position]
+        driveLaw = if (position !in countryLaws.indices)
+            defaultDriveLaw
+        else
+            countryLaws[position]
         onSelectCallback(driveLaw.countryCode)
     }
 
     fun driveLimit() : Double {
-        if (driveLaw == DriveLaws.default) return customCountryLimit
+        if (driveLaw == defaultDriveLaw) return customCountryLimit
 
         val regularLimit = driveLaw.limit
 
@@ -107,7 +100,7 @@ class DriveLawService {
             return twoCharString
         }
 
-        val countryCodeCaps = twoCharString.toUpperCase(Locale.getDefault()) // upper case is important because we are calculating offset
+        val countryCodeCaps = twoCharString.toUpperCase() // upper case is important because we are calculating offset
         val firstLetter = Character.codePointAt(countryCodeCaps, 0) - 0x41 + 0x1F1E6
         val secondLetter = Character.codePointAt(countryCodeCaps, 1) - 0x41 + 0x1F1E6
 

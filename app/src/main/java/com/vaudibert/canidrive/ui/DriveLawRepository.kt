@@ -7,10 +7,16 @@ import androidx.lifecycle.MutableLiveData
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.DriveLaw
 import com.vaudibert.canidrive.domain.DriveLawService
+import com.vaudibert.canidrive.domain.DriveLaws
+import java.util.*
 
 class DriveLawRepository {
 
-    val driveLawService = DriveLawService()
+    val driveLawService = DriveLawService(
+        { code: String -> Locale("", code).displayCountry},
+        DriveLaws.list,
+        DriveLaws.default
+        )
 
     private val _liveDriveLaw = MutableLiveData<DriveLaw>()
     private val _liveIsYoung = MutableLiveData<Boolean>()
