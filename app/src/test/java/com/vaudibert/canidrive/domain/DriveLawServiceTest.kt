@@ -65,5 +65,28 @@ internal class DriveLawServiceTest {
         assertEquals(aDriveLaw, a)
         assertEquals(defaultDriveLaw, default)
     }
+    
+    @Test
+    fun `Drive limit is regular one by default`() {
+        driveLawService.select("A-first")
+
+        assertEquals(0.7, driveLawService.driveLimit())
+    }
+
+    @Test
+    fun `Drive limit is young one when young, assumed lower than regular`() {
+        driveLawService.select("A-first")
+        driveLawService.isYoung = true
+
+        assertEquals(0.15, driveLawService.driveLimit())
+    }
+
+    @Test
+    fun `Drive limit is professional one when professional, assumed lower than regular`() {
+        driveLawService.select("A-first")
+        driveLawService.isProfessional = true
+
+        assertEquals(0.23, driveLawService.driveLimit())
+    }
 
 }
