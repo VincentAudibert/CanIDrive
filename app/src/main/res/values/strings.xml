@@ -16,7 +16,6 @@
     <string name="when">When</string>
     <string name="weight">Weight</string>
     <string name="sex">Sex</string>
-    <string name="spacer" translatable="false" >" "</string>
     <string name="male">MALE</string>
     <string name="female">FEMALE</string>
     <string name="other">OTHER</string>
