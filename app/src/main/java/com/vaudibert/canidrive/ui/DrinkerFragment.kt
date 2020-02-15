@@ -18,9 +18,7 @@ import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.DriveLaw
 import com.vaudibert.canidrive.domain.DriveLawService
-import kotlinx.android.synthetic.main.constraint_drinker_country.*
 import kotlinx.android.synthetic.main.fragment_drinker.*
-import kotlinx.android.synthetic.main.linear_drinker_weight_sex.*
 import kotlin.math.roundToInt
 
 /**

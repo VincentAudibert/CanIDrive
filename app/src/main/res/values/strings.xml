@@ -52,4 +52,6 @@
     <string name="customCountryLabel">Other</string>
     <string name="day_unit">d</string>
     <string name="drink_history">Drinks history</string>
+    <string name="driver_status">Driver status</string>
+    <string name="body_data">Body data</string>
 </resources>
