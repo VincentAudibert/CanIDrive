@@ -132,16 +132,10 @@
         app:layout_constraintTop_toBottomOf="@id/linearDriveStatus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="5dp"
-        android:paddingEnd="10dp"
-        android:paddingStart="5dp"
-        android:paddingBottom="5dp"
         android:drawableStart="@drawable/ic_history_white_24dp"
         android:drawablePadding="4dp"
-        android:textColor="@color/WHITE"
-        android:textSize="18sp"
+        style="@style/PillTitle"
         android:text="@string/drink_history"
-        android:background="@drawable/pill_primary_background"
 
         />
 

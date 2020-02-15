@@ -16,7 +16,18 @@
             android:layout_height="wrap_content"
             tools:context=".ui.DrinkerFragment">
 
+            <TextView android:id="@+id/textViewBodyDataTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="Body data"
+                style="@style/PillTitle"
+                />
+
             <include layout="@layout/linear_drinker_weight_sex" />
+
 
             <include layout="@layout/constraint_drinker_country" />
 

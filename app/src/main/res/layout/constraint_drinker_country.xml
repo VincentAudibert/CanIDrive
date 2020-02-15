@@ -5,6 +5,17 @@
     tools:showIn="@layout/fragment_drinker">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewDriverStatusTitle"
+        android:text="Driver status"
+        style="@style/PillTitle"
+        app:layout_constraintTop_toBottomOf="@+id/linearPickersDrinker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
         android:id="@+id/textViewCountryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,7 +24,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
         android:text="@string/country"
-        app:layout_constraintTop_toBottomOf="@+id/linearPickersDrinker"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDriverStatusTitle"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
