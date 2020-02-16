@@ -2,14 +2,10 @@ package com.vaudibert.canidrive.ui.fragment
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.NavOptions
@@ -18,9 +14,11 @@ import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.drivelaw.DriveLaw
 import com.vaudibert.canidrive.domain.drivelaw.DriveLawService
-import com.vaudibert.canidrive.ui.MainActivity
+import com.vaudibert.canidrive.ui.CanIDrive
 import com.vaudibert.canidrive.ui.repository.DrinkerRepository
 import com.vaudibert.canidrive.ui.repository.MainRepository
+import kotlinx.android.synthetic.main.constraint_content_drinker_country.*
+import kotlinx.android.synthetic.main.constraint_content_drinker_pickers.*
 import kotlinx.android.synthetic.main.fragment_drinker.*
 import kotlin.math.roundToInt
 
@@ -49,9 +47,7 @@ class DrinkerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mainActivity = this.activity as MainActivity
-
-        mainRepository = mainActivity.mainRepository
+        mainRepository = CanIDrive.instance.mainRepository
         drinkerRepository = mainRepository.drinkerRepository
 
         val driveLawRepository = mainRepository.driveLawRepository
@@ -59,9 +55,7 @@ class DrinkerFragment : Fragment() {
 
         setupSpinnerCountry(
             driveLawService
-                .getListOfCountriesWithFlags(
-                    mainActivity.getString(R.string.customCountryLabel)
-                )
+                .getListOfCountriesWithFlags()
         )
 
         setupWeightPicker(drinkerRepository.body.weight)
@@ -109,6 +103,7 @@ class DrinkerFragment : Fragment() {
 
         setupCheckBoxes()
 
+        setupAlcoholTolerance(drinkerRepository)
     }
 
     override fun onResume() {
@@ -116,13 +111,38 @@ class DrinkerFragment : Fragment() {
         updateCustomLimit(driveLawService.customCountryLimit)
     }
 
+    private fun setupAlcoholTolerance(drinkerRepository: DrinkerRepository) {
+        if (drinkerRepository.toleranceLevels.isEmpty()) return
+
+        val levelCount = drinkerRepository.toleranceLevels.size - 1
+        seekBarAlcoholTolerance.max = levelCount
+
+        seekBarAlcoholTolerance.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                textViewAlcoholToleranceTextValue.text = drinkerRepository.toleranceLevels[progress]
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+        seekBarAlcoholTolerance.progress = (drinkerRepository.body.alcoholTolerance * levelCount).roundToInt()
+
+    }
+
     private fun setupValidationButton(drinkerRepository: DrinkerRepository) {
         buttonValidateDrinker.setOnClickListener {
-            // country and law option selections were already recorded
             // TODO : country selection and law options should only be recorded when validated (viewmodel?)
 
-            drinkerRepository.body.sex = sex
+            drinkerRepository.body.sex = when {
+                radioMale.isChecked -> "MALE"
+                radioFemale.isChecked -> "FEMALE"
+                else -> "OTHER"
+            }
             drinkerRepository.body.weight = weight
+            val levelCount = (drinkerRepository.toleranceLevels.size - 1).coerceAtLeast(1)
+            drinkerRepository.body.alcoholTolerance =
+                seekBarAlcoholTolerance.progress.toDouble() /
+                        levelCount.toDouble()
 
             driveLawService.customCountryLimit = editTextCurrentLimit.text.toString().toDouble()
 
@@ -144,7 +164,6 @@ class DrinkerFragment : Fragment() {
                 DrinkerFragmentDirections.actionDrinkerFragmentToDriveFragment(),
                 navOptions
             )
-
         }
     }
 
@@ -160,25 +179,10 @@ class DrinkerFragment : Fragment() {
     private fun setupSexPicker(recordedSex: String) {
         sex = recordedSex
 
-        val sexValues = arrayOf(
-            getString(R.string.male),
-            getString(R.string.other),
-            getString(R.string.female)
-        )
-        numberPickerSex.minValue = 0
-        numberPickerSex.maxValue = sexValues.size - 1
-        numberPickerSex.value = when (sex) {
-            "MALE" -> 0
-            "FEMALE" -> 2
-            else -> 1
-        }
-        numberPickerSex.displayedValues = sexValues
-        numberPickerSex.setOnValueChangedListener { _, _, newVal ->
-            sex = when (newVal) {
-                0 -> "MALE"
-                2 -> "FEMALE"
-                else -> "OTHER"
-            }
+        when (sex) {
+            "MALE" -> radioMale.isChecked = true
+            "FEMALE" -> radioFemale.isChecked = true
+            else -> radioSexOther.isChecked = true
         }
     }
 
@@ -218,11 +222,10 @@ class DrinkerFragment : Fragment() {
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View,
+                view: View?,
                 position: Int,
                 id: Long
             ) {
-                Log.d("DrinkerFragment", "position is $position")
                 if (position == 0) {
                     // handle the other country case
                     val customLimit = driveLawService.customCountryLimit

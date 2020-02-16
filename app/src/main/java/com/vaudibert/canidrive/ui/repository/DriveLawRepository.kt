@@ -1,7 +1,6 @@
 package com.vaudibert.canidrive.ui.repository
 
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.vaudibert.canidrive.R
@@ -10,11 +9,12 @@ import com.vaudibert.canidrive.domain.drivelaw.DriveLawService
 import com.vaudibert.canidrive.domain.drivelaw.DriveLaws
 import java.util.*
 
-class DriveLawRepository {
+class DriveLawRepository(private val context: Context) {
 
     val driveLawService =
         DriveLawService(
             { code: String -> Locale("", code).displayCountry },
+            context.getString(R.string.other),
             DriveLaws.list,
             DriveLaws.default
         )
@@ -34,13 +34,8 @@ class DriveLawRepository {
     val liveCustomCountryLimit: LiveData<Double>
             get() = _liveCustomCountryLimit
 
-    // References needed for SharedPreferences operations
-    private lateinit var context: Context
-    private lateinit var sharedPref: SharedPreferences
-
-    fun setContext(context: Context) {
-        this.context = context
-        sharedPref = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE)
+    init {
+        val sharedPref = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE)
 
         // Initiate drive law service
         driveLawService.isYoung = sharedPref.getBoolean(context.getString(R.string.user_young_driver), false)
@@ -53,7 +48,7 @@ class DriveLawRepository {
 
         // Set callbacks once drive law service initialized
         driveLawService.onSelectCallback = {
-            countryCode:String ->
+                countryCode:String ->
             sharedPref.edit()
                 .putString(context.getString(R.string.countryCode), countryCode)
                 .apply()
@@ -61,7 +56,7 @@ class DriveLawRepository {
         }
 
         driveLawService.onYoungCallback = {
-            isYoung: Boolean ->
+                isYoung: Boolean ->
             sharedPref.edit()
                 .putBoolean(context.getString(R.string.user_young_driver), isYoung)
                 .apply()
@@ -70,7 +65,7 @@ class DriveLawRepository {
         }
 
         driveLawService.onProfessionalCallback = {
-            isProfessional: Boolean ->
+                isProfessional: Boolean ->
             sharedPref.edit()
                 .putBoolean(context.getString(R.string.user_professional_driver), isProfessional)
                 .apply()
@@ -79,7 +74,7 @@ class DriveLawRepository {
         }
 
         driveLawService.onCustomLimitCallback = {
-            newLimit:Double ->
+                newLimit:Double ->
             sharedPref.edit()
                 .putFloat(context.getString(R.string.customCountryLimit), newLimit.toFloat())
                 .apply()
@@ -92,4 +87,5 @@ class DriveLawRepository {
         _liveIsProfessional.value = driveLawService.isProfessional
         _liveCustomCountryLimit.value = driveLawService.customCountryLimit
     }
+
 }

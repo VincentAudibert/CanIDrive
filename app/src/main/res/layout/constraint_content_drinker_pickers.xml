@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:showIn="@layout/fragment_drinker">
+
+    <LinearLayout
+        android:id="@+id/linearPickerWeight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        app:layout_constraintEnd_toStartOf="@+id/linearPickerSex"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textViewPickerWeightTitle"
+            style="@style/PillTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weight" />
+
+        <NumberPicker
+            android:id="@+id/numberPickerWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearPickerSex"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingStart="0dp"
+        android:paddingEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linearPickerWeight"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/PillTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sex" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/radioMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/male"
+
+                />
+            <RadioButton android:id="@+id/radioSexOther"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/other"
+                android:checked="true"
+                />
+            <RadioButton android:id="@+id/radioFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/female"
+                />
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewAlcoholToleranceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/PillTitle"
+        android:text="@string/user_health"
+        app:layout_constraintTop_toBottomOf="@id/linearPickerWeight"
+        app:layout_constraintStart_toStartOf="@id/linearPickerWeight"
+        />
+
+    <TextView
+        android:id="@+id/textViewAlcoholToleranceTextValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextViewLabel"
+        android:text="average"
+        app:layout_constraintTop_toBottomOf="@id/linearPickerWeight"
+        app:layout_constraintStart_toEndOf="@id/textViewAlcoholToleranceLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="HardcodedText" />
+
+
+
+    <SeekBar
+        android:id="@+id/seekBarAlcoholTolerance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="2"
+        app:layout_constraintEnd_toEndOf="@id/textViewAlcoholToleranceTextValue"
+        app:layout_constraintStart_toStartOf="@id/textViewAlcoholToleranceLabel"
+        app:layout_constraintTop_toBottomOf="@id/textViewAlcoholToleranceTextValue"
+        android:padding="10dp"
+        />
+
+
+</merge>

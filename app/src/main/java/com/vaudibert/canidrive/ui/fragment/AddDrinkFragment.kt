@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.digestion.Drink
-import com.vaudibert.canidrive.ui.MainActivity
+import com.vaudibert.canidrive.ui.CanIDrive
 import kotlinx.android.synthetic.main.fragment_add_drink.*
 import java.text.DecimalFormat
 import java.util.*
@@ -38,7 +38,7 @@ class AddDrinkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val drinkerRepository = (this.activity as MainActivity).mainRepository.drinkerRepository
+        val drinkerRepository = CanIDrive.instance.mainRepository.drinkerRepository
         val digestionService = drinkerRepository.digestionService
 
         buttonValidateNewDrink.setOnClickListener {

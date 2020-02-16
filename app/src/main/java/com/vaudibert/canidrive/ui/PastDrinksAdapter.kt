@@ -19,8 +19,9 @@ class PastDrinksAdapter(
 
     private val DAY_IN_MILLIS = 3600*1000*24
 
+    // TODO : inject service ?
     private val digestionService =
-        (context as MainActivity).mainRepository.drinkerRepository.digestionService
+        CanIDrive.instance.mainRepository.drinkerRepository.digestionService
 
     private val inflater: LayoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

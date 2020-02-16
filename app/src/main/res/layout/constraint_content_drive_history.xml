@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:showIn="@layout/fragment_drive_status">
+
+    <TextView
+        android:id="@+id/textViewPastDrinks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:drawableStart="@drawable/ic_history_white_24dp"
+        android:drawablePadding="4dp"
+        style="@style/PillTitle"
+        android:text="@string/drink_history"
+
+        />
+
+    <ListView
+        android:id="@+id/listViewPastDrinks"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:divider="@color/WHITE"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPastDrinks"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</merge>

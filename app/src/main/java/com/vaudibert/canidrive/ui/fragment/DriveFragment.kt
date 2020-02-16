@@ -14,9 +14,10 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.DrinkerStatusService
-import com.vaudibert.canidrive.ui.MainActivity
+import com.vaudibert.canidrive.ui.CanIDrive
 import com.vaudibert.canidrive.ui.PastDrinksAdapter
 import com.vaudibert.canidrive.ui.repository.DrinkerRepository
+import kotlinx.android.synthetic.main.constraint_content_drive_history.*
 import kotlinx.android.synthetic.main.fragment_drive_status.*
 import java.text.DateFormat
 
@@ -46,8 +47,7 @@ class DriveFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mainActivity = this.activity as MainActivity
-        val mainRepository = mainActivity.mainRepository
+        val mainRepository = CanIDrive.instance.mainRepository
         drinkerStatusService = mainRepository.drinkerStatusService
 
         drinkerRepository = mainRepository.drinkerRepository

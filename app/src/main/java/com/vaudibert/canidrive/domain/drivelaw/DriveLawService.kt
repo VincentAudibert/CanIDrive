@@ -4,6 +4,7 @@ import kotlin.math.min
 
 class DriveLawService(
     private val countryNamer: (countryCode: String) -> String,
+    private val defaultName: String,
     countryList: List<DriveLaw>,
     private val defaultDriveLaw: DriveLaw
 ) {
@@ -38,13 +39,13 @@ class DriveLawService(
 
     var driveLaw = defaultDriveLaw
 
-    fun getListOfCountriesWithFlags(other: String): List<String> {
+    fun getListOfCountriesWithFlags(): List<String> {
         return countryLaws.map { law ->
             if (law.countryCode == "")
-                other
+                defaultName
             else
                 stringToFlagEmoji(law.countryCode) + " " + countryNamer(law.countryCode)
-        }
+        } ?: emptyList()
     }
 
 

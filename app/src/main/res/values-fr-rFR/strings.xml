@@ -29,6 +29,11 @@
     <string name="customCountryLabel">Autre</string>
     <string name="day_unit">j</string>
     <string name="drink_history">Historique boissons</string>
-    <string name="driver_status">Statut conducteur</string>
+    <string name="drive_law">Législation</string>
     <string name="body_data">Physiologie</string>
+    <string name="drive_status">Statut conduite</string>
+    <string name="user_health">Santé</string>
+    <string name="alcohol_tolerance_low">faible</string>
+    <string name="alcohol_tolerance_medium">moyenne</string>
+    <string name="alcohol_tolerance_high">bonne</string>
 </resources>

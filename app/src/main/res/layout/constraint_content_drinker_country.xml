@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/fragment_drinker">
+
+    <TextView
+        android:id="@+id/textViewDriverStatusTitle"
+        style="@style/PillTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/drive_law"
+        app:layout_constraintStart_toStartOf="@id/textViewCountryTitle"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewLimitUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="10dp"
+        android:text="g/L"
+        android:textColor="@color/driveRed"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerCountry" />
+
+    <LinearLayout
+        android:id="@+id/linearLimitValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@+id/textViewLimitUnit"
+        app:layout_constraintTop_toTopOf="@+id/textViewLimitUnit">
+
+        <TextView
+            android:id="@+id/textViewCurrentLimit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.23"
+            android:textColor="@color/driveRed"
+            android:textSize="22sp"
+            tools:ignore="HardcodedText"
+            app:layout_constraintEnd_toStartOf="@+id/textViewLimitUnit"
+            app:layout_constraintTop_toTopOf="@+id/textViewLimitUnit"
+            />
+
+        <EditText
+            android:id="@+id/editTextCurrentLimit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:inputType="numberDecimal"
+            android:paddingStart="0dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="0dp"
+            android:paddingBottom="5dp"
+            android:text="1.23"
+            android:textColor="@color/driveRed"
+            android:textSize="22sp"
+            tools:ignore="Autofill,HardcodedText,LabelFor"
+            app:layout_constraintEnd_toStartOf="@+id/textViewLimitUnit"
+            app:layout_constraintTop_toTopOf="@+id/textViewLimitUnit"
+            />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageForbiddenCurrentLimit"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="3dp"
+        android:contentDescription="@string/forbidden_symbol"
+        android:src="@drawable/ic_forbidden_white_24dp"
+        android:tint="@color/driveRed"
+        app:layout_constraintEnd_toStartOf="@id/linearLimitValue"
+
+        app:layout_constraintTop_toTopOf="@+id/textViewLimitUnit" />
+
+    <ImageView
+        android:id="@+id/imageDropCurrentLimit"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:contentDescription="@string/drop_symbol"
+        android:paddingEnd="-10dp"
+        android:src="@drawable/ic_blood_drop_plain"
+        app:layout_constraintEnd_toStartOf="@id/imageForbiddenCurrentLimit"
+        app:layout_constraintTop_toTopOf="@+id/textViewLimitUnit" />
+
+    <TextView
+        android:id="@+id/textViewCountryTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:text="@string/country"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerCountry"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDriverStatusTitle" />
+
+    <Spinner
+        android:id="@+id/spinnerCountry"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewCountryTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewCountryTitle"
+        app:layout_constraintTop_toTopOf="@+id/textViewCountryTitle" />
+
+    <CheckBox
+        android:id="@+id/checkboxYoungDriver"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/young_driver"
+        app:layout_constraintEnd_toEndOf="@id/spinnerCountry"
+        app:layout_constraintStart_toStartOf="@+id/textViewCountryTitle"
+        app:layout_constraintTop_toBottomOf="@id/textViewCountryTitle" />
+
+    <CheckBox
+        android:id="@+id/checkboxProfessionalDriver"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/professional_driver"
+        app:layout_constraintEnd_toEndOf="@id/spinnerCountry"
+        app:layout_constraintStart_toStartOf="@+id/textViewCountryTitle"
+        app:layout_constraintTop_toBottomOf="@id/checkboxYoungDriver" />
+
+
+
+
+</merge>

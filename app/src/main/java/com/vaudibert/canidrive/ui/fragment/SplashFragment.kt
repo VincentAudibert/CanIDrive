@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.BuildConfig
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.ui.MainActivity
+import com.vaudibert.canidrive.ui.CanIDrive
 import kotlinx.android.synthetic.main.fragment_splash.*
 
 /**
@@ -37,7 +37,7 @@ class SplashFragment : Fragment() {
         val mainHandler = Handler(Looper.getMainLooper())
         mainHandler.postDelayed( {
 
-            val init = (this.activity as MainActivity).mainRepository.init
+            val init = CanIDrive.instance.mainRepository.init
 
             val action = if (init)
                 SplashFragmentDirections.actionSplashFragmentToDriveFragment()
