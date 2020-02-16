@@ -33,6 +33,7 @@ internal class DriveLawServiceTest {
         driveLawService =
             DriveLawService(
                 defaultNamer,
+                "other",
                 countryList,
                 defaultDriveLaw
             )
@@ -46,7 +47,7 @@ internal class DriveLawServiceTest {
 
     @Test
     fun `Drive laws are sorted by country name (with given namer)`() {
-        val countryNames = driveLawService.getListOfCountriesWithFlags("other")
+        val countryNames = driveLawService.getListOfCountriesWithFlags()
 
         assertEquals(3, countryNames.size)
         assertTrue(countryNames[0].contains("other"))

@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewBodyDataTitle">
 
         <TextView
-            style="@style/TextViewTitle"
+            style="@style/TextViewLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/weight" />
@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewBodyDataTitle">
 
         <TextView
-            style="@style/TextViewTitle"
+            style="@style/TextViewLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sex" />
@@ -71,5 +71,39 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textViewAlcoholToleranceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextViewLabel"
+        android:text="@string/alcohol_tolerance"
+        app:layout_constraintTop_toBottomOf="@id/linearPickerSex"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/textViewAlcoholToleranceTextValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:textSize="20sp"
+        android:text="average"
+        app:layout_constraintTop_toBottomOf="@id/linearPickerSex"
+        app:layout_constraintStart_toEndOf="@id/textViewAlcoholToleranceLabel"
+        tools:ignore="HardcodedText" />
+
+
+
+    <SeekBar
+        android:id="@+id/seekBarAlcoholTolerance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="2"
+        app:layout_constraintEnd_toEndOf="@id/textViewAlcoholToleranceTextValue"
+        app:layout_constraintStart_toStartOf="@id/textViewAlcoholToleranceLabel"
+        app:layout_constraintTop_toBottomOf="@id/textViewAlcoholToleranceLabel"
+
+        />
 
 </merge>

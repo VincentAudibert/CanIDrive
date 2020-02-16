@@ -55,4 +55,24 @@ internal class PhysicalBodyTest {
         assertEquals(decrease, shrinker.decreaseFactor)
     }
 
+    @Test
+    fun `Tolerance impacts only decreaseFactor for a given sex`() {
+        val female = PhysicalBody()
+        female.sex = "FEMALE"
+        female.weight = 50.0
+
+        val male = PhysicalBody()
+        male.sex = "MALE"
+        male.weight = 100.0
+
+        assertEquals(0.085, female.decreaseFactor)
+        female.alcoholTolerance = 1.0
+        assertEquals(0.1, female.decreaseFactor)
+
+        assertEquals(0.1, male.decreaseFactor)
+        male.alcoholTolerance = 1.0
+        assertEquals(0.15, male.decreaseFactor)
+
+    }
+
 }
