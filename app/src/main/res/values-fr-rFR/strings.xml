@@ -31,4 +31,5 @@
     <string name="drink_history">Historique boissons</string>
     <string name="driver_status">Statut conducteur</string>
     <string name="body_data">Physiologie</string>
+    <string name="drive_status">Statut conduite</string>
 </resources>
