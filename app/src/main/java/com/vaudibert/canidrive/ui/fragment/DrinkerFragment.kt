@@ -18,9 +18,12 @@ import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.drivelaw.DriveLaw
 import com.vaudibert.canidrive.domain.drivelaw.DriveLawService
+import com.vaudibert.canidrive.ui.CanIDrive
 import com.vaudibert.canidrive.ui.MainActivity
 import com.vaudibert.canidrive.ui.repository.DrinkerRepository
 import com.vaudibert.canidrive.ui.repository.MainRepository
+import kotlinx.android.synthetic.main.constraint_content_drinker_country.*
+import kotlinx.android.synthetic.main.constraint_content_drinker_pickers.*
 import kotlinx.android.synthetic.main.fragment_drinker.*
 import kotlin.math.roundToInt
 
@@ -51,7 +54,7 @@ class DrinkerFragment : Fragment() {
 
         val mainActivity = this.activity as MainActivity
 
-        mainRepository = mainActivity.mainRepository
+        mainRepository = CanIDrive.instance.mainRepository
         drinkerRepository = mainRepository.drinkerRepository
 
         val driveLawRepository = mainRepository.driveLawRepository

@@ -7,18 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.google.android.material.appbar.AppBarLayout
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.ui.repository.MainRepository
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val mainRepository = MainRepository()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        mainRepository.setContext(this)
 
         findNavController(R.id.nav_host_fragment)
             .addOnDestinationChangedListener { _, destination, _ ->
