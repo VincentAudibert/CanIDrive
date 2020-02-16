@@ -7,47 +7,59 @@
     android:layout_height="match_parent"
     >
 
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        android:baselineAligned="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="-24dp">
+        >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false"
-            >
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            tools:layout_editor_absoluteX="-24dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:context=".ui.fragment.DrinkerFragment"
                 tools:showIn="@layout/fragment_drinker">
 
                 <include layout="@layout/constraint_content_drinker_pickers" />
-                
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+        </ScrollView>
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            tools:layout_editor_absoluteX="-24dp">
+
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:context=".ui.fragment.DrinkerFragment"
                 tools:showIn="@layout/fragment_drinker">
 
                 <include layout="@layout/constraint_content_drinker_country" />
-                
+
             </androidx.constraintlayout.widget.ConstraintLayout>
-            
-        </LinearLayout>
-        
-        
-    </ScrollView>
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonValidateDrinker"

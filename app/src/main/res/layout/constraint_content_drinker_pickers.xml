@@ -4,16 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     tools:showIn="@layout/fragment_drinker">
 
-    <TextView
-        android:id="@+id/textViewBodyDataTitle"
-        style="@style/PillTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/body_data"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:id="@+id/linearPickerWeight"
         android:layout_width="0dp"
@@ -27,10 +17,11 @@
         android:paddingEnd="30dp"
         app:layout_constraintEnd_toStartOf="@+id/linearPickerSex"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBodyDataTitle">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            style="@style/TextViewLabel"
+            android:id="@+id/textViewPickerWeightTitle"
+            style="@style/PillTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/weight" />
@@ -56,10 +47,10 @@
         android:paddingEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/linearPickerWeight"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBodyDataTitle">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            style="@style/TextViewLabel"
+            style="@style/PillTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sex" />
@@ -75,22 +66,21 @@
         android:id="@+id/textViewAlcoholToleranceLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextViewLabel"
-        android:text="@string/alcohol_tolerance"
+        style="@style/PillTitle"
+        android:text="@string/user_health"
         app:layout_constraintTop_toBottomOf="@id/linearPickerSex"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/linearPickerWeight"
         />
 
     <TextView
         android:id="@+id/textViewAlcoholToleranceTextValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:textSize="20sp"
+        style="@style/TextViewLabel"
         android:text="average"
         app:layout_constraintTop_toBottomOf="@id/linearPickerSex"
         app:layout_constraintStart_toEndOf="@id/textViewAlcoholToleranceLabel"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="HardcodedText" />
 
 
@@ -102,8 +92,9 @@
         android:max="2"
         app:layout_constraintEnd_toEndOf="@id/textViewAlcoholToleranceTextValue"
         app:layout_constraintStart_toStartOf="@id/textViewAlcoholToleranceLabel"
-        app:layout_constraintTop_toBottomOf="@id/textViewAlcoholToleranceLabel"
-
+        app:layout_constraintTop_toBottomOf="@id/textViewAlcoholToleranceTextValue"
+        android:padding="10dp"
         />
+
 
 </merge>

@@ -54,7 +54,7 @@
     <string name="driver_status">Driver status</string>
     <string name="body_data">Body data</string>
     <string name="drive_status">Drive Status</string>
-    <string name="alcohol_tolerance">Alcohol tolerance :</string>
+    <string name="user_health">Health</string>
     <string name="alcohol_tolerance_low">low</string>
     <string name="alcohol_tolerance_medium">average</string>
     <string name="alcohol_tolerance_high">good</string>
