@@ -3,9 +3,7 @@ package com.vaudibert.canidrive.ui.repository
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.room.Room
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.data.DrinkDao
 import com.vaudibert.canidrive.data.DrinkDatabase
 import com.vaudibert.canidrive.domain.digestion.DigestionService
 import com.vaudibert.canidrive.domain.digestion.Drink
@@ -29,7 +27,7 @@ import kotlinx.coroutines.launch
  *      - init flag (= user configuration already validated once)
  *  - drinkDao for past consumed drinks.
  */
-class DrinkerRepository {
+class DrinkerRepository(context: Context, roomDatabase: DrinkDatabase) {
 
     // Main instance to link
     val body = PhysicalBody()
@@ -44,12 +42,7 @@ class DrinkerRepository {
     val livePastDrinks: LiveData<MutableList<Drink>>
             get() = _livePastDrinks
 
-    /**
-     * Context (main activity) reference set.
-     *
-     * Triggers the retrieval of SharedPreferences-linked values.
-     */
-    fun setContext(context: Context) {
+    init {
         val sharedPref = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE)
 
         val weight = sharedPref.getFloat(context.getString(R.string.user_weight), 70F).toDouble()
@@ -69,22 +62,9 @@ class DrinkerRepository {
 
         _liveDrinker.value = body
 
-        setDao(
-            Room
-                .databaseBuilder(context, DrinkDatabase::class.java, "drink-database")
-                .build()
-                .drinkDao()
-        )
 
-    }
+        val drinkDao = roomDatabase.drinkDao()
 
-
-    /**
-     * DrinkDao set.
-     *
-     * Triggers the retrieval of all drink-DB entries.
-     */
-    private fun setDao(drinkDao: DrinkDao) {
         val daoJob = Job()
         val uiScope = CoroutineScope(Dispatchers.Main + daoJob)
 
@@ -97,18 +77,19 @@ class DrinkerRepository {
 
         // Then set callbacks to keep DB updated
         digestionService.ingestCallback = {
-            drink -> run {
-                uiScope.launch { drinkDao.insert(drink) }
-            }
+                drink -> run {
+            uiScope.launch { drinkDao.insert(drink) }
+        }
             _livePastDrinks.postValue(digestionService.absorbedDrinks)
         }
 
         digestionService.removeCallback = {
-            drink -> run {
-                uiScope.launch { drinkDao.remove(drink) }
-            }
+                drink -> run {
+            uiScope.launch { drinkDao.remove(drink) }
+        }
             _livePastDrinks.postValue(digestionService.absorbedDrinks)
         }
     }
+
 
 }

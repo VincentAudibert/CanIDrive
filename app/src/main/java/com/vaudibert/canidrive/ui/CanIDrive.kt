@@ -9,12 +9,11 @@ class CanIDrive : Application() {
         lateinit var instance: CanIDrive
     }
 
-    val mainRepository = MainRepository()
+    lateinit var mainRepository : MainRepository
 
     override fun onCreate() {
         super.onCreate()
+        mainRepository = MainRepository(this)
         instance = this
-
-        mainRepository.setContext(this)
     }
 }

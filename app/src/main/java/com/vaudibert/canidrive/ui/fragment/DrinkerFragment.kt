@@ -2,7 +2,6 @@ package com.vaudibert.canidrive.ui.fragment
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,6 @@ import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.drivelaw.DriveLaw
 import com.vaudibert.canidrive.domain.drivelaw.DriveLawService
 import com.vaudibert.canidrive.ui.CanIDrive
-import com.vaudibert.canidrive.ui.MainActivity
 import com.vaudibert.canidrive.ui.repository.DrinkerRepository
 import com.vaudibert.canidrive.ui.repository.MainRepository
 import kotlinx.android.synthetic.main.constraint_content_drinker_country.*
@@ -52,8 +50,6 @@ class DrinkerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val mainActivity = this.activity as MainActivity
-
         mainRepository = CanIDrive.instance.mainRepository
         drinkerRepository = mainRepository.drinkerRepository
 
@@ -62,9 +58,7 @@ class DrinkerFragment : Fragment() {
 
         setupSpinnerCountry(
             driveLawService
-                .getListOfCountriesWithFlags(
-                    mainActivity.getString(R.string.customCountryLabel)
-                )
+                .getListOfCountriesWithFlags()
         )
 
         setupWeightPicker(drinkerRepository.body.weight)
@@ -221,11 +215,10 @@ class DrinkerFragment : Fragment() {
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
-                view: View,
+                view: View?,
                 position: Int,
                 id: Long
             ) {
-                Log.d("DrinkerFragment", "position is $position")
                 if (position == 0) {
                     // handle the other country case
                     val customLimit = driveLawService.customCountryLimit

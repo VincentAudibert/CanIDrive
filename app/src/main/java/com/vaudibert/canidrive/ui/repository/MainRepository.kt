@@ -1,23 +1,31 @@
 package com.vaudibert.canidrive.ui.repository
 
 import android.content.Context
-import android.content.SharedPreferences
+import androidx.room.Room
 import com.vaudibert.canidrive.R
+import com.vaudibert.canidrive.data.DrinkDatabase
 import com.vaudibert.canidrive.domain.DrinkerStatusService
 
-class MainRepository {
+class MainRepository(private val context: Context) {
 
-    val drinkerRepository =
-        DrinkerRepository()
-    val driveLawRepository =
-        DriveLawRepository()
+    private val drinkDatabase = Room
+        .databaseBuilder(context, DrinkDatabase::class.java, "drink-database")
+        .build()
+
+    val drinkerRepository = DrinkerRepository(context, drinkDatabase)
+
+    val driveLawRepository = DriveLawRepository(context)
+
     val drinkerStatusService = DrinkerStatusService(
         drinkerRepository.digestionService,
         driveLawRepository.driveLawService
     )
 
+    private val sharedPref = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE)
+
+
     // Flag for initialization, saved when set.
-    var init : Boolean = false
+    var init : Boolean = sharedPref.getBoolean(context.getString(R.string.user_initialized), false)
         set(value) {
             field = value
             sharedPref.edit()
@@ -25,22 +33,4 @@ class MainRepository {
                 .apply()
         }
 
-    // References needed for SharedPreferences operations
-    private lateinit var context: Context
-    private lateinit var sharedPref: SharedPreferences
-
-    /**
-     * Context (main activity) reference set.
-     *
-     * Triggers the retrieval of SharedPreferences-linked values.
-     */
-    fun setContext(context: Context) {
-        this.context = context
-        sharedPref = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE)
-        init = sharedPref.getBoolean(context.getString(R.string.user_initialized), false)
-
-        drinkerRepository.setContext(context)
-        driveLawRepository.setContext(context)
-
-    }
 }
