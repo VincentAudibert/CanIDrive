@@ -56,92 +56,92 @@
                 android:src="@drawable/ic_forbidden_white_24dp"
                 android:tint="@color/driveRed" />
 
+            <LinearLayout
+                android:id="@+id/linearStatusDatas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                >
+
+
+                <LinearLayout
+                    android:id="@+id/linearAlcoholRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="4dp"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/alcohol_blood_rate"
+                        android:src="@drawable/ic_blood_drop_plain" />
+
+                    <TextView
+                        android:id="@+id/textViewAlcoholRate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dev_alcohol_rate_example_text"
+                        android:textColor="@color/driveAmber"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearWaitToDrive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="4dp"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/time_to_wait"
+                        android:src="@drawable/ic_update_white_24dp"
+                        android:tint="@color/driveAmber" />
+
+                    <TextView
+                        android:id="@+id/textViewTimeToDrive"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dev_time_example_text"
+                        android:textColor="@color/driveAmber"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearWaitToSober"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="4dp"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@string/time_to_wait"
+                        android:src="@drawable/ic_update_white_24dp"
+                        android:tint="@color/driveGreen" />
+
+                    <TextView
+                        android:id="@+id/textViewTimeToSober"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dev_time_example_text"
+                        android:textColor="@color/driveGreen"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linearStatusDatas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            >
-
-
-            <LinearLayout
-                android:id="@+id/linearAlcoholRate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="4dp"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:contentDescription="@string/alcohol_blood_rate"
-                    android:src="@drawable/ic_blood_drop_plain" />
-
-                <TextView
-                    android:id="@+id/textViewAlcoholRate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dev_alcohol_rate_example_text"
-                    android:textColor="@color/driveAmber"
-                    android:textSize="22sp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/linearWaitToDrive"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="4dp"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:contentDescription="@string/time_to_wait"
-                    android:src="@drawable/ic_update_white_24dp"
-                    android:tint="@color/driveAmber" />
-
-                <TextView
-                    android:id="@+id/textViewTimeToDrive"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dev_time_example_text"
-                    android:textColor="@color/driveAmber"
-                    android:textSize="22sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearWaitToSober"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="4dp"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:contentDescription="@string/time_to_wait"
-                    android:src="@drawable/ic_update_white_24dp"
-                    android:tint="@color/driveGreen" />
-
-                <TextView
-                    android:id="@+id/textViewTimeToSober"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dev_time_example_text"
-                    android:textColor="@color/driveGreen"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-        </LinearLayout>
 
     </LinearLayout>
 
@@ -149,10 +149,11 @@
         android:id="@+id/constraint_drive_history"
         android:layout_width="0dp"
         app:layout_constraintHorizontal_weight="1"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/linearDriveStatus"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         >
 
         <include layout="@layout/constraint_content_drive_history" />

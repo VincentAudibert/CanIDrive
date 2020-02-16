@@ -17,6 +17,7 @@ import com.vaudibert.canidrive.domain.DrinkerStatusService
 import com.vaudibert.canidrive.ui.CanIDrive
 import com.vaudibert.canidrive.ui.PastDrinksAdapter
 import com.vaudibert.canidrive.ui.repository.DrinkerRepository
+import kotlinx.android.synthetic.main.constraint_content_drive_history.*
 import kotlinx.android.synthetic.main.fragment_drive_status.*
 import java.text.DateFormat
 
