@@ -33,4 +33,7 @@
     <string name="body_data">Physiologie</string>
     <string name="drive_status">Statut conduite</string>
     <string name="alcohol_tolerance">Tolérance à l\'alcool :</string>
+    <string name="alcohol_tolerance_low">faible</string>
+    <string name="alcohol_tolerance_medium">moyenne</string>
+    <string name="alcohol_tolerance_high">bonne</string>
 </resources>

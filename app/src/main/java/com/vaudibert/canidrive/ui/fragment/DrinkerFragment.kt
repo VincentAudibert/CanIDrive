@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.NavOptions
@@ -106,6 +103,7 @@ class DrinkerFragment : Fragment() {
 
         setupCheckBoxes()
 
+        setupAlcoholTolerance(drinkerRepository)
     }
 
     override fun onResume() {
@@ -113,13 +111,34 @@ class DrinkerFragment : Fragment() {
         updateCustomLimit(driveLawService.customCountryLimit)
     }
 
+    private fun setupAlcoholTolerance(drinkerRepository: DrinkerRepository) {
+        if (drinkerRepository.toleranceLevels.isEmpty()) return
+
+        val levelCount = drinkerRepository.toleranceLevels.size - 1
+        seekBarAlcoholTolerance.max = levelCount
+
+        seekBarAlcoholTolerance.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                textViewAlcoholToleranceTextValue.text = drinkerRepository.toleranceLevels[progress]
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+        seekBarAlcoholTolerance.progress = (drinkerRepository.body.alcoholTolerance * levelCount).roundToInt()
+
+    }
+
     private fun setupValidationButton(drinkerRepository: DrinkerRepository) {
         buttonValidateDrinker.setOnClickListener {
-            // country and law option selections were already recorded
             // TODO : country selection and law options should only be recorded when validated (viewmodel?)
 
             drinkerRepository.body.sex = sex
             drinkerRepository.body.weight = weight
+            val levelCount = (drinkerRepository.toleranceLevels.size - 1).coerceAtLeast(1)
+            drinkerRepository.body.alcoholTolerance =
+                seekBarAlcoholTolerance.progress.toDouble() /
+                        levelCount.toDouble()
 
             driveLawService.customCountryLimit = editTextCurrentLimit.text.toString().toDouble()
 

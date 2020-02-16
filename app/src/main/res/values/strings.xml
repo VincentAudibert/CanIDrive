@@ -55,4 +55,8 @@
     <string name="body_data">Body data</string>
     <string name="drive_status">Drive Status</string>
     <string name="alcohol_tolerance">Alcohol tolerance :</string>
+    <string name="alcohol_tolerance_low">low</string>
+    <string name="alcohol_tolerance_medium">average</string>
+    <string name="alcohol_tolerance_high">good</string>
+    <string name="user_tolerance" translatable="false">USER_TOLERANCE</string>
 </resources>

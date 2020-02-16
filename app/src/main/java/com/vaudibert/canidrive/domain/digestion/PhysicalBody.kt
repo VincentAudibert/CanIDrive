@@ -21,14 +21,14 @@ class PhysicalBody {
             field = value
             effectiveWeight = weight * (if (sex == MALE) MALE_SEX_FACTOR else FEMALE_SEX_FACTOR)
             decreaseFactor = decreaseFactorWith(value, alcoholTolerance)
-            onUpdate(sex, weight)
+            onUpdate(sex, weight, alcoholTolerance)
         }
 
     var weight = 80.0
         set(value) {
             field = value
             effectiveWeight = weight * (if (sex == MALE) MALE_SEX_FACTOR else FEMALE_SEX_FACTOR)
-            onUpdate(sex, weight)
+            onUpdate(sex, weight, alcoholTolerance)
         }
 
     var alcoholTolerance = 0.0
@@ -36,6 +36,7 @@ class PhysicalBody {
             if (value in 0.0..1.0) {
                 field = value
                 decreaseFactor = decreaseFactorWith(sex, value)
+                onUpdate(sex, weight, alcoholTolerance)
             }
         }
 
@@ -46,7 +47,7 @@ class PhysicalBody {
             tolerance * FEMALE_MAX_DECREASE + (1-tolerance) * FEMALE_MIN_DECREASE
     }
 
-    var onUpdate = { _ : String, _ : Double -> }
+    var onUpdate = { _ : String, _ : Double, _ : Double -> }
 
     var decreaseFactor: Double = FEMALE_MIN_DECREASE
 
