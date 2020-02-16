@@ -133,7 +133,11 @@ class DrinkerFragment : Fragment() {
         buttonValidateDrinker.setOnClickListener {
             // TODO : country selection and law options should only be recorded when validated (viewmodel?)
 
-            drinkerRepository.body.sex = sex
+            drinkerRepository.body.sex = when {
+                radioMale.isChecked -> "MALE"
+                radioFemale.isChecked -> "FEMALE"
+                else -> "OTHER"
+            }
             drinkerRepository.body.weight = weight
             val levelCount = (drinkerRepository.toleranceLevels.size - 1).coerceAtLeast(1)
             drinkerRepository.body.alcoholTolerance =
@@ -160,7 +164,6 @@ class DrinkerFragment : Fragment() {
                 DrinkerFragmentDirections.actionDrinkerFragmentToDriveFragment(),
                 navOptions
             )
-
         }
     }
 
@@ -176,25 +179,10 @@ class DrinkerFragment : Fragment() {
     private fun setupSexPicker(recordedSex: String) {
         sex = recordedSex
 
-        val sexValues = arrayOf(
-            getString(R.string.male),
-            getString(R.string.other),
-            getString(R.string.female)
-        )
-        numberPickerSex.minValue = 0
-        numberPickerSex.maxValue = sexValues.size - 1
-        numberPickerSex.value = when (sex) {
-            "MALE" -> 0
-            "FEMALE" -> 2
-            else -> 1
-        }
-        numberPickerSex.displayedValues = sexValues
-        numberPickerSex.setOnValueChangedListener { _, _, newVal ->
-            sex = when (newVal) {
-                0 -> "MALE"
-                2 -> "FEMALE"
-                else -> "OTHER"
-            }
+        when (sex) {
+            "MALE" -> radioMale.isChecked = true
+            "FEMALE" -> radioFemale.isChecked = true
+            else -> radioSexOther.isChecked = true
         }
     }
 

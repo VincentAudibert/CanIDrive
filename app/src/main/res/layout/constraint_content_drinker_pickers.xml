@@ -41,8 +41,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/linearPickerWeight"
         app:layout_constraintTop_toTopOf="parent">
@@ -53,10 +53,29 @@
             android:layout_height="wrap_content"
             android:text="@string/sex" />
 
-        <NumberPicker
-            android:id="@+id/numberPickerSex"
+        <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton android:id="@+id/radioMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/male"
+
+                />
+            <RadioButton android:id="@+id/radioSexOther"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/other"
+                android:checked="true"
+                />
+            <RadioButton android:id="@+id/radioFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/female"
+                />
+        </RadioGroup>
+
 
     </LinearLayout>
 
@@ -66,7 +85,7 @@
         android:layout_height="wrap_content"
         style="@style/PillTitle"
         android:text="@string/user_health"
-        app:layout_constraintTop_toBottomOf="@id/linearPickerSex"
+        app:layout_constraintTop_toBottomOf="@id/linearPickerWeight"
         app:layout_constraintStart_toStartOf="@id/linearPickerWeight"
         />
 
@@ -76,7 +95,7 @@
         android:layout_height="wrap_content"
         style="@style/TextViewLabel"
         android:text="average"
-        app:layout_constraintTop_toBottomOf="@id/linearPickerSex"
+        app:layout_constraintTop_toBottomOf="@id/linearPickerWeight"
         app:layout_constraintStart_toEndOf="@id/textViewAlcoholToleranceLabel"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="HardcodedText" />
