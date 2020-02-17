@@ -1,0 +1,15 @@
+Can I Drive vous invite à suivre vos consommations d'alcool pour savoir si vous pouvez reprendre le volant ou non après avoir bu.
+
+Il vous est indiqué :
+- un status clair (OK, OK mais pas sobre, NON)
+- votre taux estimé actuel
+- l'heure à laquelle vous pourrez reprendre le volant
+- l'heure à laquelle vous serez sobre.
+
+Le calcul prend en compte :
+- le poids
+- le genre
+- le statut de conducteur (pays, jeune conducteur, professionnel)
+- les boissons (quantité d'alcool absorbé et à quelle heure)
+
+Si le pays souhaité n'est pas sélectionné, il reste possible de sélectionner "Autre" et rentrer la valeur seuil à utiliser.
