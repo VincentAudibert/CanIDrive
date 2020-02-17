@@ -1,15 +1,16 @@
-Can I Drive vous invite à suivre vos consommations d'alcool pour savoir si vous pouvez reprendre le volant ou non après avoir bu.
+Can I Drive allows you to track your recent alcohol consumption, to assess if you can drive or not.
 
-Il vous est indiqué :
-- un status clair (OK, OK mais pas sobre, NON)
-- votre taux estimé actuel
-- l'heure à laquelle vous pourrez reprendre le volant
-- l'heure à laquelle vous serez sobre.
+What is shown to you :
+- a clear status (OK, OK but not sober, NO GO)
+- your estimated blood rate
+- time when you can drive again
+- time when you get sober again (0.0 g/L)
 
-Le calcul prend en compte :
-- le poids
-- le genre
-- le statut de conducteur (pays, jeune conducteur, professionnel)
-- les boissons (quantité d'alcool absorbé et à quelle heure)
+Computation takes into account :
+- weight
+- sex
+- rough health indication
+- driver legal status (country, young driver, professional)
+- drinks (how much alcohol and when)
 
-Si le pays souhaité n'est pas sélectionné, il reste possible de sélectionner "Autre" et rentrer la valeur seuil à utiliser.
+If the chosen country is not available, you can select OTHER to override the threshold value with your own.

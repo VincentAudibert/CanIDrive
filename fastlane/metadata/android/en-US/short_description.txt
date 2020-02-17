@@ -1,1 +1,1 @@
-Calculateur d'alcoolémie pour la conduite, selon le pays
+Alcohol blood rate computer for driving
