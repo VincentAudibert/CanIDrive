@@ -13,7 +13,9 @@ import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.digestion.Drink
 import com.vaudibert.canidrive.ui.CanIDrive
 import com.vaudibert.canidrive.ui.PresetDrinksAdapter
+import kotlinx.android.synthetic.main.constraint_content_add_drink_presets.*
 import kotlinx.android.synthetic.main.fragment_add_drink.*
+import kotlinx.android.synthetic.main.linear_content_add_drink_custom_pickers.*
 import java.text.DecimalFormat
 import java.util.*
 

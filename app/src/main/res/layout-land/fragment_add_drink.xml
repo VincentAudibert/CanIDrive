@@ -8,12 +8,13 @@
 
     <LinearLayout
         android:id="@+id/linearPickersAddDrink"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintWidth_percent="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/constraintPresetDrinks"
         android:baselineAligned="false">
 
         <include layout="@layout/linear_content_add_drink_custom_pickers" />
@@ -23,17 +24,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintPresetDrinks"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/linearPickersAddDrink"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         >
 
         <include layout="@layout/constraint_content_add_drink_presets" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
