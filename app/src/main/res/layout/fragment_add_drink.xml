@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextViewTitle"
+                style="@style/PillTitle"
                 android:text="@string/volume" />
 
             <NumberPicker
@@ -50,7 +50,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextViewTitle"
+                style="@style/PillTitle"
                 android:text="@string/degree"
                 />
 
@@ -73,7 +73,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TextViewTitle"
+                style="@style/PillTitle"
                 android:text="@string/when"
                 />
 
@@ -88,6 +88,25 @@
 
 
     </LinearLayout>
+
+    <TextView android:id="@+id/textViewPresetDrinks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/PillTitle"
+        android:text="Presets"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearPickersAddDrink"
+        />
+
+    <ListView android:id="@+id/listViewPresetDrinks"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/textViewPresetDrinks"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonValidateNewDrink"
