@@ -12,6 +12,7 @@ import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.digestion.Drink
 import com.vaudibert.canidrive.ui.CanIDrive
+import com.vaudibert.canidrive.ui.PresetDrinksAdapter
 import kotlinx.android.synthetic.main.fragment_add_drink.*
 import java.text.DecimalFormat
 import java.util.*
@@ -65,6 +66,12 @@ class AddDrinkFragment : Fragment() {
         setDegreePicker()
 
         setDelayPicker()
+
+        val pastDrinksAdapter =
+            PresetDrinksAdapter(
+                this.context!!
+            )
+        listViewPresetDrinks.adapter = pastDrinksAdapter
     }
 
     private fun setDelayPicker() {

@@ -59,4 +59,5 @@
     <string name="alcohol_tolerance_medium">average</string>
     <string name="alcohol_tolerance_high">good</string>
     <string name="user_tolerance" translatable="false">USER_TOLERANCE</string>
+    <string name="presets">Presets</string>
 </resources>
