@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.domain.digestion.Drink
+import com.vaudibert.canidrive.domain.drink.IngestedDrink
 import com.vaudibert.canidrive.ui.CanIDrive
 import com.vaudibert.canidrive.ui.PresetDrinksAdapter
 import kotlinx.android.synthetic.main.constraint_content_add_drink_presets.*
@@ -41,14 +41,14 @@ class AddDrinkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val drinkerRepository = CanIDrive.instance.mainRepository.drinkerRepository
-        val digestionService = drinkerRepository.digestionService
+        val drinkRepository = CanIDrive.instance.mainRepository.drinkRepository
+        val drinkService = drinkRepository.drinkService
 
         buttonValidateNewDrink.setOnClickListener {
             val ingestionTime = Date(Date().time - (delay * 60000))
 
-            digestionService.ingest(
-                Drink(
+            drinkService.ingest(
+                IngestedDrink(
                     volume,
                     degree,
                     ingestionTime
@@ -69,11 +69,12 @@ class AddDrinkFragment : Fragment() {
 
         setDelayPicker()
 
-        val pastDrinksAdapter =
+        val presetDrinksAdapter =
             PresetDrinksAdapter(
-                this.context!!
+                this.context!!,
+                drinkService.presetDrinks
             )
-        listViewPresetDrinks.adapter = pastDrinksAdapter
+        listViewPresetDrinks.adapter = presetDrinksAdapter
     }
 
     private fun setDelayPicker() {
@@ -102,22 +103,22 @@ class AddDrinkFragment : Fragment() {
     }
 
     private fun setDegreePicker() {
-        val degreeLabels = Drink.degrees.map { deg ->
+        val degreeLabels = IngestedDrink.degrees.map { deg ->
             "${doubleFormat.format(deg)} %"
         }.toTypedArray()
         numberPickerDegree.minValue = 0
         numberPickerDegree.maxValue = degreeLabels.size - 1
         numberPickerDegree.displayedValues = degreeLabels
         val startDegree = degreeLabels.size / 2
-        degree = Drink.degrees[startDegree]
+        degree = IngestedDrink.degrees[startDegree]
         numberPickerDegree.value = startDegree
         numberPickerDegree.setOnValueChangedListener { _, _, newVal ->
-            degree = Drink.degrees[newVal]
+            degree = IngestedDrink.degrees[newVal]
         }
     }
 
     private fun setVolumePicker() {
-        val volumeLabels = Drink.volumes.map { vol ->
+        val volumeLabels = IngestedDrink.volumes.map { vol ->
             if (vol < 1000.0)
                 "${doubleFormat.format(vol / 10.0)} cL"
             else
@@ -128,9 +129,9 @@ class AddDrinkFragment : Fragment() {
         numberPickerVolume.displayedValues = volumeLabels
         val middleVolume = volumeLabels.size / 2
         numberPickerVolume.value = middleVolume
-        volume = Drink.volumes[middleVolume]
+        volume = IngestedDrink.volumes[middleVolume]
         numberPickerVolume.setOnValueChangedListener { _, _, newVal ->
-            volume = Drink.volumes[newVal]
+            volume = IngestedDrink.volumes[newVal]
         }
     }
 }

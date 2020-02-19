@@ -8,13 +8,12 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.domain.digestion.PresetDrink
+import com.vaudibert.canidrive.domain.drink.PresetDrink
 
 class PresetDrinksAdapter(
-    val context: Context
+    val context: Context,
+    val presetDrinks: List<PresetDrink>
 ) : BaseAdapter() {
-
-    private val drinkList = PresetDrink.list
 
     private val inflater: LayoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -37,7 +36,7 @@ class PresetDrinksAdapter(
     }
 
     override fun getItem(position: Int): PresetDrink {
-        return drinkList[position]
+        return presetDrinks[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -45,7 +44,7 @@ class PresetDrinksAdapter(
     }
 
     override fun getCount(): Int {
-        return drinkList.size
+        return presetDrinks.size
     }
 
 }

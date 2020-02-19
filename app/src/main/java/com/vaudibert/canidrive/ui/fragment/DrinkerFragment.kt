@@ -48,7 +48,7 @@ class DrinkerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mainRepository = CanIDrive.instance.mainRepository
-        digestionRepository = mainRepository.drinkerRepository
+        digestionRepository = mainRepository.digestionRepository
 
         val driveLawRepository = mainRepository.driveLawRepository
         driveLawService = driveLawRepository.driveLawService
