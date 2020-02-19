@@ -15,7 +15,7 @@ import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.drivelaw.DriveLaw
 import com.vaudibert.canidrive.domain.drivelaw.DriveLawService
 import com.vaudibert.canidrive.ui.CanIDrive
-import com.vaudibert.canidrive.ui.repository.DrinkerRepository
+import com.vaudibert.canidrive.ui.repository.DigestionRepository
 import com.vaudibert.canidrive.ui.repository.MainRepository
 import kotlinx.android.synthetic.main.constraint_content_drinker_country.*
 import kotlinx.android.synthetic.main.constraint_content_drinker_pickers.*
@@ -32,7 +32,7 @@ class DrinkerFragment : Fragment() {
     private var sex = "NONE"
 
     private lateinit var mainRepository : MainRepository
-    private lateinit var drinkerRepository : DrinkerRepository
+    private lateinit var digestionRepository : DigestionRepository
     private lateinit var driveLawService: DriveLawService
 
     override fun onCreateView(
@@ -48,7 +48,7 @@ class DrinkerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mainRepository = CanIDrive.instance.mainRepository
-        drinkerRepository = mainRepository.drinkerRepository
+        digestionRepository = mainRepository.drinkerRepository
 
         val driveLawRepository = mainRepository.driveLawRepository
         driveLawService = driveLawRepository.driveLawService
@@ -58,12 +58,12 @@ class DrinkerFragment : Fragment() {
                 .getListOfCountriesWithFlags()
         )
 
-        setupWeightPicker(drinkerRepository.body.weight)
+        setupWeightPicker(digestionRepository.body.weight)
 
-        setupSexPicker(drinkerRepository.body.sex)
+        setupSexPicker(digestionRepository.body.sex)
 
 
-        setupValidationButton(drinkerRepository)
+        setupValidationButton(digestionRepository)
 
         driveLawRepository.liveDriveLaw.observe(this) { driveLaw: DriveLaw ->
             // update the limit area (custom or not)
@@ -103,7 +103,7 @@ class DrinkerFragment : Fragment() {
 
         setupCheckBoxes()
 
-        setupAlcoholTolerance(drinkerRepository)
+        setupAlcoholTolerance(digestionRepository)
     }
 
     override fun onResume() {
@@ -111,36 +111,36 @@ class DrinkerFragment : Fragment() {
         updateCustomLimit(driveLawService.customCountryLimit)
     }
 
-    private fun setupAlcoholTolerance(drinkerRepository: DrinkerRepository) {
-        if (drinkerRepository.toleranceLevels.isEmpty()) return
+    private fun setupAlcoholTolerance(digestionRepository: DigestionRepository) {
+        if (digestionRepository.toleranceLevels.isEmpty()) return
 
-        val levelCount = drinkerRepository.toleranceLevels.size - 1
+        val levelCount = digestionRepository.toleranceLevels.size - 1
         seekBarAlcoholTolerance.max = levelCount
 
         seekBarAlcoholTolerance.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                textViewAlcoholToleranceTextValue.text = drinkerRepository.toleranceLevels[progress]
+                textViewAlcoholToleranceTextValue.text = digestionRepository.toleranceLevels[progress]
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
-        seekBarAlcoholTolerance.progress = (drinkerRepository.body.alcoholTolerance * levelCount).roundToInt()
+        seekBarAlcoholTolerance.progress = (digestionRepository.body.alcoholTolerance * levelCount).roundToInt()
 
     }
 
-    private fun setupValidationButton(drinkerRepository: DrinkerRepository) {
+    private fun setupValidationButton(digestionRepository: DigestionRepository) {
         buttonValidateDrinker.setOnClickListener {
             // TODO : country selection and law options should only be recorded when validated (viewmodel?)
 
-            drinkerRepository.body.sex = when {
+            digestionRepository.body.sex = when {
                 radioMale.isChecked -> "MALE"
                 radioFemale.isChecked -> "FEMALE"
                 else -> "OTHER"
             }
-            drinkerRepository.body.weight = weight
-            val levelCount = (drinkerRepository.toleranceLevels.size - 1).coerceAtLeast(1)
-            drinkerRepository.body.alcoholTolerance =
+            digestionRepository.body.weight = weight
+            val levelCount = (digestionRepository.toleranceLevels.size - 1).coerceAtLeast(1)
+            digestionRepository.body.alcoholTolerance =
                 seekBarAlcoholTolerance.progress.toDouble() /
                         levelCount.toDouble()
 

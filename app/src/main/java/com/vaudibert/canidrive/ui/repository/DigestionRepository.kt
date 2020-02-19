@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
  *      - init flag (= user configuration already validated once)
  *  - drinkDao for past consumed drinks.
  */
-class DrinkerRepository(context: Context, roomDatabase: DrinkDatabase) {
+class DigestionRepository(context: Context, roomDatabase: DrinkDatabase) {
 
     // Main instance to link
     val body = PhysicalBody()

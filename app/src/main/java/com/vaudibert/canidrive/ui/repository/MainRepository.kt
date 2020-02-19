@@ -12,7 +12,7 @@ class MainRepository(private val context: Context) {
         .databaseBuilder(context, DrinkDatabase::class.java, "drink-database")
         .build()
 
-    val drinkerRepository = DrinkerRepository(context, drinkDatabase)
+    val drinkerRepository = DigestionRepository(context, drinkDatabase)
 
     val driveLawRepository = DriveLawRepository(context)
 

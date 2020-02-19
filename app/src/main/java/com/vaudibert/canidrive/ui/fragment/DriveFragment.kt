@@ -16,7 +16,7 @@ import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.DrinkerStatusService
 import com.vaudibert.canidrive.ui.CanIDrive
 import com.vaudibert.canidrive.ui.PastDrinksAdapter
-import com.vaudibert.canidrive.ui.repository.DrinkerRepository
+import com.vaudibert.canidrive.ui.repository.DigestionRepository
 import kotlinx.android.synthetic.main.constraint_content_drive_history.*
 import kotlinx.android.synthetic.main.fragment_drive_status.*
 import java.text.DateFormat
@@ -29,7 +29,7 @@ import java.text.DateFormat
  */
 class DriveFragment : Fragment() {
 
-    private lateinit var drinkerRepository: DrinkerRepository
+    private lateinit var digestionRepository: DigestionRepository
     private lateinit var drinkerStatusService: DrinkerStatusService
 
     lateinit var mainHandler: Handler
@@ -50,7 +50,7 @@ class DriveFragment : Fragment() {
         val mainRepository = CanIDrive.instance.mainRepository
         drinkerStatusService = mainRepository.drinkerStatusService
 
-        drinkerRepository = mainRepository.drinkerRepository
+        digestionRepository = mainRepository.drinkerRepository
 
         pastDrinksAdapter =
             PastDrinksAdapter(
@@ -59,7 +59,7 @@ class DriveFragment : Fragment() {
             )
         listViewPastDrinks.adapter = pastDrinksAdapter
 
-        drinkerRepository.livePastDrinks.observe(this, Observer {
+        digestionRepository.livePastDrinks.observe(this, Observer {
 
             pastDrinksAdapter.setDrinkList(it.asReversed())
             updateDriveStatus()
