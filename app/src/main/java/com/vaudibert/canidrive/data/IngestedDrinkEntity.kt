@@ -13,7 +13,7 @@ data class IngestedDrinkEntity(
     val name : String,
     val degree: Double
     ) {
-    fun toDrink(): IngestedDrink =
+    fun toIngestedDrink(): IngestedDrink =
         IngestedDrink(
             volume,
             degree,

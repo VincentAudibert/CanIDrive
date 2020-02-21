@@ -27,7 +27,7 @@ class DrinkRepository(roomDatabase: DrinkDatabase) {
         // Add all drinks to current state
         uiScope.launch {
             val drinks = ingestedDrinkDao.getAll()
-            drinks.forEach { drinkService.ingest(it.toDrink())}
+            drinks.forEach { drinkService.ingest(it.toIngestedDrink())}
             _livePastDrinks.postValue(drinkService.absorbedIngestedDrinks)
         }
 

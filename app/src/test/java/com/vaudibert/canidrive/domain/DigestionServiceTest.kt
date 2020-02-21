@@ -2,6 +2,7 @@ package com.vaudibert.canidrive.domain
 
 import com.vaudibert.canidrive.domain.digestion.DigestionService
 import com.vaudibert.canidrive.domain.digestion.PhysicalBody
+import com.vaudibert.canidrive.domain.drink.DrinkService
 import com.vaudibert.canidrive.domain.drink.IngestedDrink
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -14,14 +15,16 @@ internal class DigestionServiceTest {
     private val precision = 0.0001
 
     var body = PhysicalBody()
-    var digestionService = DigestionService(body)
+    var drinkService = DrinkService()
+    var digestionService = DigestionService(body, drinkService)
 
     @BeforeEach
     fun before() {
         body = PhysicalBody()
         body.sex = "MALE"
         body.weight = 100.0
-        digestionService = DigestionService(body)
+        drinkService = DrinkService()
+        digestionService = DigestionService(body, drinkService)
     }
 
     @Test
@@ -32,7 +35,7 @@ internal class DigestionServiceTest {
     @Test
     fun `User taking a drink is not sober presently`() {
         val now = Date()
-        digestionService.ingest(
+        drinkService.ingest(
             IngestedDrink(
                 500.0,
                 5.0,
@@ -46,7 +49,7 @@ internal class DigestionServiceTest {
     @Test
     fun `Instant alcohol rate is proportional to drink count`() {
         val now = Date()
-        digestionService.ingest(
+        drinkService.ingest(
             IngestedDrink(
                 500.0,
                 5.0,
@@ -55,7 +58,7 @@ internal class DigestionServiceTest {
         )
         val firstRate = digestionService.alcoholRateAt(Date(now.time + 1))
 
-        digestionService.ingest(
+        drinkService.ingest(
             IngestedDrink(
                 500.0,
                 5.0,
@@ -70,7 +73,7 @@ internal class DigestionServiceTest {
     @Test
     fun `Alcohol rate decreases as per body's decreaseFactor`() {
         val now = Date()
-        digestionService.ingest(
+        drinkService.ingest(
             IngestedDrink(
                 1000.0,
                 10.0,
