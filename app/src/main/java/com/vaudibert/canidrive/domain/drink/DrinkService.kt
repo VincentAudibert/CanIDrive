@@ -26,7 +26,7 @@ class DrinkService {
         if (presetDrink !in presetDrinks) addNewPreset(presetDrink)
 
         val ingested = IngestedDrink(
-            "",
+            presetDrink.name,
             presetDrink.volume,
             presetDrink.degree,
             ingestionTime
