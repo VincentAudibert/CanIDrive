@@ -35,7 +35,7 @@ internal class DigestionServiceTest {
     @Test
     fun `User taking a drink is not sober presently`() {
         val now = Date()
-        drinkService.ingest(
+        drinkService.ingestForInit(
             IngestedDrink(
                 500.0,
                 5.0,
@@ -49,7 +49,7 @@ internal class DigestionServiceTest {
     @Test
     fun `Instant alcohol rate is proportional to drink count`() {
         val now = Date()
-        drinkService.ingest(
+        drinkService.ingestForInit(
             IngestedDrink(
                 500.0,
                 5.0,
@@ -58,7 +58,7 @@ internal class DigestionServiceTest {
         )
         val firstRate = digestionService.alcoholRateAt(Date(now.time + 1))
 
-        drinkService.ingest(
+        drinkService.ingestForInit(
             IngestedDrink(
                 500.0,
                 5.0,
@@ -73,7 +73,7 @@ internal class DigestionServiceTest {
     @Test
     fun `Alcohol rate decreases as per body's decreaseFactor`() {
         val now = Date()
-        drinkService.ingest(
+        drinkService.ingestForInit(
             IngestedDrink(
                 1000.0,
                 10.0,

@@ -12,7 +12,7 @@ import com.vaudibert.canidrive.domain.drink.PresetDrink
 
 class PresetDrinksAdapter(
     val context: Context,
-    val presetDrinks: List<PresetDrink>
+    private val presetDrinks: List<PresetDrink>
 ) : BaseAdapter() {
 
     private val inflater: LayoutInflater =

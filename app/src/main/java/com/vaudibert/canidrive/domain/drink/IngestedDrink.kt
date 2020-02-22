@@ -12,6 +12,8 @@ class IngestedDrink(
 
     companion object Data {
 
+        fun fromPreset(presetDrink: PresetDrink) = IngestedDrink(presetDrink.volume, presetDrink.degree, Date())
+
         // degrees in % : 2.5 = 2.5%
         val degrees = doubleArrayOf(
             0.5,

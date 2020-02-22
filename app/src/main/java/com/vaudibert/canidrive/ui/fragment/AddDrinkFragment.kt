@@ -47,12 +47,11 @@ class AddDrinkFragment : Fragment() {
         buttonValidateNewDrink.setOnClickListener {
             val ingestionTime = Date(Date().time - (delay * 60000))
 
-            drinkService.ingest(
-                IngestedDrink(
-                    volume,
-                    degree,
-                    ingestionTime
-                )
+            drinkService.ingestCustom(
+                "",
+                volume,
+                degree,
+                ingestionTime
             )
 
             KeyboardUtils.hideKeyboard(this.activity as Activity)
