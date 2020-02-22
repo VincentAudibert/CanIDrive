@@ -15,6 +15,7 @@ data class IngestedDrinkEntity(
     ) {
     fun toIngestedDrink(): IngestedDrink =
         IngestedDrink(
+            name,
             volume,
             degree,
             ingestionTime

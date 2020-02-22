@@ -4,15 +4,16 @@ import java.util.*
 
 const val ALCOHOL_DENSITY = 0.8
 
-class IngestedDrink(
-    volume:Double,
-    degree:Double,
+data class IngestedDrink(
+    val name:String,
+    val volume:Double,
+    val degree:Double,
     val ingestionTime: Date
-): PresetDrink(volume, degree, "") {
+) {
+
+    fun alcoholMass(): Double = degree/100 * volume * ALCOHOL_DENSITY
 
     companion object Data {
-
-        fun fromPreset(presetDrink: PresetDrink) = IngestedDrink(presetDrink.volume, presetDrink.degree, Date())
 
         // degrees in % : 2.5 = 2.5%
         val degrees = doubleArrayOf(

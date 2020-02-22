@@ -23,7 +23,7 @@ class DigestionService(
 
     // TODO : extract a time service to avoid java.util dependency ?
     fun alcoholRateAt(date: Date): Double {
-        val drinks = drinkService.absorbedIngestedDrinks
+        val drinks = drinkService.ingestedDrinks
 
         if (drinks.isEmpty()) return 0.0
 

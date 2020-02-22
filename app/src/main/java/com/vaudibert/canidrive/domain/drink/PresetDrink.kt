@@ -1,11 +1,8 @@
 package com.vaudibert.canidrive.domain.drink
 
-open class PresetDrink(
-    volume: Double,
-    degree: Double,
-    val name: String
-): Drink(volume, degree) {
-
-    fun alcoholMass(): Double = degree/100 * volume * ALCOHOL_DENSITY
-
-}
+data class PresetDrink(
+    val name: String,
+    val volume: Double,
+    val degree: Double,
+    var count: Int = 0
+)
