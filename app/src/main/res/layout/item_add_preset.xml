@@ -4,17 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:gravity="start"
+    android:gravity="start|center_vertical"
     android:padding="10dp"
     >
 
     <ImageView
-        android:id="@+id/imageViewPresetDrinkIcon"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:id="@+id/imageViewAddPreset"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:padding="5dp"
-        android:src="@drawable/wine_glass"
+        android:src="@drawable/ic_add_white_24dp"
+        android:tint="@color/colorPrimary"
         android:contentDescription="drink icon"
         tools:ignore="HardcodedText" />
 
@@ -25,24 +26,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textViewPresetDrinkDescription"
+            android:id="@+id/textViewAddPresetDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:textSize="18sp"
-            android:text="drink_description"
+            android:text="Add preset"
             tools:ignore="HardcodedText"
             />
-
-        <TextView
-            android:id="@+id/textViewPresetDrinkProperties"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:textSize="14sp"
-            android:text="quantity &amp; rate"
-            tools:ignore="HardcodedText" />
 
     </LinearLayout>
 

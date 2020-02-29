@@ -45,7 +45,10 @@ class DrinkService {
     }
 
     fun ingestCustom(name:String, volume:Double, degree:Double, ingestionTime: Date) {
-        val newPreset = PresetDrink(name, volume, degree)
+        var newPreset = PresetDrink(name, volume, degree)
+        presetDrinks.forEach {
+            if (it == newPreset) newPreset = it
+        }
         ingest(newPreset, ingestionTime)
         presetDrinks.sortByDescending { presetDrink -> presetDrink.count }
     }
@@ -58,5 +61,13 @@ class DrinkService {
     fun removePreset(presetDrink: PresetDrink) {
         presetDrinks.remove(presetDrink)
         onPresetRemoved(presetDrink)
+    }
+
+    fun addNewPreset(name: String, volume: Double, degree: Double) {
+        val newPreset = PresetDrink(name, volume, degree)
+        if (newPreset in presetDrinks) return
+
+        presetDrinks.add(newPreset)
+        onPresetAdded(newPreset)
     }
 }

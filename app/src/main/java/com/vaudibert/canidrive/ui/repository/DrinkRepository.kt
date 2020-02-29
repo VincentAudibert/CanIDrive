@@ -1,5 +1,6 @@
 package com.vaudibert.canidrive.ui.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.vaudibert.canidrive.data.DrinkDatabase
@@ -27,7 +28,7 @@ class DrinkRepository(drinkDatabase: DrinkDatabase) {
     // TODO : move this default data in the database init ?
     private val defaultPresetDrink = mutableListOf(
         PresetDrink(
-            "wine glass",
+            "Wine glass",
             130.0,
             13.0
         ),
@@ -82,8 +83,10 @@ class DrinkRepository(drinkDatabase: DrinkDatabase) {
         uiScope.launch {
             if (presetDrinkDao.count() == 0) {
                 presetDrinkDao.insertAll(defaultPresetDrink)
+                Log.d("DrinkRepo", "preset count was 0")
             }
             drinkService.presetDrinks = presetDrinkDao.getAll().toMutableList()
+            _livePresetDrinks.postValue(drinkService.presetDrinks)
         }
 
         // Then set callbacks to keep DB updated

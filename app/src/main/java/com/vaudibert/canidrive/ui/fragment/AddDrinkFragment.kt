@@ -62,7 +62,6 @@ class AddDrinkFragment : Fragment() {
             )
         }
 
-
         setVolumePicker()
 
         setDegreePicker()

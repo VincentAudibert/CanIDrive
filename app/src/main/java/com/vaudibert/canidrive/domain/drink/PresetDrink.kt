@@ -11,8 +11,7 @@ open class PresetDrink(
 
         return this.name == other.name &&
                 this.volume == other.volume &&
-                this.degree == other.degree &&
-                this.count == other.count
+                this.degree == other.degree
     }
 
     override fun hashCode(): Int {

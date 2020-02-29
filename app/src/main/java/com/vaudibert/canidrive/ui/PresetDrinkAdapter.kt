@@ -21,23 +21,35 @@ class PresetDrinksAdapter(
 
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        if (position == 0) {
+            val addPresetView = inflater.inflate(R.layout.item_add_preset, parent, false)
 
-        val drinkView = inflater.inflate(R.layout.item_preset_drink, parent, false)
-        val drink = getItem(position)
+            val addDescriptionText = addPresetView.findViewById(R.id.textViewAddPresetDescription) as TextView
 
-        val propertiesText = drinkView.findViewById(R.id.textViewPresetDrinkProperties) as TextView
-        val descriptionText = drinkView.findViewById(R.id.textViewPresetDrinkDescription) as TextView
-        val glassImage = drinkView.findViewById(R.id.imageViewPresetDrinkIcon) as ImageView
+            addDescriptionText.text = context.getString(R.string.add_preset_description)
 
-        propertiesText.text = "${drink.volume} ml - ${drink.degree} %"
-        descriptionText.text = drink.name
-        glassImage.setImageResource(R.drawable.wine_glass)
+            return addPresetView
 
-        return drinkView
+        } else {
+
+            val drinkView = inflater.inflate(R.layout.item_preset_drink, parent, false)
+            val drink = getItem(position)
+
+            val propertiesText = drinkView.findViewById(R.id.textViewPresetDrinkProperties) as TextView
+            val descriptionText = drinkView.findViewById(R.id.textViewPresetDrinkDescription) as TextView
+            val glassImage = drinkView.findViewById(R.id.imageViewPresetDrinkIcon) as ImageView
+
+            propertiesText.text = "${drink.volume} ml - ${drink.degree} %"
+            descriptionText.text = drink.name
+            glassImage.setImageResource(R.drawable.wine_glass)
+
+            return drinkView
+
+        }
     }
 
     override fun getItem(position: Int): PresetDrink {
-        return presetDrinks.value?.get(position) ?: PresetDrink("No preset", 0.0, 0.0)
+        return presetDrinks.value?.get(position-1) ?: PresetDrink("No preset", 0.0, 0.0)
     }
 
     override fun getItemId(position: Int): Long {
@@ -45,7 +57,7 @@ class PresetDrinksAdapter(
     }
 
     override fun getCount(): Int {
-        return presetDrinks.value?.size ?: 0
+        return (presetDrinks.value?.size ?: 0) + 1
     }
 
 }
