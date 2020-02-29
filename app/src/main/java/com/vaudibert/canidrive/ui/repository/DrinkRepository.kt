@@ -18,8 +18,8 @@ class DrinkRepository(drinkDatabase: DrinkDatabase) {
     val livePastDrinks: LiveData<MutableList<IngestedDrink>>
         get() = _livePastDrinks
 
-    private val _livePresetDrinks = MutableLiveData<MutableList<PresetDrink>>()
-    val livePresetDrinks: LiveData<MutableList<PresetDrink>>
+    private val _livePresetDrinks = MutableLiveData<List<PresetDrink>>()
+    val livePresetDrinks: LiveData<List<PresetDrink>>
         get() = _livePresetDrinks
 
     val drinkService = DrinkService()

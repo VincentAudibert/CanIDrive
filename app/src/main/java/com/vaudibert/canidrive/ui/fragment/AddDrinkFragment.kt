@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
@@ -71,9 +72,16 @@ class AddDrinkFragment : Fragment() {
         val presetDrinksAdapter =
             PresetDrinksAdapter(
                 this.context!!,
-                drinkService.presetDrinks
+                drinkRepository.livePresetDrinks
             )
         listViewPresetDrinks.adapter = presetDrinksAdapter
+
+        drinkRepository.livePresetDrinks.observe(
+            viewLifecycleOwner,
+            Observer {
+                presetDrinksAdapter.notifyDataSetChanged()
+            }
+        )
     }
 
     private fun setDelayPicker() {

@@ -61,7 +61,7 @@ class DriveFragment : Fragment() {
             )
         listViewPastDrinks.adapter = ingestedDrinksAdapter
 
-        drinkRepository.livePastDrinks.observe(this, Observer {
+        drinkRepository.livePastDrinks.observe(viewLifecycleOwner, Observer {
 
             ingestedDrinksAdapter.setDrinkList(it.asReversed())
             updateDriveStatus()

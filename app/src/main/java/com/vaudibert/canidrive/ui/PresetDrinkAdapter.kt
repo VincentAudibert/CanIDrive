@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LiveData
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.drink.PresetDrink
 
 class PresetDrinksAdapter(
     val context: Context,
-    private val presetDrinks: List<PresetDrink>
+    private val presetDrinks: LiveData<List<PresetDrink>>
 ) : BaseAdapter() {
 
     private val inflater: LayoutInflater =
@@ -36,7 +37,7 @@ class PresetDrinksAdapter(
     }
 
     override fun getItem(position: Int): PresetDrink {
-        return presetDrinks[position]
+        return presetDrinks.value?.get(position) ?: PresetDrink("No preset", 0.0, 0.0)
     }
 
     override fun getItemId(position: Int): Long {
@@ -44,7 +45,7 @@ class PresetDrinksAdapter(
     }
 
     override fun getCount(): Int {
-        return presetDrinks.size
+        return presetDrinks.value?.size ?: 0
     }
 
 }
