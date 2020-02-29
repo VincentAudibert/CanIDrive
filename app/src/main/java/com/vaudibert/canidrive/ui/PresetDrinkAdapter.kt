@@ -7,18 +7,23 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.drink.PresetDrink
 
 class PresetDrinksAdapter(
     val context: Context,
+    private val lifecycleOwner: LifecycleOwner,
     private val presetDrinks: LiveData<List<PresetDrink>>
 ) : BaseAdapter() {
 
     private val inflater: LayoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
+    var selectedPreset = MutableLiveData<PresetDrink?>(null)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         if (position == 0) {
@@ -27,6 +32,10 @@ class PresetDrinksAdapter(
             val addDescriptionText = addPresetView.findViewById(R.id.textViewAddPresetDescription) as TextView
 
             addDescriptionText.text = context.getString(R.string.add_preset_description)
+
+            addPresetView.setOnClickListener {
+                selectedPreset.postValue(null)
+            }
 
             return addPresetView
 
@@ -43,9 +52,28 @@ class PresetDrinksAdapter(
             descriptionText.text = drink.name
             glassImage.setImageResource(R.drawable.wine_glass)
 
+            selectedPreset.observe(lifecycleOwner, Observer {
+                updatePresetColor(drink, drinkView)
+            })
+
+            drinkView.setOnClickListener {
+                selectedPreset.postValue(if (drink == selectedPreset.value) null else drink)
+            }
+
             return drinkView
 
         }
+    }
+
+    private fun updatePresetColor(
+        drink: PresetDrink,
+        drinkView: View
+    ) {
+        drinkView.setBackgroundResource(if (drink == selectedPreset.value)
+            R.drawable.background_color_primary
+        else
+            R.drawable.background_color_none
+        )
     }
 
     override fun getItem(position: Int): PresetDrink {
