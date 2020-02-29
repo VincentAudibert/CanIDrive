@@ -74,5 +74,23 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@+id/driveFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addDrinkFragment_to_addPresetFragment"
+            app:destination="@id/addPresetFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPresetFragment"
+        android:name="com.vaudibert.canidrive.ui.fragment.AddPresetFragment"
+        android:label="fragment_add_preset"
+        tools:layout="@layout/fragment_add_preset" >
+        <action
+            android:id="@+id/action_addPresetFragment_to_addDrinkFragment"
+            app:destination="@id/addDrinkFragment"
+            app:popUpTo="@+id/addDrinkFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

@@ -38,4 +38,5 @@
     <string name="alcohol_tolerance_high">bonne</string>
     <string name="presets">Préselection</string>
     <string name="add_preset_description" >Ajouter une boisson</string>
+    <string name="new_preset_name_title">New drink\'s name</string>
 </resources>

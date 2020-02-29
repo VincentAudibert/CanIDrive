@@ -60,5 +60,6 @@
     <string name="alcohol_tolerance_high">good</string>
     <string name="user_tolerance" translatable="false">USER_TOLERANCE</string>
     <string name="presets">Presets</string>
-    <string name="add_preset_description" >Add new drink</string>
+    <string name="add_preset_description">Add new drink</string>
+    <string name="new_preset_name_title">New drink\'s name</string>
 </resources>

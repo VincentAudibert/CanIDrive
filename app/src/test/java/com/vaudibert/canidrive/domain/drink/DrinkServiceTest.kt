@@ -44,31 +44,4 @@ internal class DrinkServiceTest {
         assertEquals(1, drinkService.ingestedDrinks.size - ingestedSize)
     }
 
-    @Test
-    fun `Ingesting a custom add it as ingested and adds a new preset `() {
-        drinkService = DrinkService()
-        val now = Date()
-        val customPreset = PresetDrink(
-            "custom drink",
-            200.0,
-            5.0,
-            1
-        )
-        val customIngested = IngestedDrink(
-            customPreset.name,
-            customPreset.volume,
-            customPreset.degree,
-            now
-        )
-
-        drinkService.ingestCustom(
-            customPreset.name,
-            customPreset.volume,
-            customPreset.degree,
-            now
-        )
-
-        assertEquals(customPreset, drinkService.presetDrinks.first())
-        assertEquals(customIngested, drinkService.ingestedDrinks.first())
-    }
 }

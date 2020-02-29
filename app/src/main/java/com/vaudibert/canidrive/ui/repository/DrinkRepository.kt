@@ -44,7 +44,7 @@ class DrinkRepository(drinkDatabase: DrinkDatabase) {
         ),
         PresetDrink(
             "33cl triple",
-            33.0,
+            330.0,
             9.0
         ),
         PresetDrink(
@@ -86,7 +86,7 @@ class DrinkRepository(drinkDatabase: DrinkDatabase) {
                 Log.d("DrinkRepo", "preset count was 0")
             }
             drinkService.presetDrinks = presetDrinkDao.getAll().toMutableList()
-            _livePresetDrinks.postValue(drinkService.presetDrinks)
+            sortAndPostPresets()
         }
 
         // Then set callbacks to keep DB updated
@@ -111,22 +111,26 @@ class DrinkRepository(drinkDatabase: DrinkDatabase) {
                 val newPresetUid = presetDrinkDao.insert(it)
                 val index = drinkService.presetDrinks.indexOf(it)
                 drinkService.presetDrinks[index] = PresetDrinkEntity(newPresetUid, it)
-                _livePresetDrinks.postValue(drinkService.presetDrinks)
+                sortAndPostPresets()
             }
         }
 
         drinkService.onPresetUpdated = {
             uiScope.launch {
                 presetDrinkDao.update(it as PresetDrinkEntity)
-                _livePresetDrinks.postValue(drinkService.presetDrinks)
+                sortAndPostPresets()
             }
         }
 
         drinkService.onPresetRemoved = {
             uiScope.launch {
                 presetDrinkDao.remove(it)
-                _livePresetDrinks.postValue(drinkService.presetDrinks)
+                sortAndPostPresets()
             }
         }
+    }
+
+    private fun sortAndPostPresets() {
+        _livePresetDrinks.postValue(drinkService.presetDrinks.sortedByDescending { it.count })
     }
 }

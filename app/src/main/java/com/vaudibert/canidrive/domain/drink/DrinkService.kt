@@ -44,15 +44,6 @@ class DrinkService {
         ingestCallback(ingested)
     }
 
-    fun ingestCustom(name:String, volume:Double, degree:Double, ingestionTime: Date) {
-        var newPreset = PresetDrink(name, volume, degree)
-        presetDrinks.forEach {
-            if (it == newPreset) newPreset = it
-        }
-        ingest(newPreset, ingestionTime)
-        presetDrinks.sortByDescending { presetDrink -> presetDrink.count }
-    }
-
     fun remove(ingestedDrink: IngestedDrink) {
         ingestedDrinks.remove(ingestedDrink)
         removeCallback(ingestedDrink)

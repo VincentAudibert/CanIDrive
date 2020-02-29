@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
@@ -12,12 +13,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.vaudibert.canidrive.R
+import com.vaudibert.canidrive.domain.drink.DrinkService
 import com.vaudibert.canidrive.domain.drink.PresetDrink
 
 class PresetDrinksAdapter(
     val context: Context,
     private val lifecycleOwner: LifecycleOwner,
-    private val presetDrinks: LiveData<List<PresetDrink>>
+    private val presetDrinks: LiveData<List<PresetDrink>>,
+    private val goToAddPreset: () -> Unit,
+    private val drinkService: DrinkService
 ) : BaseAdapter() {
 
     private val inflater: LayoutInflater =
@@ -35,6 +39,8 @@ class PresetDrinksAdapter(
 
             addPresetView.setOnClickListener {
                 selectedPreset.postValue(null)
+
+                goToAddPreset()
             }
 
             return addPresetView
@@ -42,22 +48,32 @@ class PresetDrinksAdapter(
         } else {
 
             val drinkView = inflater.inflate(R.layout.item_preset_drink, parent, false)
-            val drink = getItem(position)
+            val presetDrink = getItem(position)
 
             val propertiesText = drinkView.findViewById(R.id.textViewPresetDrinkProperties) as TextView
             val descriptionText = drinkView.findViewById(R.id.textViewPresetDrinkDescription) as TextView
             val glassImage = drinkView.findViewById(R.id.imageViewPresetDrinkIcon) as ImageView
+            val deleteButton = drinkView.findViewById(R.id.buttonRemovePresetDrink) as ImageButton
 
-            propertiesText.text = "${drink.volume} ml - ${drink.degree} %"
-            descriptionText.text = drink.name
+            propertiesText.text = "${presetDrink.volume} ml - ${presetDrink.degree} %"
+            descriptionText.text = presetDrink.name
             glassImage.setImageResource(R.drawable.wine_glass)
 
             selectedPreset.observe(lifecycleOwner, Observer {
-                updatePresetColor(drink, drinkView)
+                updatePresetColor(presetDrink, drinkView, deleteButton)
             })
 
-            drinkView.setOnClickListener {
-                selectedPreset.postValue(if (drink == selectedPreset.value) null else drink)
+            val clickListener = {_:View ->
+                selectedPreset.postValue(if (presetDrink == selectedPreset.value) null else presetDrink)
+            }
+            propertiesText.setOnClickListener(clickListener)
+            descriptionText.setOnClickListener(clickListener)
+            glassImage.setOnClickListener(clickListener)
+
+            deleteButton.setOnClickListener {
+                if (presetDrink != selectedPreset.value) return@setOnClickListener
+
+                drinkService.removePreset(presetDrink)
             }
 
             return drinkView
@@ -67,13 +83,16 @@ class PresetDrinksAdapter(
 
     private fun updatePresetColor(
         drink: PresetDrink,
-        drinkView: View
+        drinkView: View,
+        deleteButton: ImageButton
     ) {
-        drinkView.setBackgroundResource(if (drink == selectedPreset.value)
-            R.drawable.background_color_primary
-        else
-            R.drawable.background_color_none
-        )
+        if (drink == selectedPreset.value) {
+            drinkView.setBackgroundResource(R.drawable.background_color_primary)
+            deleteButton.visibility = ImageButton.VISIBLE
+        } else {
+            drinkView.setBackgroundResource(R.drawable.background_color_none)
+            deleteButton.visibility = ImageButton.GONE
+        }
     }
 
     override fun getItem(position: Int): PresetDrink {
