@@ -3,6 +3,7 @@ package com.vaudibert.canidrive.ui.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.vaudibert.canidrive.data.DrinkDatabase
+import com.vaudibert.canidrive.data.PresetDrinkEntity
 import com.vaudibert.canidrive.domain.drink.DrinkService
 import com.vaudibert.canidrive.domain.drink.IngestedDrink
 import com.vaudibert.canidrive.domain.drink.PresetDrink
@@ -11,16 +12,61 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class DrinkRepository(roomDatabase: DrinkDatabase) {
+class DrinkRepository(drinkDatabase: DrinkDatabase) {
 
     private val _livePastDrinks = MutableLiveData<MutableList<IngestedDrink>>()
     val livePastDrinks: LiveData<MutableList<IngestedDrink>>
         get() = _livePastDrinks
 
+    private val _livePresetDrinks = MutableLiveData<MutableList<PresetDrink>>()
+    val livePresetDrinks: LiveData<MutableList<PresetDrink>>
+        get() = _livePresetDrinks
+
     val drinkService = DrinkService()
 
+    // TODO : move this default data in the database init ?
+    private val defaultPresetDrink = mutableListOf(
+        PresetDrink(
+            "wine glass",
+            130.0,
+            13.0
+        ),
+        PresetDrink(
+            "Half-a-pint light beer",
+            250.0,
+            4.5
+        ),
+        PresetDrink(
+            "Pint light beer",
+            500.0,
+            4.5
+        ),
+        PresetDrink(
+            "33cl triple",
+            33.0,
+            9.0
+        ),
+        PresetDrink(
+            "Half-a-pint cider",
+            250.0,
+            2.5
+        ),
+        PresetDrink(
+            "Apetizer (Martini)",
+            8.0,
+            17.0
+        ),
+        PresetDrink(
+            "Shot",
+            5.0,
+            40.0
+        )
+    )
+
+
     init {
-        val ingestedDrinkDao = roomDatabase.ingestedDrinkDao()
+        val ingestedDrinkDao = drinkDatabase.ingestedDrinkDao()
+        val presetDrinkDao = drinkDatabase.presetDrinkDao()
 
         val daoJob = Job()
         val uiScope = CoroutineScope(Dispatchers.Main + daoJob)
@@ -32,57 +78,52 @@ class DrinkRepository(roomDatabase: DrinkDatabase) {
             _livePastDrinks.postValue(drinkService.ingestedDrinks)
         }
 
-        drinkService.presetDrinks = mutableListOf(
-            PresetDrink(
-                "wine glass",
-                130.0,
-                13.0
-            ),
-            PresetDrink(
-                "Half-a-pint light beer",
-                250.0,
-                4.5
-            ),
-            PresetDrink(
-                "Pint light beer",
-                500.0,
-                4.5
-            ),
-            PresetDrink(
-                "33cl triple",
-                33.0,
-                9.0
-            ),
-            PresetDrink(
-                "Half-a-pint cider",
-                250.0,
-                2.5
-            ),
-            PresetDrink(
-                "Apetizer (Martini)",
-                8.0,
-                17.0
-            ),
-            PresetDrink(
-                "Shot",
-                5.0,
-                40.0
-            )
-        )
+        // Get all preset drinks
+        uiScope.launch {
+            if (presetDrinkDao.count() == 0) {
+                presetDrinkDao.insertAll(defaultPresetDrink)
+            }
+            drinkService.presetDrinks = presetDrinkDao.getAll().toMutableList()
+        }
 
         // Then set callbacks to keep DB updated
         drinkService.ingestCallback = {
-                ingestedDrink -> run {
-            uiScope.launch { ingestedDrinkDao.insert(ingestedDrink) }
-        }
-            _livePastDrinks.postValue(drinkService.ingestedDrinks)
+            uiScope.launch {
+                ingestedDrinkDao.insert(it)
+                _livePastDrinks.postValue(drinkService.ingestedDrinks)
+            }
         }
 
         drinkService.removeCallback = {
-                deletedDrink -> run {
-            uiScope.launch { ingestedDrinkDao.remove(deletedDrink) }
+            uiScope.launch {
+                ingestedDrinkDao.remove(it)
+                _livePastDrinks.postValue(drinkService.ingestedDrinks)
+            }
         }
-            _livePastDrinks.postValue(drinkService.ingestedDrinks)
+
+        drinkService.onPresetAdded = {
+            uiScope.launch {
+                // Special case as a PresetDrink is inserted and returned as an Entity (with uid)
+                // The returned entity needs to be placed instead of the PresetDrink
+                val newPresetUid = presetDrinkDao.insert(it)
+                val index = drinkService.presetDrinks.indexOf(it)
+                drinkService.presetDrinks[index] = PresetDrinkEntity(newPresetUid, it)
+                _livePresetDrinks.postValue(drinkService.presetDrinks)
+            }
+        }
+
+        drinkService.onPresetUpdated = {
+            uiScope.launch {
+                presetDrinkDao.update(it as PresetDrinkEntity)
+                _livePresetDrinks.postValue(drinkService.presetDrinks)
+            }
+        }
+
+        drinkService.onPresetRemoved = {
+            uiScope.launch {
+                presetDrinkDao.remove(it)
+                _livePresetDrinks.postValue(drinkService.presetDrinks)
+            }
         }
     }
 }
