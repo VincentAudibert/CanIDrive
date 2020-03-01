@@ -24,7 +24,8 @@ class MainActivity : AppCompatActivity() {
                 toolbar.title =  when (destination.id) {
                     R.id.driveFragment -> getString(R.string.can_i_drive_question)
                     R.id.drinkerFragment -> getString(R.string.about_you)
-                    R.id.addDrinkFragment -> getString(R.string.add_a_drink)
+                    R.id.addDrinkFragment -> getString(R.string.select_a_drink)
+                    R.id.addPresetFragment -> getString(R.string.add_preset_description)
                     else -> ""
                 }
             }

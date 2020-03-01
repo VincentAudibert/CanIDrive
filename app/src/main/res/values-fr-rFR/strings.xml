@@ -10,7 +10,7 @@
     <string name="female">FEMME</string>
     <string name="other">AUTRE</string>
     <string name="about_you">À propos de vous</string>
-    <string name="add_a_drink">Ajouter une boisson</string>
+    <string name="select_a_drink">Choisir une boisson</string>
     <string name="now">maintenant</string>
     <string name="can_i_drive_question">Puis-je conduire ?</string>
     <string name="young_driver">Jeune conducteur</string>
@@ -36,4 +36,7 @@
     <string name="alcohol_tolerance_low">faible</string>
     <string name="alcohol_tolerance_medium">moyenne</string>
     <string name="alcohol_tolerance_high">bonne</string>
+    <string name="presets">Préselection</string>
+    <string name="add_preset_description" >Définir une nouvelle boisson</string>
+    <string name="preset_name_title">Nom de la boisson</string>
 </resources>

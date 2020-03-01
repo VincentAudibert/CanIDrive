@@ -8,20 +8,20 @@ import android.widget.BaseAdapter
 import android.widget.ImageButton
 import android.widget.TextView
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.domain.digestion.Drink
+import com.vaudibert.canidrive.domain.drink.IngestedDrink
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PastDrinksAdapter(
+class IngestedDrinksAdapter(
     val context: Context,
-    private var drinkList : List<Drink>
+    private var ingestedDrinkList : List<IngestedDrink>
     ) : BaseAdapter() {
 
     private val DAY_IN_MILLIS = 3600*1000*24
 
     // TODO : inject service ?
-    private val digestionService =
-        CanIDrive.instance.mainRepository.drinkerRepository.digestionService
+    private val drinkService =
+        CanIDrive.instance.mainRepository.drinkRepository.drinkService
 
     private val inflater: LayoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -54,14 +54,14 @@ class PastDrinksAdapter(
             drinkView.findViewById(R.id.buttonRemovePastDrink) as ImageButton
 
         buttonRemovePastDrink.setOnClickListener {
-            digestionService.remove(drink)
+            drinkService.remove(drink)
         }
 
         return drinkView
     }
 
-    override fun getItem(position: Int): Drink {
-        return drinkList[position]
+    override fun getItem(position: Int): IngestedDrink {
+        return ingestedDrinkList[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -69,11 +69,11 @@ class PastDrinksAdapter(
     }
 
     override fun getCount(): Int {
-        return drinkList.size
+        return ingestedDrinkList.size
     }
 
-    fun setDrinkList(drinks : List<Drink>) {
-        drinkList = drinks
+    fun setDrinkList(ingestedDrinks : List<IngestedDrink>) {
+        ingestedDrinkList = ingestedDrinks
         notifyDataSetChanged()
     }
 }

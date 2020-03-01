@@ -15,8 +15,9 @@ import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.DrinkerStatusService
 import com.vaudibert.canidrive.ui.CanIDrive
-import com.vaudibert.canidrive.ui.PastDrinksAdapter
-import com.vaudibert.canidrive.ui.repository.DrinkerRepository
+import com.vaudibert.canidrive.ui.IngestedDrinksAdapter
+import com.vaudibert.canidrive.ui.repository.DigestionRepository
+import com.vaudibert.canidrive.ui.repository.DrinkRepository
 import kotlinx.android.synthetic.main.constraint_content_drive_history.*
 import kotlinx.android.synthetic.main.fragment_drive_status.*
 import java.text.DateFormat
@@ -29,12 +30,13 @@ import java.text.DateFormat
  */
 class DriveFragment : Fragment() {
 
-    private lateinit var drinkerRepository: DrinkerRepository
+    private lateinit var digestionRepository: DigestionRepository
+    private lateinit var drinkRepository: DrinkRepository
     private lateinit var drinkerStatusService: DrinkerStatusService
 
     lateinit var mainHandler: Handler
 
-    private lateinit var pastDrinksAdapter: PastDrinksAdapter
+    private lateinit var ingestedDrinksAdapter: IngestedDrinksAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,19 +51,19 @@ class DriveFragment : Fragment() {
 
         val mainRepository = CanIDrive.instance.mainRepository
         drinkerStatusService = mainRepository.drinkerStatusService
+        drinkRepository = mainRepository.drinkRepository
+        digestionRepository = mainRepository.digestionRepository
 
-        drinkerRepository = mainRepository.drinkerRepository
-
-        pastDrinksAdapter =
-            PastDrinksAdapter(
+        ingestedDrinksAdapter =
+            IngestedDrinksAdapter(
                 this.context!!,
                 emptyList()
             )
-        listViewPastDrinks.adapter = pastDrinksAdapter
+        listViewPastDrinks.adapter = ingestedDrinksAdapter
 
-        drinkerRepository.livePastDrinks.observe(this, Observer {
+        drinkRepository.livePastDrinks.observe(viewLifecycleOwner, Observer {
 
-            pastDrinksAdapter.setDrinkList(it.asReversed())
+            ingestedDrinksAdapter.setDrinkList(it.asReversed())
             updateDriveStatus()
         })
 
@@ -124,7 +126,7 @@ class DriveFragment : Fragment() {
             }
 
         }
-        pastDrinksAdapter.notifyDataSetChanged()
+        ingestedDrinksAdapter.notifyDataSetChanged()
     }
 
     /**

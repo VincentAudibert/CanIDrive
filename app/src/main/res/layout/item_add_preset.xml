@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="start|center_vertical"
+    android:padding="10dp"
+    >
+
+    <ImageView
+        android:id="@+id/imageViewAddPreset"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:padding="5dp"
+        android:src="@drawable/ic_add_white_24dp"
+        android:tint="@color/colorPrimary"
+        android:contentDescription="drink icon"
+        tools:ignore="HardcodedText" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewAddPresetDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:textSize="18sp"
+            android:text="Add preset"
+            tools:ignore="HardcodedText"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

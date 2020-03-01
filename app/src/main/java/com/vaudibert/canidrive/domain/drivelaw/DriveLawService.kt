@@ -45,7 +45,7 @@ class DriveLawService(
                 defaultName
             else
                 stringToFlagEmoji(law.countryCode) + " " + countryNamer(law.countryCode)
-        } ?: emptyList()
+        }
     }
 
 

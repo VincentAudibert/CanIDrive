@@ -4,14 +4,9 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.data.DrinkDatabase
 import com.vaudibert.canidrive.domain.digestion.DigestionService
-import com.vaudibert.canidrive.domain.digestion.Drink
 import com.vaudibert.canidrive.domain.digestion.PhysicalBody
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import com.vaudibert.canidrive.domain.drink.DrinkService
 
 /**
  * Repository holding the drinker and driveLaw instances.
@@ -27,12 +22,12 @@ import kotlinx.coroutines.launch
  *      - init flag (= user configuration already validated once)
  *  - drinkDao for past consumed drinks.
  */
-class DrinkerRepository(context: Context, roomDatabase: DrinkDatabase) {
+class DigestionRepository(context: Context, drinkService: DrinkService) {
 
     // Main instance to link
     val body = PhysicalBody()
 
-    val digestionService = DigestionService(body)
+    val digestionService = DigestionService(body, drinkService)
 
     val toleranceLevels = listOf(
         context.getString(R.string.alcohol_tolerance_low),
@@ -41,12 +36,8 @@ class DrinkerRepository(context: Context, roomDatabase: DrinkDatabase) {
     )
 
     private val _liveDrinker = MutableLiveData<PhysicalBody>()
-    private val _livePastDrinks = MutableLiveData<MutableList<Drink>>()
-
     val liveDrinker:LiveData<PhysicalBody>
             get() = _liveDrinker
-    val livePastDrinks: LiveData<MutableList<Drink>>
-            get() = _livePastDrinks
 
     init {
         val sharedPref = context.getSharedPreferences(context.getString(R.string.user_preferences), Context.MODE_PRIVATE)
@@ -70,34 +61,6 @@ class DrinkerRepository(context: Context, roomDatabase: DrinkDatabase) {
         } }
 
         _liveDrinker.value = body
-
-
-        val drinkDao = roomDatabase.drinkDao()
-
-        val daoJob = Job()
-        val uiScope = CoroutineScope(Dispatchers.Main + daoJob)
-
-        // Add all drinks to current state
-        uiScope.launch {
-            val drinks = drinkDao.getAll()
-            drinks.forEach { digestionService.ingest(it.toDrink())}
-            _livePastDrinks.postValue(digestionService.absorbedDrinks)
-        }
-
-        // Then set callbacks to keep DB updated
-        digestionService.ingestCallback = {
-                drink -> run {
-            uiScope.launch { drinkDao.insert(drink) }
-        }
-            _livePastDrinks.postValue(digestionService.absorbedDrinks)
-        }
-
-        digestionService.removeCallback = {
-                drink -> run {
-            uiScope.launch { drinkDao.remove(drink) }
-        }
-            _livePastDrinks.postValue(digestionService.absorbedDrinks)
-        }
     }
 
 

@@ -6,14 +6,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.SeekBar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.domain.digestion.Drink
 import com.vaudibert.canidrive.ui.CanIDrive
-import kotlinx.android.synthetic.main.fragment_add_drink.*
-import java.text.DecimalFormat
+import com.vaudibert.canidrive.ui.PresetDrinksAdapter
+import kotlinx.android.synthetic.main.constraint_content_add_drink_delay_button.*
+import kotlinx.android.synthetic.main.constraint_content_add_drink_presets.*
 import java.util.*
 
 /**
@@ -25,7 +28,6 @@ class AddDrinkFragment : Fragment() {
     private var degree = 0.0
     private var delay: Long = 0
 
-    private val doubleFormat : DecimalFormat = DecimalFormat("0.#")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,19 +40,45 @@ class AddDrinkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val drinkerRepository = CanIDrive.instance.mainRepository.drinkerRepository
-        val digestionService = drinkerRepository.digestionService
+        val drinkRepository = CanIDrive.instance.mainRepository.drinkRepository
+        val drinkService = drinkRepository.drinkService
+
+        setDelaySeekBar()
+
+        val presetDrinksAdapter =
+            PresetDrinksAdapter(
+                this.context!!,
+                viewLifecycleOwner,
+                drinkRepository.livePresetDrinks,
+                {
+                    findNavController().navigate(
+                        AddDrinkFragmentDirections.actionAddDrinkFragmentToAddPresetFragment()
+                    )
+                },
+                drinkService
+            )
+        listViewPresetDrinks.adapter = presetDrinksAdapter
+
+        presetDrinksAdapter.selectedPreset.observe(viewLifecycleOwner, Observer {
+            if (it == null)
+                buttonValidateNewDrink.visibility = Button.INVISIBLE
+            else
+                buttonValidateNewDrink.visibility = Button.VISIBLE
+        })
+
+        drinkRepository.livePresetDrinks.observe(
+            viewLifecycleOwner,
+            Observer {
+                presetDrinksAdapter.notifyDataSetChanged()
+            }
+        )
 
         buttonValidateNewDrink.setOnClickListener {
+            val selectedPreset = presetDrinksAdapter.selectedPreset.value ?: return@setOnClickListener
+
             val ingestionTime = Date(Date().time - (delay * 60000))
 
-            digestionService.ingest(
-                Drink(
-                    volume,
-                    degree,
-                    ingestionTime
-                )
-            )
+            drinkService.ingest(selectedPreset, ingestionTime)
 
             KeyboardUtils.hideKeyboard(this.activity as Activity)
 
@@ -59,15 +87,9 @@ class AddDrinkFragment : Fragment() {
             )
         }
 
-
-        setVolumePicker()
-
-        setDegreePicker()
-
-        setDelayPicker()
     }
 
-    private fun setDelayPicker() {
+    private fun setDelaySeekBar() {
         val delays = longArrayOf(0, 20, 40, 60, 90, 120, 180, 300, 480, 720, 1080, 1440)
         val delayLabels = arrayOf(
             getString(R.string.now),
@@ -83,45 +105,22 @@ class AddDrinkFragment : Fragment() {
             "18h",
             "24h"
         )
-        numberPickerWhen.minValue = 0
-        numberPickerWhen.maxValue = delays.size - 1
-        numberPickerWhen.displayedValues = delayLabels
+
+        val levelCount = delays.size - 1
+        seekBarIngestionDelay.max = levelCount
+        textViewWhenText.text = delayLabels[0]
+
+        seekBarIngestionDelay.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                textViewWhenText.text = delayLabels[progress]
+                delay = delays[progress]
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+        seekBarIngestionDelay.progress = 0
         delay = delays[0]
-        numberPickerWhen.setOnValueChangedListener { _, _, newVal ->
-            delay = delays[newVal]
-        }
     }
 
-    private fun setDegreePicker() {
-        val degreeLabels = Drink.degrees.map { deg ->
-            "${doubleFormat.format(deg)} %"
-        }.toTypedArray()
-        numberPickerDegree.minValue = 0
-        numberPickerDegree.maxValue = degreeLabels.size - 1
-        numberPickerDegree.displayedValues = degreeLabels
-        val startDegree = degreeLabels.size / 2
-        degree = Drink.degrees[startDegree]
-        numberPickerDegree.value = startDegree
-        numberPickerDegree.setOnValueChangedListener { _, _, newVal ->
-            degree = Drink.degrees[newVal]
-        }
-    }
-
-    private fun setVolumePicker() {
-        val volumeLabels = Drink.volumes.map { vol ->
-            if (vol < 1000.0)
-                "${doubleFormat.format(vol / 10.0)} cL"
-            else
-                "${doubleFormat.format(vol / 1000.0)} L"
-        }.toTypedArray()
-        numberPickerVolume.minValue = 0
-        numberPickerVolume.maxValue = volumeLabels.size - 1
-        numberPickerVolume.displayedValues = volumeLabels
-        val middleVolume = volumeLabels.size / 2
-        numberPickerVolume.value = middleVolume
-        volume = Drink.volumes[middleVolume]
-        numberPickerVolume.setOnValueChangedListener { _, _, newVal ->
-            volume = Drink.volumes[newVal]
-        }
-    }
 }

@@ -1,8 +1,9 @@
 package com.vaudibert.canidrive.domain
 
 import com.vaudibert.canidrive.domain.digestion.DigestionService
-import com.vaudibert.canidrive.domain.digestion.Drink
 import com.vaudibert.canidrive.domain.digestion.PhysicalBody
+import com.vaudibert.canidrive.domain.drink.DrinkService
+import com.vaudibert.canidrive.domain.drink.PresetDrink
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
@@ -14,14 +15,27 @@ internal class DigestionServiceTest {
     private val precision = 0.0001
 
     var body = PhysicalBody()
-    var digestionService = DigestionService(body)
+    var drinkService = DrinkService()
+    var digestionService = DigestionService(body, drinkService)
+
+    private fun ingestBeer(now: Date) {
+        drinkService.ingest(
+            PresetDrink(
+                "beer",
+                500.0,
+                5.0
+            ),
+            now
+        )
+    }
 
     @BeforeEach
     fun before() {
         body = PhysicalBody()
         body.sex = "MALE"
         body.weight = 100.0
-        digestionService = DigestionService(body)
+        drinkService = DrinkService()
+        digestionService = DigestionService(body, drinkService)
     }
 
     @Test
@@ -32,7 +46,7 @@ internal class DigestionServiceTest {
     @Test
     fun `User taking a drink is not sober presently`() {
         val now = Date()
-        digestionService.ingest(Drink(500.0, 5.0, now))
+        ingestBeer(now)
 
         assertTrue(0.0 < digestionService.alcoholRateAt(Date(now.time + 1000)))
     }
@@ -40,10 +54,11 @@ internal class DigestionServiceTest {
     @Test
     fun `Instant alcohol rate is proportional to drink count`() {
         val now = Date()
-        digestionService.ingest(Drink(500.0, 5.0, now))
+        ingestBeer(now)
         val firstRate = digestionService.alcoholRateAt(Date(now.time + 1))
 
-        digestionService.ingest(Drink(500.0, 5.0, Date(now.time + 2)))
+        ingestBeer(Date(now.time + 2))
+
         val secondRate = digestionService.alcoholRateAt(Date(now.time + 3))
 
         assertEquals(2.0, secondRate / firstRate, precision)
@@ -52,7 +67,7 @@ internal class DigestionServiceTest {
     @Test
     fun `Alcohol rate decreases as per body's decreaseFactor`() {
         val now = Date()
-        digestionService.ingest(Drink(1000.0, 10.0, now))
+        ingestBeer(now)
 
         val instantRate = digestionService.alcoholRateAt(Date(now.time + 1))
         val laterRate = digestionService.alcoholRateAt(Date(now.time + 3_600_000))
