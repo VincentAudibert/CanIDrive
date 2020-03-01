@@ -38,6 +38,7 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation("com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:1.0.0")
 
     // Kotlin
     implementation(kotlin("stdlib-jdk8", version = "1.3.61"))

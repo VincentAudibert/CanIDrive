@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -14,8 +15,8 @@ import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.ui.CanIDrive
 import com.vaudibert.canidrive.ui.PresetDrinksAdapter
+import kotlinx.android.synthetic.main.constraint_content_add_drink_delay_button.*
 import kotlinx.android.synthetic.main.constraint_content_add_drink_presets.*
-import kotlinx.android.synthetic.main.fragment_add_drink.*
 import java.util.*
 
 /**
@@ -42,7 +43,7 @@ class AddDrinkFragment : Fragment() {
         val drinkRepository = CanIDrive.instance.mainRepository.drinkRepository
         val drinkService = drinkRepository.drinkService
 
-        setDelayPicker()
+        setDelaySeekBar()
 
         val presetDrinksAdapter =
             PresetDrinksAdapter(
@@ -88,7 +89,7 @@ class AddDrinkFragment : Fragment() {
 
     }
 
-    private fun setDelayPicker() {
+    private fun setDelaySeekBar() {
         val delays = longArrayOf(0, 20, 40, 60, 90, 120, 180, 300, 480, 720, 1080, 1440)
         val delayLabels = arrayOf(
             getString(R.string.now),
@@ -104,15 +105,21 @@ class AddDrinkFragment : Fragment() {
             "18h",
             "24h"
         )
-        numberPickerWhen.minValue = 0
-        numberPickerWhen.maxValue = delays.size - 1
-        numberPickerWhen.displayedValues = delayLabels
+
+        val levelCount = delays.size - 1
+        seekBarIngestionDelay.max = levelCount
+
+        seekBarIngestionDelay.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                textViewWhenText.text = delayLabels[progress]
+                delay = delays[progress]
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+        seekBarIngestionDelay.progress = 0
         delay = delays[0]
-        numberPickerWhen.wrapSelectorWheel = false
-        numberPickerWhen
-        numberPickerWhen.setOnValueChangedListener { _, _, newVal ->
-            delay = delays[newVal]
-        }
     }
 
 }
