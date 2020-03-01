@@ -22,7 +22,7 @@
     <string name="about_you">About you</string>
     <string name="can_i_drive_question">Can I Drive ?</string>
     <string name="version" translatable="false">version</string>
-    <string name="add_a_drink">Add a drink</string>
+    <string name="select_a_drink">Select a drink</string>
     <string name="now">now</string>
     <string name="car_colored_with_status" translatable="false">car colored with status</string>
     <string name="drive_status_symbol" translatable="false">drive status symbol</string>
@@ -60,6 +60,6 @@
     <string name="alcohol_tolerance_high">good</string>
     <string name="user_tolerance" translatable="false">USER_TOLERANCE</string>
     <string name="presets">Presets</string>
-    <string name="add_preset_description">Add new drink</string>
-    <string name="new_preset_name_title">New drink\'s name</string>
+    <string name="add_preset_description">Define new drink</string>
+    <string name="preset_name_title">Drink\'s name</string>
 </resources>

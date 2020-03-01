@@ -8,6 +8,7 @@
         android:id="@+id/textViewWhenTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         style="@style/PillTitle"
         android:text="@string/when"
         app:layout_constraintEnd_toEndOf="@id/buttonValidateNewDrink"
@@ -17,27 +18,29 @@
         android:id="@+id/textViewWhenText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="5dp"
         app:layout_constraintTop_toBottomOf="@+id/textViewWhenTitle"
         app:layout_constraintStart_toStartOf="@+id/textViewWhenTitle"
         app:layout_constraintEnd_toEndOf="@+id/textViewWhenTitle"
-        />
+        android:text="in the past"
+        tools:ignore="HardcodedText" />
 
     <!-- This library requires pair of the VerticalSeekBar and VerticalSeekBarWrapper classes -->
     <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper
-        android:layout_width="10dp"
+        android:layout_width="30dp"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@id/buttonValidateNewDrink"
         app:layout_constraintEnd_toEndOf="@id/buttonValidateNewDrink"
-        app:layout_constraintStart_toStartOf="@id/textViewWhenTitle"
         app:layout_constraintTop_toBottomOf="@id/textViewWhenText">
         <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
             android:id="@+id/seekBarIngestionDelay"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:splitTrack="false"
-            app:seekBarRotation="CW90" /> <!-- Rotation: CW90 or CW270 -->
+            tools:ignore="UnusedAttribute"
+            app:seekBarRotation="CW90"
+            /> <!-- Rotation: CW90 or CW270 -->
     </com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

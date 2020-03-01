@@ -11,7 +11,7 @@
         android:id="@+id/textViewNewPresetTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/new_preset_name_title"
+        android:text="@string/preset_name_title"
         android:labelFor="@id/editTextNewPresetName"
         style="@style/PillTitle"
         android:layout_marginStart="20dp"

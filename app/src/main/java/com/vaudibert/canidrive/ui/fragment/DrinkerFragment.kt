@@ -126,7 +126,7 @@ class DrinkerFragment : Fragment() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
         seekBarAlcoholTolerance.progress = (digestionRepository.body.alcoholTolerance * levelCount).roundToInt()
-
+        textViewAlcoholToleranceTextValue.text = digestionRepository.toleranceLevels[seekBarAlcoholTolerance.progress]
     }
 
     private fun setupValidationButton(digestionRepository: DigestionRepository) {

@@ -108,6 +108,7 @@ class AddDrinkFragment : Fragment() {
 
         val levelCount = delays.size - 1
         seekBarIngestionDelay.max = levelCount
+        textViewWhenText.text = delayLabels[0]
 
         seekBarIngestionDelay.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
