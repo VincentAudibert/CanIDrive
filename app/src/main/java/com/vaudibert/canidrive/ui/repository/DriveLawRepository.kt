@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.drivelaw.DriveLaw
 import com.vaudibert.canidrive.domain.drivelaw.DriveLawService
-import com.vaudibert.canidrive.domain.drivelaw.DriveLaws
 import java.util.*
 
 class DriveLawRepository(private val context: Context) {
