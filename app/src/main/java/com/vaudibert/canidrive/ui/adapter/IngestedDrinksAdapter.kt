@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive.ui
+package com.vaudibert.canidrive.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.drink.IngestedDrink
+import com.vaudibert.canidrive.ui.CanIDrive
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,13 +35,16 @@ class IngestedDrinksAdapter(
         val drinkView = inflater.inflate(R.layout.item_past_drink, parent, false)
         val drink = getItem(position)
 
-        val quantityText = drinkView.findViewById(R.id.pastDrinkTextQuantity) as TextView
-        val degreeText = drinkView.findViewById(R.id.pastDrinkTextDegree) as TextView
-        val timeText = drinkView.findViewById(R.id.pastDrinkTextTime) as TextView
+        val propertiesText = drinkView.findViewById(R.id.textViewPresetDrinkProperties) as TextView
+        val descriptionText = drinkView.findViewById(R.id.textViewPresetDrinkDescription) as TextView
+        val glassImage = drinkView.findViewById(R.id.imageViewPresetDrinkIcon) as ImageView
+        val deleteButton = drinkView.findViewById(R.id.buttonRemovePastDrink) as ImageButton
+        val timeText = drinkView.findViewById(R.id.textViewPastDrinkTime) as TextView
         val daysText = drinkView.findViewById(R.id.textViewPastDays) as TextView
 
-        quantityText.text = "${drink.volume} ml"
-        degreeText.text = "${drink.degree} %"
+        propertiesText.text = "${drink.volume} ml - ${drink.degree} %"
+        descriptionText.text = drink.name
+        glassImage.setImageResource(R.drawable.wine_glass)
         val days: Long = (drink.ingestionTime.time / DAY_IN_MILLIS) - (Date().time / DAY_IN_MILLIS)
         if (days == 0L)
             daysText.visibility = TextView.GONE
@@ -50,10 +55,7 @@ class IngestedDrinksAdapter(
 
         timeText.text = dateFormat.format(drink.ingestionTime)
 
-        val buttonRemovePastDrink =
-            drinkView.findViewById(R.id.buttonRemovePastDrink) as ImageButton
-
-        buttonRemovePastDrink.setOnClickListener {
+        deleteButton.setOnClickListener {
             drinkService.remove(drink)
         }
 

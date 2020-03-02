@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.DrinkerStatusService
 import com.vaudibert.canidrive.ui.CanIDrive
-import com.vaudibert.canidrive.ui.IngestedDrinksAdapter
+import com.vaudibert.canidrive.ui.adapter.IngestedDrinksAdapter
 import com.vaudibert.canidrive.ui.repository.DigestionRepository
 import com.vaudibert.canidrive.ui.repository.DrinkRepository
 import kotlinx.android.synthetic.main.constraint_content_drive_history.*
