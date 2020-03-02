@@ -2,16 +2,20 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorAmberPrimary</item>
         <item name="colorPrimaryVariant">@color/colorAmberTransparent</item>
         <item name="colorAccent">@color/colorAmberAccent</item>
     </style>
 
     <style name="AppThemeSaintPatrick" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorAmberPrimary</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorGreenPrimary</item>
+        <item name="colorAccent">@color/colorGreenAccent</item>
+        <item name="colorPrimaryVariant">@color/colorGreenTransparent</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAmberAccent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
