@@ -39,4 +39,10 @@
     <string name="presets">Préselection</string>
     <string name="add_preset_description" >Définir une nouvelle boisson</string>
     <string name="preset_name_title">Nom de la boisson</string>
+    <string name="preset_red_wine">Vin rouge</string>
+    <string name="preset_light_beer">Bière blonde légère</string>
+    <string name="preset_triple_beer">Bière triple</string>
+    <string name="preset_soft_cider">Cidre doux</string>
+    <string name="preset_martini">Martini</string>
+    <string name="preset_whisky">Whisky</string>
 </resources>

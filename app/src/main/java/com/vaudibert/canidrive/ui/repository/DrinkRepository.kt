@@ -1,8 +1,10 @@
 package com.vaudibert.canidrive.ui.repository
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.data.DrinkDatabase
 import com.vaudibert.canidrive.data.PresetDrinkEntity
 import com.vaudibert.canidrive.domain.drink.DrinkService
@@ -13,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class DrinkRepository(drinkDatabase: DrinkDatabase) {
+class DrinkRepository(context: Context, drinkDatabase: DrinkDatabase) {
 
     private val _livePastDrinks = MutableLiveData<MutableList<IngestedDrink>>()
     val livePastDrinks: LiveData<MutableList<IngestedDrink>>
@@ -28,39 +30,39 @@ class DrinkRepository(drinkDatabase: DrinkDatabase) {
     // TODO : move this default data in the database init ?
     private val defaultPresetDrink = mutableListOf(
         PresetDrink(
-            "Wine glass",
+            context.getString(R.string.preset_red_wine),
             130.0,
             13.0
         ),
         PresetDrink(
-            "Half-a-pint light beer",
+            context.getString(R.string.preset_light_beer),
             250.0,
             4.5
         ),
         PresetDrink(
-            "Pint light beer",
+            context.getString(R.string.preset_light_beer),
             500.0,
             4.5
         ),
         PresetDrink(
-            "33cl triple",
+            context.getString(R.string.preset_triple_beer),
             330.0,
             9.0
         ),
         PresetDrink(
-            "Half-a-pint cider",
+            context.getString(R.string.preset_soft_cider),
             250.0,
             2.5
         ),
         PresetDrink(
-            "Apetizer (Martini)",
+            context.getString(R.string.preset_martini),
             8.0,
             17.0
         ),
         PresetDrink(
-            "Shot",
-            5.0,
-            40.0
+            context.getString(R.string.preset_whisky),
+            8.0,
+            30.0
         )
     )
 
