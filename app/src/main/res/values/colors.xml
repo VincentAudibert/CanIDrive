@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#D4715E</color>
-    <color name="colorPrimaryTransparent">#A6D4715E</color>
+
+    <color name="colorAmberPrimary">#D4715E</color>
+    <color name="colorAmberTransparent">#A6D4715E</color>
+    <color name="colorAmberAccent">#D4715E</color>
+
+    <color name="colorGreenPrimary">#25E42E</color>
+    <color name="colorGreenTransparent">#A661C53E</color>
+    <color name="colorGreenAccent">#98B67A</color>
+
+
     <color name="colorPrimaryDark">#3D4759</color>
-    <color name="colorAccent">#D4715E</color>
     <color name="WHITE">#FFFFFF</color>
     <color name="driveGreen">#30CA36</color>
     <color name="driveRed">#FF0000</color>
     <color name="driveAmber">#DF7E35</color>
-
 </resources>

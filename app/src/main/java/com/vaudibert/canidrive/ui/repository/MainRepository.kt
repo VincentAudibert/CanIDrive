@@ -24,7 +24,7 @@ class MainRepository(private val context: Context) {
         .fallbackToDestructiveMigration()
         .build()
 
-    val drinkRepository = DrinkRepository(drinkDatabase)
+    val drinkRepository = DrinkRepository(context, drinkDatabase)
 
     val digestionRepository = DigestionRepository(context, drinkRepository.drinkService)
 

@@ -1,6 +1,9 @@
-package com.vaudibert.canidrive.domain.drivelaw
+package com.vaudibert.canidrive.ui.repository
 
 import com.vaudibert.canidrive.R
+import com.vaudibert.canidrive.domain.drivelaw.DriveLaw
+import com.vaudibert.canidrive.domain.drivelaw.ProfessionalLimit
+import com.vaudibert.canidrive.domain.drivelaw.YoungLimit
 
 object DriveLaws {
 
