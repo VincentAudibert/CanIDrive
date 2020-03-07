@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.DrinkerStatusService
 import com.vaudibert.canidrive.ui.CanIDrive
-import com.vaudibert.canidrive.ui.IngestedDrinksAdapter
+import com.vaudibert.canidrive.ui.adapter.IngestedDrinksAdapter
 import com.vaudibert.canidrive.ui.repository.DigestionRepository
 import com.vaudibert.canidrive.ui.repository.DrinkRepository
 import kotlinx.android.synthetic.main.constraint_content_drive_history.*
@@ -62,7 +63,7 @@ class DriveFragment : Fragment() {
         listViewPastDrinks.adapter = ingestedDrinksAdapter
 
         drinkRepository.livePastDrinks.observe(viewLifecycleOwner, Observer {
-
+            textViewPastDrinks.visibility = if (it.isEmpty()) TextView.GONE else TextView.VISIBLE
             ingestedDrinksAdapter.setDrinkList(it.asReversed())
             updateDriveStatus()
         })

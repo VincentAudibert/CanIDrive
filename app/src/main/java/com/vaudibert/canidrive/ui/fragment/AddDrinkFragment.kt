@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.vaudibert.canidrive.KeyboardUtils
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.ui.CanIDrive
-import com.vaudibert.canidrive.ui.PresetDrinksAdapter
+import com.vaudibert.canidrive.ui.adapter.PresetDrinksAdapter
 import kotlinx.android.synthetic.main.constraint_content_add_drink_delay_button.*
 import kotlinx.android.synthetic.main.constraint_content_add_drink_presets.*
 import java.util.*

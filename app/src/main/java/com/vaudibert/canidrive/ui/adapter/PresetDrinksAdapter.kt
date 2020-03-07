@@ -1,4 +1,4 @@
-package com.vaudibert.canidrive.ui
+package com.vaudibert.canidrive.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
