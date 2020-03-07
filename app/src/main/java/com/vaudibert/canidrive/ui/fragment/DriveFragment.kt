@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -62,7 +63,7 @@ class DriveFragment : Fragment() {
         listViewPastDrinks.adapter = ingestedDrinksAdapter
 
         drinkRepository.livePastDrinks.observe(viewLifecycleOwner, Observer {
-
+            textViewPastDrinks.visibility = if (it.isEmpty()) TextView.GONE else TextView.VISIBLE
             ingestedDrinksAdapter.setDrinkList(it.asReversed())
             updateDriveStatus()
         })
