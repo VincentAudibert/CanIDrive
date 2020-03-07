@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.domain.digestion.DigestionService
 import com.vaudibert.canidrive.domain.digestion.PhysicalBody
-import com.vaudibert.canidrive.domain.drink.DrinkService
+import com.vaudibert.canidrive.domain.drink.IIngestedDrinkProvider
 
 /**
  * Repository holding the drinker and driveLaw instances.
@@ -22,12 +22,12 @@ import com.vaudibert.canidrive.domain.drink.DrinkService
  *      - init flag (= user configuration already validated once)
  *  - drinkDao for past consumed drinks.
  */
-class DigestionRepository(context: Context, drinkService: DrinkService) {
+class DigestionRepository(context: Context, drinkProvider: IIngestedDrinkProvider) {
 
     // Main instance to link
     val body = PhysicalBody()
 
-    val digestionService = DigestionService(body, drinkService)
+    val digestionService = DigestionService(body, drinkProvider)
 
     val toleranceLevels = listOf(
         context.getString(R.string.alcohol_tolerance_low),

@@ -2,7 +2,7 @@ package com.vaudibert.canidrive.domain
 
 import com.vaudibert.canidrive.domain.digestion.DigestionService
 import com.vaudibert.canidrive.domain.digestion.PhysicalBody
-import com.vaudibert.canidrive.domain.drink.DrinkService
+import com.vaudibert.canidrive.domain.drink.DrinkServiceOld
 import com.vaudibert.canidrive.domain.drink.PresetDrink
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -15,7 +15,7 @@ internal class DigestionServiceTest {
     private val precision = 0.0001
 
     var body = PhysicalBody()
-    var drinkService = DrinkService()
+    var drinkService = DrinkServiceOld()
     var digestionService = DigestionService(body, drinkService)
 
     private fun ingestBeer(now: Date) {
@@ -34,7 +34,7 @@ internal class DigestionServiceTest {
         body = PhysicalBody()
         body.sex = "MALE"
         body.weight = 100.0
-        drinkService = DrinkService()
+        drinkService = DrinkServiceOld()
         digestionService = DigestionService(body, drinkService)
     }
 

@@ -9,21 +9,22 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.vaudibert.canidrive.R
-import com.vaudibert.canidrive.domain.drink.IngestedDrink
+import com.vaudibert.canidrive.data.IngestedDrinkEntity
 import com.vaudibert.canidrive.ui.CanIDrive
 import java.text.SimpleDateFormat
 import java.util.*
 
 class IngestedDrinksAdapter(
-    val context: Context,
-    private var ingestedDrinkList : List<IngestedDrink>
+    val context: Context
     ) : BaseAdapter() {
+
+    private var ingestedDrinkList : List<IngestedDrinkEntity> = emptyList()
 
     private val DAY_IN_MILLIS = 3600*1000*24
 
     // TODO : inject service ?
-    private val drinkService =
-        CanIDrive.instance.mainRepository.drinkRepository.drinkService
+    private val ingestionService =
+        CanIDrive.instance.mainRepository.drinkRepository.ingestionService
 
     private val inflater: LayoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -56,13 +57,13 @@ class IngestedDrinksAdapter(
         timeText.text = dateFormat.format(drink.ingestionTime)
 
         deleteButton.setOnClickListener {
-            drinkService.remove(drink)
+            ingestionService.remove(drink)
         }
 
         return drinkView
     }
 
-    override fun getItem(position: Int): IngestedDrink {
+    override fun getItem(position: Int): IngestedDrinkEntity {
         return ingestedDrinkList[position]
     }
 
@@ -74,7 +75,7 @@ class IngestedDrinksAdapter(
         return ingestedDrinkList.size
     }
 
-    fun setDrinkList(ingestedDrinks : List<IngestedDrink>) {
+    fun setDrinkList(ingestedDrinks : List<IngestedDrinkEntity>) {
         ingestedDrinkList = ingestedDrinks
         notifyDataSetChanged()
     }

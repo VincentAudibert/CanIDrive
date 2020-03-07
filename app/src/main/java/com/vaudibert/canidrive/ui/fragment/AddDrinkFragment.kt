@@ -41,7 +41,7 @@ class AddDrinkFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val drinkRepository = CanIDrive.instance.mainRepository.drinkRepository
-        val drinkService = drinkRepository.drinkService
+        val presetService = drinkRepository.presetService
 
         setDelaySeekBar()
 
@@ -55,11 +55,11 @@ class AddDrinkFragment : Fragment() {
                         AddDrinkFragmentDirections.actionAddDrinkFragmentToAddPresetFragment()
                     )
                 },
-                drinkService
+                drinkRepository
             )
         listViewPresetDrinks.adapter = presetDrinksAdapter
 
-        presetDrinksAdapter.selectedPreset.observe(viewLifecycleOwner, Observer {
+        drinkRepository.liveSelectedPreset.observe(viewLifecycleOwner, Observer {
             if (it == null)
                 buttonValidateNewDrink.visibility = Button.INVISIBLE
             else
@@ -74,11 +74,11 @@ class AddDrinkFragment : Fragment() {
         )
 
         buttonValidateNewDrink.setOnClickListener {
-            val selectedPreset = presetDrinksAdapter.selectedPreset.value ?: return@setOnClickListener
+            val selectedPreset = presetService.selectedPreset ?: return@setOnClickListener
 
             val ingestionTime = Date(Date().time - (delay * 60000))
 
-            drinkService.ingest(selectedPreset, ingestionTime)
+            presetService.ingest(selectedPreset, ingestionTime)
 
             KeyboardUtils.hideKeyboard(this.activity as Activity)
 

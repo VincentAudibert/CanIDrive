@@ -34,7 +34,7 @@ class EditPresetFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val drinkRepository = CanIDrive.instance.mainRepository.drinkRepository
-        val drinkService = drinkRepository.drinkService
+        val drinkService = drinkRepository.drinkServiceOld
         val selectedPreset = drinkService.selectedPreset
 
         if (selectedPreset != null) {

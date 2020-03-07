@@ -55,11 +55,7 @@ class DriveFragment : Fragment() {
         drinkRepository = mainRepository.drinkRepository
         digestionRepository = mainRepository.digestionRepository
 
-        ingestedDrinksAdapter =
-            IngestedDrinksAdapter(
-                this.context!!,
-                emptyList()
-            )
+        ingestedDrinksAdapter = IngestedDrinksAdapter(this.context!!)
         listViewPastDrinks.adapter = ingestedDrinksAdapter
 
         drinkRepository.livePastDrinks.observe(viewLifecycleOwner, Observer {

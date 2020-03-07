@@ -12,7 +12,7 @@ interface IngestedDrinkDao {
     suspend fun getAll(): List<IngestedDrinkEntity>
 
     @Insert(entity = IngestedDrinkEntity::class)
-    suspend fun insert(ingestedDrink: IngestedDrink)
+    suspend fun insert(ingestedDrink: IngestedDrink): Long
 
     @Delete(entity = IngestedDrinkEntity::class)
     suspend fun remove(ingestedDrink: IngestedDrink)

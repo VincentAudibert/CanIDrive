@@ -26,7 +26,7 @@ class MainRepository(private val context: Context) {
 
     val drinkRepository = DrinkRepository(context, drinkDatabase)
 
-    val digestionRepository = DigestionRepository(context, drinkRepository.drinkService)
+    val digestionRepository = DigestionRepository(context, drinkRepository.ingestionService)
 
     val driveLawRepository = DriveLawRepository(context)
 

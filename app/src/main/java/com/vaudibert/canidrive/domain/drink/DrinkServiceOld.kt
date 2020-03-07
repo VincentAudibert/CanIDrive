@@ -3,7 +3,7 @@ package com.vaudibert.canidrive.domain.drink
 import java.util.*
 import kotlin.collections.ArrayList
 
-class DrinkService {
+class DrinkServiceOld {
 
     val ingestedDrinks : MutableList<IngestedDrink> = ArrayList()
     var presetDrinks = mutableListOf<PresetDrink>()

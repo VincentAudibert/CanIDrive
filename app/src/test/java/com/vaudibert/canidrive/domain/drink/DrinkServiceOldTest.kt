@@ -5,9 +5,9 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.*
 
-internal class DrinkServiceTest {
+internal class DrinkServiceOldTest {
 
-    private lateinit var drinkService: DrinkService
+    private lateinit var drinkServiceOld: DrinkServiceOld
 
     private val firstPreset = PresetDrink(
         "first preset",
@@ -22,26 +22,26 @@ internal class DrinkServiceTest {
 
     @BeforeEach
     fun setup() {
-        drinkService = DrinkService()
-        drinkService.presetDrinks = presetList
+        drinkServiceOld = DrinkServiceOld()
+        drinkServiceOld.presetDrinks = presetList
     }
 
     @Test
     fun `A DrinkService is initialized empty`() {
-        drinkService = DrinkService()
-        assertEquals(0, drinkService.presetDrinks.size)
-        assertEquals(0, drinkService.ingestedDrinks.size)
+        drinkServiceOld = DrinkServiceOld()
+        assertEquals(0, drinkServiceOld.presetDrinks.size)
+        assertEquals(0, drinkServiceOld.ingestedDrinks.size)
     }
 
     @Test
     fun `Ingesting a preset adds it as ingested and increments counter`() {
         val firstPresetCounter =  firstPreset.count
-        val ingestedSize = drinkService.ingestedDrinks.size
+        val ingestedSize = drinkServiceOld.ingestedDrinks.size
 
-        drinkService.ingest(firstPreset, Date())
+        drinkServiceOld.ingest(firstPreset, Date())
 
         assertEquals(1, firstPreset.count - firstPresetCounter)
-        assertEquals(1, drinkService.ingestedDrinks.size - ingestedSize)
+        assertEquals(1, drinkServiceOld.ingestedDrinks.size - ingestedSize)
     }
 
 }
