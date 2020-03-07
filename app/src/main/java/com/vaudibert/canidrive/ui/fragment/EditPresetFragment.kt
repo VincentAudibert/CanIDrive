@@ -15,9 +15,10 @@ import kotlinx.android.synthetic.main.fragment_add_preset.*
 import kotlinx.android.synthetic.main.linear_content_add_drink_custom_pickers.*
 import java.text.DecimalFormat
 
-class AddPresetFragment : Fragment() {
+class EditPresetFragment : Fragment() {
     private var volume = 0.0
     private var degree = 0.0
+    private var count = 0
 
     private val doubleFormat : DecimalFormat = DecimalFormat("0.#")
 
@@ -34,20 +35,37 @@ class AddPresetFragment : Fragment() {
 
         val drinkRepository = CanIDrive.instance.mainRepository.drinkRepository
         val drinkService = drinkRepository.drinkService
+        val selectedPreset = drinkService.selectedPreset
+
+        if (selectedPreset != null) {
+            volume = selectedPreset.volume
+            degree = selectedPreset.degree
+            editTextNewPresetName.setText(selectedPreset.name)
+            count = selectedPreset.count
+        }
 
         buttonValidateNewPreset.setOnClickListener {
             if (editTextNewPresetName.text.toString().isBlank()) return@setOnClickListener
 
-            drinkService.addNewPreset(
-                editTextNewPresetName.text.toString(),
-                volume,
-                degree
-            )
+            if (selectedPreset != null) {
+                drinkService.updatePreset(
+                    editTextNewPresetName.text.toString(),
+                    volume,
+                    degree,
+                    count
+                )
+            } else {
+                drinkService.addNewPreset(
+                    editTextNewPresetName.text.toString(),
+                    volume,
+                    degree
+                )
+            }
 
             KeyboardUtils.hideKeyboard(this.activity as Activity)
 
             findNavController().navigate(
-                AddPresetFragmentDirections.actionAddPresetFragmentToAddDrinkFragment()
+                EditPresetFragmentDirections.actionAddPresetFragmentToAddDrinkFragment()
             )
         }
 
@@ -65,7 +83,11 @@ class AddPresetFragment : Fragment() {
         numberPickerDegree.minValue = 0
         numberPickerDegree.maxValue = degreeLabels.size - 1
         numberPickerDegree.displayedValues = degreeLabels
-        val startDegree = degreeLabels.size / 2
+        val indexOfDegree = IngestedDrink.degrees.indexOf(degree)
+        val startDegree = if (indexOfDegree < 0)
+            degreeLabels.size / 2
+        else
+            indexOfDegree
         degree = IngestedDrink.degrees[startDegree]
         numberPickerDegree.value = startDegree
         numberPickerDegree.setOnValueChangedListener { _, _, newVal ->
@@ -83,9 +105,13 @@ class AddPresetFragment : Fragment() {
         numberPickerVolume.minValue = 0
         numberPickerVolume.maxValue = volumeLabels.size - 1
         numberPickerVolume.displayedValues = volumeLabels
-        val middleVolume = volumeLabels.size / 2
-        numberPickerVolume.value = middleVolume
-        volume = IngestedDrink.volumes[middleVolume]
+        val indexOfVolume = IngestedDrink.volumes.indexOf(volume)
+        val startVolume = if (indexOfVolume < 0)
+            volumeLabels.size / 2
+        else
+            indexOfVolume
+        numberPickerVolume.value = startVolume
+        volume = IngestedDrink.volumes[startVolume]
         numberPickerVolume.setOnValueChangedListener { _, _, newVal ->
             volume = IngestedDrink.volumes[newVal]
         }

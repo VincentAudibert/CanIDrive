@@ -7,11 +7,13 @@ class DrinkService {
 
     val ingestedDrinks : MutableList<IngestedDrink> = ArrayList()
     var presetDrinks = mutableListOf<PresetDrink>()
+    var selectedPreset: PresetDrink? = null
 
     var ingestCallback = { _: IngestedDrink -> }
     var removeCallback = { _: IngestedDrink -> }
 
-    var onPresetUpdated = { _: PresetDrink -> }
+    var onPresetUpdated = { previous: PresetDrink, updated: PresetDrink -> }
+    var onPresetIngested = {_:PresetDrink -> }
     var onPresetAdded = { _:PresetDrink -> }
     var onPresetRemoved = { _:PresetDrink -> }
 
@@ -40,7 +42,7 @@ class DrinkService {
             onPresetAdded(presetDrink)
         }
         else
-            onPresetUpdated(presetDrink)
+            onPresetIngested(presetDrink)
         ingestCallback(ingested)
     }
 
@@ -60,5 +62,18 @@ class DrinkService {
 
         presetDrinks.add(newPreset)
         onPresetAdded(newPreset)
+    }
+
+    fun updatePreset(name: String, volume: Double, degree: Double, count:Int) {
+        val currentSelected = selectedPreset
+        if (currentSelected == null)
+            addNewPreset(name, volume, degree)
+        else {
+            val updatedPreset = PresetDrink(name, volume, degree, count)
+            val selectedIndex = presetDrinks.indexOf(currentSelected)
+            presetDrinks[selectedIndex] = updatedPreset
+            selectedPreset = updatedPreset
+            onPresetUpdated(currentSelected, updatedPreset)
+        }
     }
 }

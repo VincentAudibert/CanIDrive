@@ -56,12 +56,12 @@ class DrinkRepository(context: Context, drinkDatabase: DrinkDatabase) {
         ),
         PresetDrink(
             context.getString(R.string.preset_martini),
-            8.0,
+            80.0,
             17.0
         ),
         PresetDrink(
             context.getString(R.string.preset_whisky),
-            8.0,
+            80.0,
             30.0
         )
     )
@@ -117,7 +117,18 @@ class DrinkRepository(context: Context, drinkDatabase: DrinkDatabase) {
             }
         }
 
-        drinkService.onPresetUpdated = {
+        drinkService.onPresetUpdated = {previous: PresetDrink, updated: PresetDrink ->
+            val updatedUid = (previous as PresetDrinkEntity).uid
+            val updatedEntity = PresetDrinkEntity(updatedUid, updated)
+            drinkService.selectedPreset = updatedEntity
+            uiScope.launch {
+                presetDrinkDao.update(updatedEntity)
+                drinkService.presetDrinks[drinkService.presetDrinks.indexOf(updated)] = updatedEntity
+                sortAndPostPresets()
+            }
+        }
+
+        drinkService.onPresetIngested = {
             uiScope.launch {
                 presetDrinkDao.update(it as PresetDrinkEntity)
                 sortAndPostPresets()

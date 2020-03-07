@@ -27,7 +27,11 @@ class PresetDrinksAdapter(
     private val inflater: LayoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    var selectedPreset = MutableLiveData<PresetDrink?>(null)
+    var selectedPreset = MutableLiveData<PresetDrink?>(drinkService.selectedPreset)
+
+    init {
+        selectedPreset.observe(lifecycleOwner, Observer { drinkService.selectedPreset = it})
+    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         if (position == 0) {
@@ -66,9 +70,19 @@ class PresetDrinksAdapter(
             val clickListener = {_:View ->
                 selectedPreset.postValue(if (presetDrink == selectedPreset.value) null else presetDrink)
             }
+            val longClickListener = View.OnLongClickListener {
+                selectedPreset.postValue(presetDrink)
+                goToAddPreset()
+                true
+            }
             propertiesText.setOnClickListener(clickListener)
+            propertiesText.setOnLongClickListener(longClickListener)
+
             descriptionText.setOnClickListener(clickListener)
+            descriptionText.setOnLongClickListener(longClickListener)
+
             glassImage.setOnClickListener(clickListener)
+            glassImage.setOnLongClickListener(longClickListener)
 
             deleteButton.setOnClickListener {
                 if (presetDrink != selectedPreset.value) return@setOnClickListener
