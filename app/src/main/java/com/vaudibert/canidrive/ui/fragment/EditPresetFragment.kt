@@ -18,7 +18,6 @@ import java.text.DecimalFormat
 class EditPresetFragment : Fragment() {
     private var volume = 0.0
     private var degree = 0.0
-    private var count = 0
 
     private val doubleFormat : DecimalFormat = DecimalFormat("0.#")
 
@@ -34,28 +33,26 @@ class EditPresetFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val drinkRepository = CanIDrive.instance.mainRepository.drinkRepository
-        val drinkService = drinkRepository.drinkServiceOld
-        val selectedPreset = drinkService.selectedPreset
+        val presetService = drinkRepository.presetService
+        val selectedPreset = presetService.selectedPreset
 
         if (selectedPreset != null) {
             volume = selectedPreset.volume
             degree = selectedPreset.degree
             editTextNewPresetName.setText(selectedPreset.name)
-            count = selectedPreset.count
         }
 
         buttonValidateNewPreset.setOnClickListener {
             if (editTextNewPresetName.text.toString().isBlank()) return@setOnClickListener
 
             if (selectedPreset != null) {
-                drinkService.updatePreset(
+                presetService.updateSelectedPreset(
                     editTextNewPresetName.text.toString(),
                     volume,
-                    degree,
-                    count
+                    degree
                 )
             } else {
-                drinkService.addNewPreset(
+                presetService.addNewPreset(
                     editTextNewPresetName.text.toString(),
                     volume,
                     degree

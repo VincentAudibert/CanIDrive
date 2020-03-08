@@ -49,7 +49,6 @@ class AddDrinkFragment : Fragment() {
             PresetDrinksAdapter(
                 this.context!!,
                 viewLifecycleOwner,
-                drinkRepository.livePresetDrinks,
                 {
                     findNavController().navigate(
                         AddDrinkFragmentDirections.actionAddDrinkFragmentToAddPresetFragment()
@@ -74,14 +73,10 @@ class AddDrinkFragment : Fragment() {
         )
 
         buttonValidateNewDrink.setOnClickListener {
-            val selectedPreset = presetService.selectedPreset ?: return@setOnClickListener
-
             val ingestionTime = Date(Date().time - (delay * 60000))
-
-            presetService.ingest(selectedPreset, ingestionTime)
+            presetService.ingest(ingestionTime)
 
             KeyboardUtils.hideKeyboard(this.activity as Activity)
-
             findNavController().navigate(
                 AddDrinkFragmentDirections.actionAddDrinkFragmentToDriveFragment()
             )

@@ -37,13 +37,10 @@ class PresetDrinksAdapter(
 
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        if (position == 0) {
-            return getAddPresetView(parent)
-
+        return if (position == 0) {
+            getAddPresetView(parent)
         } else {
-
-            return getPresetView(parent, position)
-
+            getPresetView(parent, position)
         }
     }
 
@@ -62,7 +59,7 @@ class PresetDrinksAdapter(
         glassImage.setImageResource(R.drawable.wine_glass)
 
         drinkRepository.liveSelectedPreset.observe(lifecycleOwner, Observer {
-            updatePresetColor(presetDrink, drinkView, deleteButton)
+            updatePresetColor(presetDrink, drinkView, deleteButton, it)
         })
 
         val clickListener = { _: View ->
@@ -120,9 +117,10 @@ class PresetDrinksAdapter(
     private fun updatePresetColor(
         drink: PresetDrinkEntity,
         drinkView: View,
-        deleteButton: ImageButton
+        deleteButton: ImageButton,
+        selected: PresetDrinkEntity?
     ) {
-        if (drink == drinkRepository.liveSelectedPreset.value) {
+        if (selected != null && drink == selected) {
             drinkView.setBackgroundResource(R.drawable.background_color_primary)
             deleteButton.visibility = ImageButton.VISIBLE
         } else {

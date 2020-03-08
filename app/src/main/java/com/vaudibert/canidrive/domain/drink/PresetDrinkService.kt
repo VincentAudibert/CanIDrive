@@ -4,14 +4,14 @@ import java.util.*
 
 class PresetDrinkService<Preset : IPresetDrink>(
     private val presetMaker : (name: String, volume:Double, degree: Double) -> Preset
-) : IIngestor<Preset> {
+) {
     var onPresetRemoved = { _:Preset -> }
     var onPresetsChanged = { _: List<Preset> -> }
     var onPresetUpdated = { _:Preset -> }
 
     var onSelectUpdated = { _:Preset? -> }
 
-    var ingestionService : IIngestor<Preset>? = null
+    private var ingestionService : IIngestor<Preset>? = null
 
     var selectedPreset : Preset? = null
         set(value) {
@@ -57,14 +57,14 @@ class PresetDrinkService<Preset : IPresetDrink>(
         }
     }
 
-    override fun ingest(preset: Preset, ingestionTime: Date) {
-        val ingestor = ingestionService
-        if (ingestor != null) {
+    fun ingest(ingestionTime: Date) {
+        val ingester = ingestionService
+        val preset = selectedPreset
+        if (ingester != null && preset != null) {
             preset.count++
             onPresetUpdated(preset)
             sortAndCallbackPresets()
-            ingestor.ingest(preset, ingestionTime)
-
+            ingester.ingest(preset, ingestionTime)
         }
     }
 
