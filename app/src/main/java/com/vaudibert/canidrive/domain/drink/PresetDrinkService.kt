@@ -11,7 +11,7 @@ class PresetDrinkService<Preset : IPresetDrink>(
 
     var onSelectUpdated = { _:Preset? -> }
 
-    private var ingestionService : IIngestor<Preset>? = null
+    var ingestionService : IIngestor<Preset>? = null
 
     var selectedPreset : Preset? = null
         set(value) {
@@ -39,6 +39,7 @@ class PresetDrinkService<Preset : IPresetDrink>(
 
     fun removePreset(presetDrink: Preset) {
         presetDrinks.remove(presetDrink)
+        if (selectedPreset == presetDrink) selectedPreset = null
         onPresetRemoved(presetDrink)
         sortAndCallbackPresets()
     }
