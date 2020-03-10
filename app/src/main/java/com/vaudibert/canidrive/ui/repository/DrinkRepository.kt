@@ -146,6 +146,9 @@ class DrinkRepository(context: Context, drinkDatabase: DrinkDatabase) {
                 presetDrinkDao.update(it)
             }
         }
+
+        // Connect the presetService to the ingestionService
+        presetService.ingestionService = ingestionService
     }
 
 }

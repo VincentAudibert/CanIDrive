@@ -2,6 +2,6 @@ package com.vaudibert.canidrive.domain.drink
 
 import java.util.*
 
-interface IIngestor<Preset : IPresetDrink> {
+interface IIngestCapable<Preset : IPresetDrink> {
     fun ingest(preset : Preset, ingestionTime : Date)
 }

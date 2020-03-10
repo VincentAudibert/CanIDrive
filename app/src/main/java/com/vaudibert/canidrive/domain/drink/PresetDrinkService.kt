@@ -11,7 +11,7 @@ class PresetDrinkService<Preset : IPresetDrink>(
 
     var onSelectUpdated = { _:Preset? -> }
 
-    var ingestionService : IIngestor<Preset>? = null
+    var ingestionService : IIngestCapable<Preset>? = null
 
     var selectedPreset : Preset? = null
         set(value) {

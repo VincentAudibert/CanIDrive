@@ -8,7 +8,7 @@ internal class PresetDrinkServiceTest {
 
     private lateinit var presetService: PresetDrinkService<PresetDrink>
     private lateinit var exportPreset: List<PresetDrink>
-    private lateinit var testIIngestor: TestIIngestor
+    private lateinit var testIIngestor: TestIIngestCapable
 
     private val presetA = PresetDrink("A", 10.0, 10.0, 1)
     private val presetB = PresetDrink("B", 20.0, 20.0,2)
@@ -24,7 +24,7 @@ internal class PresetDrinkServiceTest {
         presetService.onPresetsChanged = {
             exportPreset = it
         }
-        testIIngestor = TestIIngestor()
+        testIIngestor = TestIIngestCapable()
         presetService.ingestionService = testIIngestor
     }
 

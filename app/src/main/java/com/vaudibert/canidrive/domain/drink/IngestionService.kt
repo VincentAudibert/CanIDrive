@@ -3,16 +3,16 @@ package com.vaudibert.canidrive.domain.drink
 import java.util.*
 
 class IngestionService<Preset : IPresetDrink, Ingested : IIngestedDrink>(
-    private val ingestor : ( preset: Preset, ingestionTime: Date) -> Ingested
-) : IIngestor<Preset>, IIngestedDrinkProvider {
+    private val ingestFunction : (preset: Preset, ingestionTime: Date) -> Ingested
+) : IIngestCapable<Preset>, IIngestedDrinkProvider {
 
-    val ingestedDrinks : MutableList<Ingested> = mutableListOf()
+    private val ingestedDrinks : MutableList<Ingested> = mutableListOf()
 
     var onRemoved = { _ : Ingested -> }
     var onIngestedChanged = { _: List<Ingested> -> }
 
     override fun ingest(preset : Preset, ingestionTime : Date) {
-        val ingested =  ingestor(preset, ingestionTime)
+        val ingested =  ingestFunction(preset, ingestionTime)
         ingestedDrinks.add(ingested)
         sortAndListCallBack()
     }
