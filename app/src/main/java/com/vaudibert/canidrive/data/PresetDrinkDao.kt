@@ -14,8 +14,8 @@ interface PresetDrinkDao {
     @Insert(entity = PresetDrinkEntity::class)
     suspend fun insertAll(presetDrinks: List<PresetDrink>)
 
-    @Delete(entity = PresetDrinkEntity::class)
-    suspend fun remove(presetDrink: PresetDrink)
+    @Delete
+    suspend fun remove(presetDrink: PresetDrinkEntity)
 
     @Update
     suspend fun update(presetDrinkEntity: PresetDrinkEntity)
