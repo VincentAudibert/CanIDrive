@@ -29,6 +29,7 @@ class PresetDrinkService<Preset : IPresetDrink>(
     fun addNewPreset(name: String, volume: Double, degree: Double) {
         val newPreset = presetMaker(name, volume, degree)
         presetDrinks.add(newPreset)
+        selectedPreset = newPreset
         sortAndCallbackPresets()
     }
 

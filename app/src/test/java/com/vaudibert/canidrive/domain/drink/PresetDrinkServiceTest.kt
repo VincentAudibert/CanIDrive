@@ -82,6 +82,21 @@ internal class PresetDrinkServiceTest {
 
         presetService.removePreset(presetB)
 
-        fail<Boolean>()
+        assertEquals(2, exportPreset.size)
+        assertNull(presetService.selectedPreset)
+    }
+
+    @Test
+    fun `An added preset is added with count 0 and selected`() {
+        setupFull()
+
+        presetService.addNewPreset("D", 40.0, 40.0)
+        val selected = presetService.selectedPreset
+
+        assertEquals(4, exportPreset.size)
+        assertEquals("D", exportPreset[3].name)
+        assertNotNull(selected)
+        assertEquals("D", selected?.name)
+        assertEquals(0, selected?.count)
     }
 }
