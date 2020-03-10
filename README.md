@@ -32,6 +32,9 @@ If the chosen country is not available, you can select OTHER to override the thr
 ### PlayStore
 On the playstore in [open beta](https://play.google.com/store/apps/details?id=com.vaudibert.canidrive)
 
+### F-Droid
+In progress...
+
 ### Run the project
 * clone the repo
 * open it with Android Studio
