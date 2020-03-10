@@ -1,9 +1,9 @@
 package com.vaudibert.canidrive.ui
 
-import com.vaudibert.canidrive.domain.TimeService
+import com.vaudibert.canidrive.domain.ITimeService
 import java.util.*
 
-class TimeServiceAndroid : TimeService {
+class TimeServiceAndroid : ITimeService {
     override fun nowInMillis() = Date().time
 
     override fun isSaintPatrick(): Boolean {

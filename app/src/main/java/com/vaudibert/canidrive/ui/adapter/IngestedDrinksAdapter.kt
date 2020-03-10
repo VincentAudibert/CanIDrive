@@ -11,7 +11,7 @@ import android.widget.TextView
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.data.IngestedDrinkEntity
 import com.vaudibert.canidrive.ui.CanIDrive
-import java.text.SimpleDateFormat
+import java.text.DateFormat
 import java.util.*
 
 class IngestedDrinksAdapter(
@@ -22,14 +22,14 @@ class IngestedDrinksAdapter(
 
     private val DAY_IN_MILLIS = 3600*1000*24
 
+    private val dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
+
     // TODO : inject service ?
     private val ingestionService =
         CanIDrive.instance.mainRepository.drinkRepository.ingestionService
 
     private val inflater: LayoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-    private val dateFormat = SimpleDateFormat("HH:mm")
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
