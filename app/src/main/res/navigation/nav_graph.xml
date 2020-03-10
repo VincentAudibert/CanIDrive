@@ -84,7 +84,7 @@
     </fragment>
     <fragment
         android:id="@+id/addPresetFragment"
-        android:name="com.vaudibert.canidrive.ui.fragment.AddPresetFragment"
+        android:name="com.vaudibert.canidrive.ui.fragment.EditPresetFragment"
         android:label="fragment_add_preset"
         tools:layout="@layout/fragment_add_preset" >
         <action

@@ -1,7 +1,7 @@
 package com.vaudibert.canidrive.ui
 
 import android.app.Application
-import com.vaudibert.canidrive.domain.TimeService
+import com.vaudibert.canidrive.domain.ITimeService
 import com.vaudibert.canidrive.ui.repository.MainRepository
 
 class CanIDrive : Application() {
@@ -10,7 +10,7 @@ class CanIDrive : Application() {
         lateinit var instance: CanIDrive
     }
 
-    val time : TimeService = TimeServiceAndroid()
+    val time : ITimeService = TimeServiceAndroid()
 
     lateinit var mainRepository : MainRepository
 

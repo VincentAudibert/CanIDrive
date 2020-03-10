@@ -4,14 +4,14 @@ import java.util.*
 
 const val ALCOHOL_DENSITY = 0.8
 
-data class IngestedDrink(
-    val name:String,
-    val volume:Double,
-    val degree:Double,
-    val ingestionTime: Date
-) {
+open class IngestedDrink(
+    override val name:String,
+    override val volume:Double,
+    override val degree:Double,
+    override val ingestionTime: Date
+) : IIngestedDrink {
 
-    fun alcoholMass(): Double = degree/100 * volume * ALCOHOL_DENSITY
+    override fun alcoholMass(): Double = degree/100 * volume * ALCOHOL_DENSITY
 
     companion object Data {
 

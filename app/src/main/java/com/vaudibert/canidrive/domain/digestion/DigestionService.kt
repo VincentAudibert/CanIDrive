@@ -1,6 +1,6 @@
 package com.vaudibert.canidrive.domain.digestion
 
-import com.vaudibert.canidrive.domain.drink.DrinkService
+import com.vaudibert.canidrive.domain.drink.IIngestedDrinkProvider
 import java.util.*
 import kotlin.math.max
 
@@ -18,12 +18,12 @@ import kotlin.math.max
  */
 class DigestionService(
     private var body: PhysicalBody,
-    private val drinkService: DrinkService
+    private val drinkProvider: IIngestedDrinkProvider
 ) {
 
     // TODO : extract a time service to avoid java.util dependency ?
     fun alcoholRateAt(date: Date): Double {
-        val drinks = drinkService.ingestedDrinks
+        val drinks = drinkProvider.getDrinks()
 
         if (drinks.isEmpty()) return 0.0
 

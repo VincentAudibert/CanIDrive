@@ -5,14 +5,15 @@ import com.vaudibert.canidrive.domain.drivelaw.DriveLawService
 import java.util.*
 
 class DrinkerStatusService(
-    val digestionService: DigestionService,
-    val driveLawService: DriveLawService
+    private val digestionService: DigestionService,
+    private val driveLawService: DriveLawService
 ) {
     fun status() : DrinkerStatus {
         val driveLimit = driveLawService.driveLimit()
+        val ratePresent = digestionService.alcoholRateAt(Date())
         return DrinkerStatus(
-            digestionService.alcoholRateAt(Date()) <= driveLimit,
-            digestionService.alcoholRateAt(Date()),
+            ratePresent <= driveLimit,
+            ratePresent,
             digestionService.timeToReachLimit(driveLimit),
             digestionService.timeToReachLimit(driveLawService.defaultLimit)
         )

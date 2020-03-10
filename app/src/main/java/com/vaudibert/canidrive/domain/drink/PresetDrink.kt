@@ -1,11 +1,11 @@
 package com.vaudibert.canidrive.domain.drink
 
 open class PresetDrink(
-    val name: String,
-    val volume: Double,
-    val degree: Double,
-    var count: Int = 0
-) {
+    override var name: String,
+    override var volume: Double,
+    override var degree: Double,
+    override var count: Int = 0
+) : IPresetDrink {
     override fun equals(other: Any?): Boolean {
         if (other !is PresetDrink) return false
 
