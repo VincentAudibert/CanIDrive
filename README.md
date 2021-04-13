@@ -27,13 +27,14 @@ If the chosen country is not available, you can select OTHER to override the thr
 - not all countries included (yet quite a lot...)
 - only in English or French
 
-
 ## Get the app
-### PlayStore
-On the playstore in [open beta](https://play.google.com/store/apps/details?id=com.vaudibert.canidrive)
 
-### F-Droid
-In progress...
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.vaudibert.canidrive/)
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
+     alt="Get it on Google Play"
+     height="80">](https://play.google.com/store/apps/details?id=com.vaudibert.canidrive)
 
 ### Run the project
 * clone the repo
