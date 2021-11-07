@@ -47,6 +47,8 @@ open class IngestedDrink(
 
         // Volumes in mL
         val volumes = doubleArrayOf(
+            20.0,
+            30.0,
             50.0,
             80.0,
             130.0,
