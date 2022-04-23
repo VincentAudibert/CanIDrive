@@ -253,7 +253,7 @@ object DriveLaws {
 
     // -------------------- Americas --------------------
     // Canada
-        DriveLaw("CA", 0.8),
+        DriveLaw("CA", 0.08),
 
     // USA
         DriveLaw(
