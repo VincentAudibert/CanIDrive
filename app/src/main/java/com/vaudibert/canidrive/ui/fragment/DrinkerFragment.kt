@@ -2,10 +2,13 @@ package com.vaudibert.canidrive.ui.fragment
 
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.NavOptions
@@ -58,7 +61,7 @@ class DrinkerFragment : Fragment() {
                 .getListOfCountriesWithFlags()
         )
 
-        setupWeightPicker(digestionRepository.body.weight)
+        setupWeightPicker()
 
         setupSexPicker(digestionRepository.body.sex)
 
@@ -131,15 +134,15 @@ class DrinkerFragment : Fragment() {
 
     private fun setupValidationButton(digestionRepository: DigestionRepository) {
         buttonValidateDrinker.setOnClickListener {
-            // TODO : country selection and law options should only be recorded when validated (viewmodel?)
 
             digestionRepository.body.sex = when {
                 radioMale.isChecked -> "MALE"
                 radioFemale.isChecked -> "FEMALE"
                 else -> "OTHER"
             }
-            digestionRepository.body.weight = weight
+
             val levelCount = (digestionRepository.toleranceLevels.size - 1).coerceAtLeast(1)
+
             digestionRepository.body.alcoholTolerance =
                 seekBarAlcoholTolerance.progress.toDouble() /
                         levelCount.toDouble()
@@ -186,9 +189,7 @@ class DrinkerFragment : Fragment() {
         }
     }
 
-    private fun setupWeightPicker(recordedWeight: Double) {
-        weight = recordedWeight
-
+    private fun setupWeightPicker() {
         val weights = intArrayOf(
             30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95,
             100, 110, 120, 130, 140, 150
@@ -199,11 +200,11 @@ class DrinkerFragment : Fragment() {
         numberPickerWeight.displayedValues = weightLabels
 
         numberPickerWeight.value = weights
-            .indexOf(weight.toInt())
+            .indexOf(digestionRepository.body.weight.toInt())
             .coerceAtLeast(0)
 
         numberPickerWeight.setOnValueChangedListener { _, _, newVal ->
-            weight = weights[newVal].toDouble()
+            digestionRepository.body.weight = weights[newVal].toDouble()
         }
     }
 
@@ -238,6 +239,21 @@ class DrinkerFragment : Fragment() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) { }
         }
+
+        editTextCurrentLimit.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                driveLawService.customCountryLimit = s.toString().toDouble()
+            }
+
+            override fun beforeTextChanged(s: CharSequence, start: Int,
+                                           count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int,
+                                       before: Int, count: Int) {
+            }
+        })
     }
 
     private fun updateCustomLimit(customLimit: Double) {
