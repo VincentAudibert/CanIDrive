@@ -12,6 +12,7 @@ import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.data.IngestedDrinkEntity
 import com.vaudibert.canidrive.ui.CanIDrive
 import java.text.DateFormat
+import java.text.DecimalFormat
 import java.util.*
 
 class IngestedDrinksAdapter(
@@ -23,6 +24,8 @@ class IngestedDrinksAdapter(
     private val DAY_IN_MILLIS = 3600*1000*24
 
     private val dateFormat = DateFormat.getTimeInstance(DateFormat.SHORT)
+
+    private val doubleFormat : DecimalFormat = DecimalFormat("0.#")
 
     // TODO : inject service ?
     private val ingestionService =
@@ -43,7 +46,7 @@ class IngestedDrinksAdapter(
         val timeText = drinkView.findViewById(R.id.textViewPastDrinkTime) as TextView
         val daysText = drinkView.findViewById(R.id.textViewPastDays) as TextView
 
-        propertiesText.text = "${drink.volume} ml - ${drink.degree} %"
+        propertiesText.text = "${doubleFormat.format(drink.volume)} ml - ${drink.degree} %"
         descriptionText.text = drink.name
         glassImage.setImageResource(R.drawable.wine_glass)
         val days: Long = (drink.ingestionTime.time / DAY_IN_MILLIS) - (Date().time / DAY_IN_MILLIS)

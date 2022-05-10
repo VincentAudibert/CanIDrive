@@ -95,7 +95,7 @@ class EditPresetFragment : Fragment() {
     private fun setVolumePicker() {
         val volumeLabels = IngestedDrink.volumes.map { vol ->
             if (vol < 1000.0)
-                "${doubleFormat.format(vol / 10.0)} cL"
+                "${doubleFormat.format(vol )} mL"
             else
                 "${doubleFormat.format(vol / 1000.0)} L"
         }.toTypedArray()

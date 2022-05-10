@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import com.vaudibert.canidrive.R
 import com.vaudibert.canidrive.data.PresetDrinkEntity
 import com.vaudibert.canidrive.ui.repository.DrinkRepository
+import java.text.DecimalFormat
 
 class PresetDrinksAdapter(
     val context: Context,
@@ -25,6 +26,8 @@ class PresetDrinksAdapter(
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     private val presetService = drinkRepository.presetService
+
+    private val doubleFormat : DecimalFormat = DecimalFormat("0.#")
 
     private var presetDrinks: List<PresetDrinkEntity> = emptyList()
 
@@ -54,7 +57,7 @@ class PresetDrinksAdapter(
         val glassImage = drinkView.findViewById(R.id.imageViewPresetDrinkIcon) as ImageView
         val deleteButton = drinkView.findViewById(R.id.buttonRemovePresetDrink) as ImageButton
 
-        propertiesText.text = "${presetDrink.volume} ml - ${presetDrink.degree} %"
+        propertiesText.text = "${doubleFormat.format(presetDrink.volume)} ml - ${presetDrink.degree} %"
         descriptionText.text = presetDrink.name
         glassImage.setImageResource(R.drawable.wine_glass)
 

@@ -52,15 +52,15 @@
         android:id="@+id/buttonRemovePresetDrink"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/background_round_button_small_primary"
         android:layout_gravity="center"
         android:layout_margin="5dp"
+        android:background="@drawable/background_round_button_small_primary"
+        android:contentDescription="Delete drink button"
         android:padding="5dp"
         android:src="@drawable/ic_delete_white_24dp"
-        android:contentDescription="Delete drink button"
-        tools:ignore="HardcodedText"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        tools:ignore="HardcodedText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
