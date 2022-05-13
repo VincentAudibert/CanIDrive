@@ -1,4 +1,5 @@
 # CanIDrive
+Alcohol blood rate computer for driving
 
 ## About
 ... is an Android app letting you evaluate whether you can drive or not.
@@ -22,10 +23,6 @@ Computation takes into account :
 - drinks (how much alcohol and when)
 
 If the chosen country is not available, you can select OTHER to override the threshold value with your own.
-
-## Limitations
-- not all countries included (yet quite a lot...)
-- only in English or French
 
 ## Get the app
 
