@@ -1,12 +1,21 @@
 # CanIDrive
 Alcohol blood rate computer for driving
 
-## About
-... is an Android app letting you evaluate whether you can drive or not.
+## 📲 Get the app
+
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.vaudibert.canidrive/)
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
+     alt="Get it on Google Play"
+     height="80">](https://play.google.com/store/apps/details?id=com.vaudibert.canidrive)
+
+## 👋 About
+CanIDrive is an Android app letting you evaluate whether you can drive or not.
 
 It is a personnal project aimed at getting experience building something simple yet as professionnal as possible.
 
-## Features
+## ✨ Features
 Can I Drive allows you to track your recent alcohol consumption, to assess if you can drive or not.
 
 What is shown to you :
@@ -24,16 +33,16 @@ Computation takes into account :
 
 If the chosen country is not available, you can select OTHER to override the threshold value with your own.
 
-## Get the app
+## 🙋 Contributing
+This project is now living at slow pace but accepts any contribution like:
+- translating the app & presentation text in your language
+- legal data corrections
+- improving UI (sooo much to improve 😅)
+- code
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-     alt="Get it on F-Droid"
-     height="80">](https://f-droid.org/packages/com.vaudibert.canidrive/)
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
-     alt="Get it on Google Play"
-     height="80">](https://play.google.com/store/apps/details?id=com.vaudibert.canidrive)
+For any contribution, please [shoot an issue](https://github.com/VincentAudibert/CanIDrive/issues/new/choose), or clone & submit a pull request 🙂.
 
-### Run the project
+## ▶️ Run the project
 * clone the repo
 * open it with Android Studio
 * have fun with it...
