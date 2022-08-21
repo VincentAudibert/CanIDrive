@@ -13,7 +13,16 @@
     <string name="can_i_drive_question">Kann ich fahren ?</string>
     <string name="select_a_drink">Wähle ein Getränk</string>
     <string name="now">jetzt</string>
+    <string name="less_two_years_driving">Weniger als 2 Jahre Fahrerfahrung.</string>
+    <string name="twenty_one_young_or_less_three_years_driving">Jünger als 21 oder weniger als 3 Jahre Fahrerfahrung.</string>
+    <string name="sixteen_to_twenty_four_years_old">16–24 Jahre alt</string>
     <string name="twenty_one_young_or_less_two_years_driving">Jünger als 21 oder kürzer als 2 Jahre den Führerschein.</string>
+    <string name="motor_cycle_or_less_two_years_driving">Motorrad oder weniger als 2 Jahre Fahrerfahrung.</string>
+    <string name="three_years_driving">Weniger als 3 Jahre Fahrerfahrung.</string>
+    <string name="five_years_driving">Weniger als 5 Jahre Fahrerfahrung.</string>
+    <string name="motor_cycle_or_young_drivers">Motorrad oder junger Fahrer.</string>
+    <string name="twenty_one_young">Jünger als 21.</string>
+    <string name="new_driver_or_twenty_four">Neuer Fahrer oder jünger als 24.</string>
     <string name="professional_driver">Berufskraftfahrer</string>
     <string name="country">Land</string>
     <string name="user_health">Gesundheit</string>
@@ -31,7 +40,7 @@
     <string name="preset_name_title">Name des Getränks</string>
     <string name="preset_red_wine">Rotwein</string>
     <string name="preset_light_beer">Bier</string>
-    <string name="preset_triple_beer">Bier</string>
+    <string name="preset_triple_beer">Schankbier</string>
     <string name="preset_soft_cider">Leichter Apfelwein</string>
     <string name="preset_martini">Martini</string>
     <string name="preset_whisky">Whisky</string>
